@@ -1,3 +1,6 @@
+#Aqui se trabajan las funciones que interactuen con el dao 
+
+
 import mysql.connector
 import credencial
 

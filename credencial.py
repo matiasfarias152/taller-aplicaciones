@@ -1,3 +1,5 @@
+#credenciales para el DAO
+
 def get_credenciales():
     credenciales = {
         'host' : 'localhost',
