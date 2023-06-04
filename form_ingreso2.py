@@ -79,7 +79,7 @@ def verifica_login():
     usuario1 = verifica_usuario.get()
     clave1 = verifica_clave.get()
     entrada_login_usuario.delete(0, END) #BORRA INFORMACIÓN DEL CAMPO "Nombre usuario *" AL MOSTRAR NUEVA VENTANA.
-    entrada_login_clave.delete(0, END) #BORRA INFORMACIÓN DEL CAMPO "Contraseña *" AL MOSTRAR NUEVA VENTANA.
+    entrada_login_clave.delete(0, END) 
  
     lista_archivos = os.listdir() #GENERA LISTA DE ARCHIVOS UBICADOS EN EL DIRECTORIO.
     #SI EL NOMBRE SE ENCUENTRA EN LA LISTA DE ARCHIVOS..
@@ -146,19 +146,25 @@ def registro_usuario():
  
     usuario_info = nombre_usuario.get()
     clave_info = clave.get()
- 
-    file = open(usuario_info, "w") #CREACION DE ARCHIVO CON "nombre" y "clave"
-    file.write(usuario_info + "\n")
-    file.write(clave_info)
-    file.close()
- 
+    
+    #crea un archivo txt en donde se guardaran los datos que van ingresando
+    newfile = open("registro_nuevo.txt", "a") #la "a" significa append
+    newfile.write(usuario_info)
+    newfile.write("\t")
+    newfile.write(clave_info)
+    newfile.write("\t")
+    newfile.write("\n")
+    newfile.close()
+    print("Nuevo Usuario Registrado \n Nombre: {} | Contraseña: {}   ".format(usuario_info,clave_info))
+
     entrada_nombre.delete(0, END)
     entrada_clave.delete(0, END)
  
     Label(ventana_registro, text="Registro completado con éxito", fg="green", font=("calibri", 11)).pack()
- 
+
+
  
 ventana_inicio()  #EJECUCIÓN DE LA VENTANA DE INICIO.
  
 
-    
+
