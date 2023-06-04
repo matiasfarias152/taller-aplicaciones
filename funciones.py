@@ -1,3 +1,1 @@
-class Person():
-    def __init__(self, name, age):
-        return
+#Aqui se trabajan todas las funciones como para validar etc. (matias morales)
