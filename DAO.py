@@ -17,12 +17,12 @@ class DAO:
         self.__conexion.close()        
 
     def validar_credenciales(self) -> bool:
-        '''
+        """
         Función para validar las credenciales del usuario en la base de datos.
 
         :return: True si las credenciales son válidas, False en caso contrario.
         :rtype: bool
-    '''
+    """
     
     #conectar a la base de datos.
         self.conectar()
