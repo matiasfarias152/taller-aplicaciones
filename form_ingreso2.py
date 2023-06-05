@@ -150,9 +150,9 @@ def registro_usuario():
     #crea un archivo txt en donde se guardaran los datos que van ingresando
     newfile = open("registro_nuevo.txt", "a") #la "a" significa append
     newfile.write(usuario_info)
-    newfile.write("\t")
+    newfile.write(",")
     newfile.write(clave_info)
-    newfile.write("\t")
+    newfile.write(",")
     newfile.write("\n")
     newfile.close()
     print("Nuevo Usuario Registrado \n Nombre: {} | Contraseña: {}   ".format(usuario_info,clave_info))
