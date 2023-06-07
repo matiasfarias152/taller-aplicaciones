@@ -23,7 +23,7 @@ class DAO:
         :return: True si las credenciales son válidas, False en caso contrario.
         :rtype: bool
     """
-    
+             
     #conectar a la base de datos.
         self.conectar()
     # Ejecutar la consulta para validar los datos de credenciales del usuario.
