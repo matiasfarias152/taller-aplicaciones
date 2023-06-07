@@ -3,6 +3,8 @@
 #IMPORTAMOS LIBRERÍAS NECESARIAS.
 from tkinter import *
 import os
+from DAO import *
+from User import *
 
 #CREAMOS VENTANA PRINCIPAL.
 def ventana_inicio():
@@ -145,10 +147,12 @@ def borrar_no_usuario():
 #REGISTRO USUARIO
  
 def registro_usuario():
- 
-    usuario_info = nombre_usuario.get()
+    #dao = DAO()
+    usuario_info = nombre_usuario.get()       #EJEMPLO USO DEL DAO
     clave_info = clave.get()
- 
+    #objeto = User(usuario_info,clave_info)
+    #dao.registrar
+    
     file = open(usuario_info, "w") #CREACION DE ARCHIVO CON "nombre" y "clave"
     file.write(usuario_info + "\n")
     file.write(clave_info)
@@ -163,4 +167,5 @@ def registro_usuario():
 ventana_inicio()  #EJECUCIÓN DE LA VENTANA DE INICIO.
  
 
+#no tener todas las ventanas abiertas, actualziar la misma ventana a la hora de clickear
     
