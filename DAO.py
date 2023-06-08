@@ -2,7 +2,7 @@
 import mysql.connector
 import credencial
 from User import User
-
+from Producto import Producto
 class DAO:
     def __init__(self):
         self.__conexion = None
@@ -54,3 +54,21 @@ class DAO:
         else:
         # Si no se encuentran los datos en la base de datos, se devuelve False.
             return False
+        
+
+    
+    
+
+    """
+    Funcion para registrar productos
+
+    registrar un producto en la base de datos
+
+    obtener el producto con su id,nombre,tipo,categoria y descripcion para luego insertarlo en la base de datos
+    """
+    def registrarProducto(self,producto:Producto): #Se asignan los 2 parametros self y producto, donde producto es un objeto de tipo Producto
+        self.conectar()  #Se conecta a la base de datos
+        sql = 'INSERT INTO productos (idProducto, nombre, tipo, categoria, descripcion) VALUES (%s, %s, %s, %s, %s)' #Sentencia SQL para ingresar items a la base de datos
+        values = (producto.get_id(), producto.get_nombre(), producto.get_tipo(), producto.get_categoria(), producto.get_descripcion()) #Valores que tendran los items ingresados
+        self.__cursor.execute(sql,values) #Ejecución de la sentencia SQL y valores
+        self.cerrar() #Se cierra la conexión a la base de datos
