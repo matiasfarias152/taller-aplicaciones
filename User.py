@@ -4,7 +4,7 @@ clase para validar el usuario y contraseña en la base de datos para verificar s
 from DAO import DAO
 import credencial 
 from funciones import *
-from form_ingreso import *
+from form_ingreso2 import *
 
 class User():
     """
