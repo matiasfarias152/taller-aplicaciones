@@ -147,11 +147,11 @@ def borrar_no_usuario():
 #REGISTRO USUARIO
  
 def registro_usuario():
-    #dao = DAO()
+    dao = DAO()
     usuario_info = nombre_usuario.get()       #EJEMPLO USO DEL DAO
     clave_info = clave.get()
-    #objeto = User(usuario_info,clave_info)
-    #dao.registrar
+    usuario = User(usuario_info,clave_info)
+    dao.crear_usuario(usuario)
     
     file = open(usuario_info, "w") #CREACION DE ARCHIVO CON "nombre" y "clave"
     file.write(usuario_info + "\n")

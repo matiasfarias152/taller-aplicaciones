@@ -26,8 +26,8 @@ class DAO:
         # Conectar en la base de datos.
         self.conectar()
         # crear el nombre de usuario y la contraseña en la base de datos.
-        sql = "INSERT INTO usuarios (username, password) VALUES (%s, %s)"
-        values = (self.get_username, self.get_password )
+        sql = "INSERT INTO usuario (nombre, contrasena) VALUES (%s, %s)"
+        values = (self.get_user(), self.get_password())
         self.cursor.execute(sql, values)  
         self.cerrar()
 
