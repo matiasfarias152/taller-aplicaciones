@@ -30,11 +30,22 @@ def registro():
  
     global nombre_usuario
     global clave
+    global telefono
+    global correo
+    global rut
+    global entrada_telefono
+    global entrada_correo
+    global entrada_rut
     global entrada_nombre
     global entrada_clave
     nombre_usuario = StringVar() #DECLARAMOS "string" COMO TIPO DE DATO PARA "nombre_usuario"
-    clave = StringVar() #DECLARAMOS "sytring" COMO TIPO DE DATO PARA "clave"
- 
+    clave = StringVar() #DECLARAMOS "string" COMO TIPO DE DATO PARA "clave"
+    telefono = IntVar()#  comentar
+    correo = StringVar()# comentar
+    rut = StringVar()# falta comentar
+
+
+
     Label(ventana_registro, text="Introduzca datos", bg="LightGreen").pack()
     Label(ventana_registro, text="").pack()
     etiqueta_nombre = Label(ventana_registro, text="Nombre de usuario * ")
@@ -45,6 +56,19 @@ def registro():
     etiqueta_clave.pack()
     entrada_clave = Entry(ventana_registro, textvariable=clave, show='*') #ESPACIO PARA INTRODUCIR LA CONTRASEÑA.
     entrada_clave.pack()
+    etiqueta_correo = Label(ventana_registro, text="Correo * ")
+    etiqueta_correo.pack()
+    entrada_correo = Entry(ventana_registro, textvariable=correo)
+    entrada_correo.pack()
+    etiqueta_telefono = Label(ventana_registro, text="Telefono *")
+    etiqueta_telefono.pack()
+    entrada_telefono = Entry(ventana_registro, textvariable=telefono)
+    entrada_telefono.pack()
+    etiqueta_rut = Label(ventana_registro, text="Rut *")
+    etiqueta_rut.pack()
+    entrada_rut = Entry(ventana_registro, textvariable=rut)
+    entrada_rut.pack()
+
     Label(ventana_registro, text="").pack()
     Button(ventana_registro, text="Registrarse", width=10, height=1, bg="LightGreen", command = registro_usuario).pack() #BOTÓN "Registrarse"
 
@@ -84,21 +108,30 @@ def verifica_login():
     clave1 = verifica_clave.get()
     entrada_login_usuario.delete(0, END) #BORRA INFORMACIÓN DEL CAMPO "Nombre usuario *" AL MOSTRAR NUEVA VENTANA.
     entrada_login_clave.delete(0, END) #BORRA INFORMACIÓN DEL CAMPO "Contraseña *" AL MOSTRAR NUEVA VENTANA.
- 
-    lista_archivos = os.listdir() #GENERA LISTA DE ARCHIVOS UBICADOS EN EL DIRECTORIO.
-    #SI EL NOMBRE SE ENCUENTRA EN LA LISTA DE ARCHIVOS..
-    if usuario1 in lista_archivos:
-        archivo1 = open(usuario1, "r") #APERTURA DE ARCHIVO EN MODO LECTURA
-        verifica = archivo1.read().splitlines() #LECTURA DEL ARCHIVO QUE CONTIENE EL nombre Y contraseña.
-        #SI LA CONTRASEÑA INTRODUCIDA SE ENCUENTRA EN EL ARCHIVO...
-        if clave1 in verifica:
-            exito_login() #...EJECUTAR FUNCIÓN "exito_login()"
-        #SI LA CONTRASEÑA NO SE ENCUENTRA EN EL ARCHIVO....
-        else:
-            no_clave() #...EJECUTAR "no_clave()"
-    #SI EL NOMBRE INTRODUCIDO NO SE ENCUENTRA EN EL DIRECTORIO...
-    else:
-        no_usuario() #..EJECUTA "no_usuario()".
+    dao = DAO()
+    resultado = dao.validar_credenciales(usuario1,clave1)
+    if resultado == True:
+        exito_login()
+    elif resultado == False:
+        no_clave()
+
+
+
+
+    # lista_archivos = os.listdir() #GENERA LISTA DE ARCHIVOS UBICADOS EN EL DIRECTORIO.
+    # #SI EL NOMBRE SE ENCUENTRA EN LA LISTA DE ARCHIVOS..
+    # if usuario1 in lista_archivos:
+    #     archivo1 = open(usuario1, "r") #APERTURA DE ARCHIVO EN MODO LECTURA
+    #     verifica = archivo1.read().splitlines() #LECTURA DEL ARCHIVO QUE CONTIENE EL nombre Y contraseña.
+    #     #SI LA CONTRASEÑA INTRODUCIDA SE ENCUENTRA EN EL ARCHIVO...
+    #     if clave1 in verifica:
+    #         exito_login() #...EJECUTAR FUNCIÓN "exito_login()"
+    #     #SI LA CONTRASEÑA NO SE ENCUENTRA EN EL ARCHIVO....
+    #     else:
+    #         no_clave() #...EJECUTAR "no_clave()"
+    # #SI EL NOMBRE INTRODUCIDO NO SE ENCUENTRA EN EL DIRECTORIO...
+    # else:
+    #     no_usuario() #..EJECUTA "no_usuario()".
 
 
 # VENTANA "Login finalizado con exito".
@@ -118,7 +151,7 @@ def no_clave():
     ventana_no_clave = Toplevel(ventana_login)
     ventana_no_clave.title("ERROR")
     ventana_no_clave.geometry("150x100")
-    Label(ventana_no_clave, text="Contraseña incorrecta ").pack()
+    Label(ventana_no_clave, text="Credenciales Incorrectas").pack()
     Button(ventana_no_clave, text="OK", command=borrar_no_clave).pack() #EJECUTA "borrar_no_clave()".
  
 #VENTANA DE "Usuario no encontrado".
@@ -150,7 +183,10 @@ def registro_usuario():
     dao = DAO()
     usuario_info = nombre_usuario.get()       #EJEMPLO USO DEL DAO
     clave_info = clave.get()
-    usuario = User(usuario_info,clave_info)
+    correo_info = correo.get()
+    telefono_info = telefono.get()
+    rut_info = rut.get()
+    usuario = User(usuario_info,clave_info,correo_info,telefono_info,rut_info)
     dao.crear_usuario(usuario)
     
     file = open(usuario_info, "w") #CREACION DE ARCHIVO CON "nombre" y "clave"

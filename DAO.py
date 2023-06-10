@@ -26,12 +26,12 @@ class DAO:
         # Conectar en la base de datos.
         self.conectar()
         # crear el nombre de usuario y la contraseña en la base de datos.
-        sql = "INSERT INTO usuario (nombre, contrasena) VALUES (%s, %s)"
-        values = (self.get_user(), self.get_password())
-        self.cursor.execute(sql, values)  
+        sql = "INSERT INTO usuario (nombre, correo,telefono,rut,contrasena) VALUES (%s, %s,%s,%s,%s)"
+        values = (usuario.get_user(), usuario.get_correo(), usuario.get_telefono(), usuario.get_rut(), usuario.get_password())
+        self.__cursor.execute(sql, values)  
         self.cerrar()
 
-    def validar_credenciales(self) -> bool:
+    def validar_credenciales(self,usuario,contrasena) -> bool:
         """
         Función para validar las credenciales del usuario en la base de datos.
 
@@ -42,17 +42,18 @@ class DAO:
     #conectar a la base de datos.
         self.conectar()
     # Ejecutar la consulta para validar los datos de credenciales del usuario.
-        sql = "SELECT * FROM credenciales WHERE usuario = %s AND contrasena = %s"
-        values = (self.usuario, self.contrasena)
+        sql = "SELECT nombre,contrasena FROM usuario WHERE nombre = %s AND contrasena = %s"
+        values = (usuario, contrasena)
         self.__cursor.execute(sql, values)
         resultado = self.__cursor.fetchone()
         self.cerrar()
+        
 
         if resultado:
         # Si se encuentran los datos en la base de datos, se devuelve True.
             return True
         else:
-        # Si no se encuentran los datos en la base de datos, se devuelve False.
+        # # Si no se encuentran los datos en la base de datos, se devuelve False.
             return False
         
 

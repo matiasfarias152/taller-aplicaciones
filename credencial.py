@@ -5,7 +5,7 @@ def get_credenciales():
         'host' : 'localhost',
         'user' : 'root',
         'password': '',
-        'database' : 'elgranpoeta',
+        'database' : 'probartaller',
         'port' : '3306'
     }
     return credenciales

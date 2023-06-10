@@ -14,9 +14,12 @@ class User:
     :param password: password.
     :type password: str.
     """
-    def __init__(self, username:str, password:str):
+    def __init__(self, username:str, password:str,correo:str,rut:str,telefono:int):
         self.__username = username
         self.__password = password
+        self.__correo = correo
+        self.__rut = rut
+        self.__telefono = telefono
 
     def get_user(self):
         return self.__username
@@ -29,3 +32,21 @@ class User:
 
     def set_password(self, password:str):
         self.__password = password
+
+    def get_correo(self):
+        return self.__correo
+    
+    def set_correo(self,correo:str):
+        self.__correo = correo
+    
+    def get_rut(self):
+        return self.__rut
+    
+    def set_rut(self,rut:str):
+        self.__rut = rut
+    
+    def get_telefono(self):
+        return self.__telefono
+    
+    def set_telefono(self,telefono:int):
+        self.__telefono = telefono
