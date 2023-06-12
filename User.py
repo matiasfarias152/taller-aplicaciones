@@ -13,6 +13,12 @@ class User:
     :type username: str.
     :param password: password.
     :type password: str.
+    :param correo: correo.
+    :type correo: str.
+    :param rut: rut.
+    :type rut: str.
+    :param telefono: telefono.
+    :type telefono: int.
     """
     def __init__(self, username:str, password:str,correo:str,rut:str,telefono:int):
         self.__username = username
