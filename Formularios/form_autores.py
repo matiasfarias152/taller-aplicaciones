@@ -2,48 +2,55 @@ import tkinter as tk
 
 root = tk.Tk()
 
-data_listbox = tk.Listbox(root)
+authors_listbox = tk.Listbox(root)
 
-for item in range(10):
-    data_listbox.insert(tk.END, "Item " + str(item+1))
-    data_listbox.pack(side=tk.LEFT)
+authors = ["Stephen King", "J.K. Rowling", "Dan Brown", "Agatha Christie", "Nicholas Sparks", "Malcolm X", "Michelle Obama", "Jamie Oliver", "Leonardo da Vinci", "Steve Jobs"]
 
-empty_listbox = tk.Listbox(root)
-empty_listbox.pack(side=tk.RIGHT)
+for author in authors:
+    authors_listbox.insert(tk.END, author)
+    authors_listbox.pack(side=tk.LEFT)
 
-def move_item():
-    # Obtener el índice del elemento seleccionado
-    selected_index = data_listbox.curselection()
+new_author_entry = tk.Entry(root)
+new_author_entry.pack(side=tk.TOP)
+
+def add_author():
+    new_author = new_author_entry.get()
+    if new_author:
+        authors_listbox.insert(tk.END, new_author)
+        new_author_entry.delete(0, tk.END)
+
+selected_authors_listbox = tk.Listbox(root)
+selected_authors_listbox.pack(side=tk.RIGHT)
+
+def move_author():
+    selected_index = authors_listbox.curselection()
     if selected_index:
-        # Obtener el valor del elemento seleccionado
-        selected_item = data_listbox.get(selected_index[0])
-        # Eliminar el elemento de la list box con datos
-        data_listbox.delete(selected_index[0])
-        # Agregar el elemento a la list box vacía
-        empty_listbox.insert(tk.END, selected_item)
+        selected_author = authors_listbox.get(selected_index[0])
+        authors_listbox.delete(selected_index[0])
+        selected_authors_listbox.insert(tk.END, selected_author)
 
-def move_back_item():
-    # Obtener el índice del elemento seleccionado en la lista vacía
-    selected_index = empty_listbox.curselection()
+def move_back_author():
+    selected_index = selected_authors_listbox.curselection()
     if selected_index:
-        # Obtener el valor del elemento seleccionado
-        selected_item = empty_listbox.get(selected_index[0])
-        # Eliminar el elemento de la lista vacía
-        empty_listbox.delete(selected_index[0])
-        # Agregar el elemento a la lista con datos
-        data_listbox.insert(tk.END, selected_item)
+        selected_author = selected_authors_listbox.get(selected_index[0])
+        selected_authors_listbox.delete(selected_index[0])
+        authors_listbox.insert(tk.END, selected_author)
 
 def return_values():
-    empty_values = empty_listbox.get(0, tk.END)
-    print("Valores ingresados:", empty_values)
+    selected_authors = selected_authors_listbox.get(0, tk.END)
+    print("Autores seleccionados:", selected_authors)
 
-move_button = tk.Button(root, text="Ingresar", command=move_item)
+move_button = tk.Button(root, text="Seleccionar", command=move_author)
 move_button.pack()
 
-move_back_button = tk.Button(root, text="Retirar", command=move_back_item)
+move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
 move_back_button.pack()
 
-return_button = tk.Button(root, text="Retornar valores", command=return_values)
+add_author_button = tk.Button(root, text="Añadir autor", command=add_author)
+add_author_button.pack()
+
+return_button = tk.Button(root, text="Retornar autores seleccionados", command=return_values)
 return_button.pack()
 
 root.mainloop()
+
