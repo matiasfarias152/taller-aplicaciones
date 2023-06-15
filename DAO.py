@@ -1,9 +1,9 @@
 #Aqui se trabajan las funciones que interactuen con el dao 
 import mysql.connector
 import credencial
-from User import User
-from Producto import Producto
-from Tipousuario import Tipousuario
+from Clases.User import User
+from Clases.Producto import Producto
+from Clases.Tipousuario import Tipousuario
 class DAO:
     def __init__(self):
         self.__conexion = None
