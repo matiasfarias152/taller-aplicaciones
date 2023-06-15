@@ -15,14 +15,14 @@ class Tipousuario:
     :param idTipo: idTipo.
     :type idTipo: int.
     """
-    def __init__(self,idTipo:int,tipousuario:str):
-        self.__tipousuario = tipousuario
+    def __init__(self,idTipo:int,rol:str):
+        self.__rol = rol
         self.__idTipo = idTipo
 
     def get_tipousuario(self):
-        return self.__tipousuario
-    def set_tipousuario(self,tipousuario):
-        self.__tipousuario = tipousuario
+        return self.__rol
+    def set_tipousuario(self,rol):
+        self.__rol= rol
     
     def get_idTipo(self):
         return self.__idTipo

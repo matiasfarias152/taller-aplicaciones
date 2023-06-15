@@ -4,6 +4,7 @@ import credencial
 from Clases.User import User
 from Clases.Producto import Producto
 from Clases.Tipousuario import Tipousuario
+from Clases.Categoria import Categoria
 class DAO:
     def __init__(self):
         self.__conexion = None
@@ -76,9 +77,35 @@ class DAO:
         self.cerrar() #Se cierra la conexión a la base de datos y guarda
 
 
+    """
+    Funcion para registrar tipos de usuario
+
+    registrar un tipo de usuario en la base de datos
+
+    obtener el tipo de usuario con su id y rol para luego insertarlo en la base de datos
+    """
+    
     def registrarTipousuario(self,tipousuario:Tipousuario):
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO tipousuario (idTipousuario, tipousuario) VALUES (%s, %s)'#Sentencia SQL para ingresar tipo de usuarios a la base de datos
-        values = (tipousuario.get_idTipo(), tipousuario.get_tipousuario()) # Se recuperan los valores con las 2 funciones get de la clase tipo usuario
+        values = (tipousuario.get_idTipo(), tipousuario.get_tipousuario()) # Se recuperan los valores con las 2 funciones get de la clase Tipousuario
         self.__cursor.execute(sql,values)# Se ejecuta la sentencia SQL y sus valores
-        self.cerrar()#Se cierra la conexion a la base de datos y guarda 
+        self.cerrar()#Se cierra la conexion a la base de datos con un commit
+    
+
+    """
+    Funcion para registrar categorias
+
+    registrar una categoria en la base de datos
+
+    obtener la categoria con su id y categoria para luego insertarlo en la base de datos
+    """
+
+    def registrarCategoria(self,categoria:Categoria):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'INSERT INTO categoria (idcategoria, categoria) VALUES (%s, %s)'#Sentencia SQL para ingresar una categoria a la base de datos
+        values = (categoria.get_idCategoria(), categoria.get_categoria())#Se re cuperan los valores con las 2 funciones get de la clase Categoria
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la conexion a la base de datos con un commit
+    
+
