@@ -3,6 +3,7 @@ import mysql.connector
 import credencial
 from User import User
 from Producto import Producto
+from Tipousuario import Tipousuario
 class DAO:
     def __init__(self):
         self.__conexion = None
@@ -72,4 +73,12 @@ class DAO:
         sql = 'INSERT INTO productos (idProducto, nombre, tipo, categoria, descripcion) VALUES (%s, %s, %s, %s, %s)' #Sentencia SQL para ingresar items a la base de datos
         values = (producto.get_id(), producto.get_nombre(), producto.get_tipo(), producto.get_categoria(), producto.get_descripcion()) #Valores que tendran los items ingresados
         self.__cursor.execute(sql,values) #Ejecución de la sentencia SQL y valores
-        self.cerrar() #Se cierra la conexión a la base de datos
+        self.cerrar() #Se cierra la conexión a la base de datos y guarda
+
+
+    def registrarTipousuario(self,tipousuario:Tipousuario):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'INSERT INTO tipousuario (idTipousuario, tipousuario) VALUES (%s, %s)'#Sentencia SQL para ingresar tipo de usuarios a la base de datos
+        values = (tipousuario.get_idTipo(), tipousuario.get_tipousuario()) # Se recuperan los valores con las 2 funciones get de la clase tipo usuario
+        self.__cursor.execute(sql,values)# Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la conexion a la base de datos y guarda 
