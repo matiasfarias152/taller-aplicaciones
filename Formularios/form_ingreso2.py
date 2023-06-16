@@ -4,7 +4,7 @@
 from tkinter import *
 import os
 from DAO import *
-from User import *
+from Clases.User import *
 
 #CREAMOS VENTANA PRINCIPAL.
 def ventana_inicio():
