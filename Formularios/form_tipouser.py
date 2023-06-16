@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
-from DAO import *
+from  DAO import *
 from Clases.Tipousuario import *
 
 formulario = tk.Tk()
