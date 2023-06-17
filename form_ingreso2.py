@@ -5,6 +5,8 @@ from tkinter import *
 import os
 from DAO import *
 from Clases.User import *
+from tkinter.ttk import Combobox
+
 
 #CREAMOS VENTANA PRINCIPAL.
 def ventana_inicio():
@@ -23,6 +25,8 @@ def ventana_inicio():
 
 #CREAMOS VENTANA PARA REGISTRO.
 def registro():
+    dao = DAO()
+    roles = dao.obtener_tiposusuario()
     global ventana_registro
     ventana_registro = Toplevel(ventana_principal)
     ventana_registro.title("Registro")
@@ -38,6 +42,8 @@ def registro():
     global entrada_rut
     global entrada_nombre
     global entrada_clave
+    global entrada_rol
+
     nombre_usuario = StringVar() #DECLARAMOS "string" COMO TIPO DE DATO PARA "nombre_usuario"
     clave = StringVar() #DECLARAMOS "string" COMO TIPO DE DATO PARA "clave"
     telefono = IntVar()#  comentar
@@ -48,26 +54,45 @@ def registro():
 
     Label(ventana_registro, text="Introduzca datos", bg="LightGreen").pack()
     Label(ventana_registro, text="").pack()
+
+
     etiqueta_nombre = Label(ventana_registro, text="Nombre de usuario * ")
     etiqueta_nombre.pack()
     entrada_nombre = Entry(ventana_registro, textvariable=nombre_usuario) #ESPACIO PARA INTRODUCIR EL NOMBRE.
     entrada_nombre.pack()
+
+
     etiqueta_clave = Label(ventana_registro, text="Contraseña * ")
     etiqueta_clave.pack()
     entrada_clave = Entry(ventana_registro, textvariable=clave, show='*') #ESPACIO PARA INTRODUCIR LA CONTRASEÑA.
     entrada_clave.pack()
+
+
     etiqueta_correo = Label(ventana_registro, text="Correo * ")
     etiqueta_correo.pack()
     entrada_correo = Entry(ventana_registro, textvariable=correo)
     entrada_correo.pack()
+
+
     etiqueta_telefono = Label(ventana_registro, text="Telefono *")
     etiqueta_telefono.pack()
     entrada_telefono = Entry(ventana_registro, textvariable=telefono)
     entrada_telefono.pack()
+
+
     etiqueta_rut = Label(ventana_registro, text="Rut *")
     etiqueta_rut.pack()
     entrada_rut = Entry(ventana_registro, textvariable=rut)
     entrada_rut.pack()
+
+
+    etiqueta_rol = Label(ventana_registro, text="Selecciona una opción *")
+    etiqueta_rol.pack()
+    entrada_rol = Combobox(ventana_registro, values=roles, state='readonly')
+    entrada_rol.pack()
+
+    
+
 
     Label(ventana_registro, text="").pack()
     Button(ventana_registro, text="Registrarse", width=10, height=1, bg="LightGreen", command = registro_usuario).pack() #BOTÓN "Registrarse"
@@ -178,21 +203,22 @@ def borrar_no_usuario():
     ventana_no_usuario.destroy()
 
 #REGISTRO USUARIO
- 
+
+
 def registro_usuario():
-    dao = DAO()
-    usuario_info = nombre_usuario.get()       #EJEMPLO USO DEL DAO
-    clave_info = clave.get()
-    correo_info = correo.get()
-    telefono_info = telefono.get()
-    rut_info = rut.get()
-    usuario = User(usuario_info,clave_info,correo_info,telefono_info,rut_info)
+    dao = DAO()#Inicializacion del DAO
+    usuario_info = nombre_usuario.get() #Obtener el nobmre de usuario        
+    clave_info = clave.get() #Obtener contrasena
+    correo_info = correo.get() #Otbener el correo
+    telefono_info = telefono.get() #Obtener el telefono
+    rut_info = rut.get() #Obtener el rut
+    roles = entrada_rol.get() #Obtener el rol
+    idtipo = dao.obtener_idtipousuario(roles,)
+
+
+    usuario = User("",telefono_info,correo_info,usuario_info,rut_info,idtipo,clave_info) #idUser:int ,username:str, password:str,correo:str,rut:str,telefono:int
     dao.crear_usuario(usuario)
     
-    file = open(usuario_info, "w") #CREACION DE ARCHIVO CON "nombre" y "clave"
-    file.write(usuario_info + "\n")
-    file.write(clave_info)
-    file.close()
  
     entrada_nombre.delete(0, END)
     entrada_clave.delete(0, END)

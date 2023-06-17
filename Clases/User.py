@@ -20,12 +20,25 @@ class User:
     :param telefono: telefono.
     :type telefono: int.
     """
-    def __init__(self, username:str, password:str,correo:str,rut:str,telefono:int):
+    def __init__(self, idUser:int ,telefono:str, correo:str,username:str,rut:str,tipousuario:str,password:int):
         self.__username = username
         self.__password = password
         self.__correo = correo
         self.__rut = rut
         self.__telefono = telefono
+        self.__idUser = idUser
+        self.__tipousuario = tipousuario
+    
+    def get_tipousuario(self):
+        return self.__tipousuario
+    def set_tipousuario(self, tipousuario):
+        self.__tipousuario = tipousuario
+
+    def get_idUser(self):
+        return self.__idUser
+    
+    def set_idUser(self,id):
+        self.__idUser = id
 
     def get_user(self):
         return self.__username

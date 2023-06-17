@@ -1,5 +1,6 @@
 import tkinter as tk
-
+from DAO import *
+from Clases.Categoria import *
 root = tk.Tk()
 
 categories_listbox = tk.Listbox(root)
@@ -36,6 +37,16 @@ def move_back_category():
         selected_categories_listbox.delete(selected_index[0])
         categories_listbox.insert(tk.END, selected_category)
 
+
+def registrar_categoria():
+    dao = DAO()
+    categorias = selected_categories_listbox.get(0, tk.END)
+    categoria = Categoria("",categorias)
+    dao.registrarCategoria(categoria)
+
+
+
+
 def return_values():
     selected_categories = selected_categories_listbox.get(0, tk.END)
     print("Categorías seleccionadas:", selected_categories)
@@ -51,5 +62,7 @@ add_category_button.pack()
 
 return_button = tk.Button(root, text="Retornar categorías seleccionadas", command=return_values)
 return_button.pack()
+
+boton_registrar = tk.Button(root, text="Registrar categorias", command=registrar_categoria)
 
 root.mainloop()

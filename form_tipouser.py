@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
-from  DAO import *
+from DAO import *
 from Clases.Tipousuario import *
 
 formulario = tk.Tk()
@@ -22,7 +22,7 @@ usuario_seleccionado.pack() # Lo agregamos a la ventana
 def obtener_tipodeusuario(): #Ingresar tipo de usuario a la base de datos
     dao = DAO() #Inicializacion del DAO
     usuario = usuario_seleccionado.get() #Obtener el tipo de usuario
-    tipousuario = Tipousuario(usuario) # Crear el objeto tipo usuario con el dato obtenido antes
+    tipousuario = Tipousuario("",usuario) # Crear el objeto tipo usuario con el dato obtenido antes
     dao.registrarTipousuario(tipousuario) # Ingresar el tipo de usuario a la base de datos
 
 boton_obtener = tk.Button(formulario, text="Registrar tipo de usuario", command=obtener_tipodeusuario)
