@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter.ttk import Combobox
+from DAO import *
+from Clases.Categoria import *
 
 formulario = tk.Tk()
 formulario.geometry("200x150") # Tamaño de la ventana
@@ -14,8 +16,11 @@ categoria_entry = tk.Entry(formulario)
 categoria_entry.pack()
 
 def enviar_categoria():
-    categoria = categoria_entry.get()
-    print("La categoría ingresada es:", categoria)
+    dao = DAO()
+    categoriainfo = categoria_entry.get()
+    categoria = Categoria("",categoriainfo)
+    dao.registrarCategoria(categoria)
+    
 # Código para guardar la categoría en la base de datos
 
 boton_enviar = tk.Button(formulario, text="Enviar categoría", command=enviar_categoria)

@@ -22,7 +22,7 @@ def registrar_producto():
     tipoproducto = Tipo_producto("",tipo)
     dao.registrarTipoproducto(tipoproducto)
 
-boton_obtener = tk.Button(formulario, text="Obtener tipo producto", command=registrar_producto)
+boton_obtener = tk.Button(formulario, text="Registrar tipo de producto", command=registrar_producto)
 boton_obtener.pack()
 
 formulario.mainloop()

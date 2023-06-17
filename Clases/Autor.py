@@ -10,9 +10,16 @@ class Autor:
     :type nombre: str.
     """
 
-    def __init__(self,nombre=str) :
+    def __init__(self,id:int,nombre=str) :
         self.__nombre = nombre
+        self.__id = id
 
+    def get_id(self):
+        return self.__id
+    def set_id(self,id):
+        self.__id = id
+
+        
     def get_nombre(self):
         return self.__nombre   
 

@@ -6,6 +6,7 @@ from Clases.Producto import Producto
 from Clases.Tipousuario import Tipousuario
 from Clases.Categoria import Categoria
 from Clases.Tipo_producto import Tipo_producto
+from Clases.Autor import Autor
 class DAO:
     def __init__(self):
         self.__conexion = None
@@ -59,8 +60,24 @@ class DAO:
         # # Si no se encuentran los datos en la base de datos, se devuelve False.
             return False
         
+    """
+    Funcion para validar permisos
 
-    
+    otorgar permisos de acuerdo con la base de datos
+
+    obtener el nombre y consultar el id en la base de datos
+    """
+
+    def validar_permisos(self,nombre):
+        self.conectar()
+        sql = 'SELECT tipousuario_idtipousuario FROM usuario WHERE nombre = %s'
+        values = (nombre,)
+        self.__cursor.execute(sql,values)
+        id = self.__cursor.fetchone()
+        self.cerrar()
+        return id[0]
+
+
     
 
     """
@@ -76,6 +93,23 @@ class DAO:
         values = (producto.get_id(),producto.get_descripcion(),producto.get_categoria(),producto.get_tipoproducto()) #Valores que tendran los items ingresados
         self.__cursor.execute(sql,values) #Ejecución de la sentencia SQL y valores
         self.cerrar() #Se cierra la conexión a la base de datos y guarda
+
+    """
+    Funcion para registrar autores
+
+    registrar un autor en la base de datos
+
+    obtener el idautor y nombre para luego insertarlo en la base de datos
+    """
+
+    def registrarAutor(self,autor:Autor): #Se asignan los 2 parametros self y autor, donde autor es un objeto de tipo Autor
+        self.conectar() #Se conecta a la base de datos
+        sql = 'INSERT INTO autor (idautor,nombre) VALUES (%s, %s)'#Sentencia SQL para ingresar items a la base de datos
+        values = (autor.get_id(),autor.get_nombre())#Valores que tendran los items ingresados
+        self.__cursor.execute(sql,values)#Ejecución de la sentencia SQL y valores
+        self.cerrar()#Se cierra la conexión a la base de datos y guarda
+
+
 
 
     """
