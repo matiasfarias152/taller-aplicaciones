@@ -16,6 +16,7 @@ new_author_entry.pack(side=tk.TOP)
 def add_author():
     new_author = new_author_entry.get()
     if new_author:
+        authors.append(new_author)
         authors_listbox.insert(tk.END, new_author)
         new_author_entry.delete(0, tk.END)
 
@@ -40,6 +41,22 @@ def return_values():
     selected_authors = selected_authors_listbox.get(0, tk.END)
     print("Autores seleccionados:", selected_authors)
 
+def filter_authors():
+    search_str = filter_entry.get().lower()
+    filtered_authors = [author for author in authors if search_str in author.lower()]
+    authors_listbox.delete(0, tk.END)
+    for author in filtered_authors:
+        authors_listbox.insert(tk.END, author)
+
+filter_label = tk.Label(root, text="Filtrar por autor:")
+filter_label.pack()
+
+filter_entry = tk.Entry(root)
+filter_entry.pack()
+
+filter_button = tk.Button(root, text="Buscar", command=filter_authors)
+filter_button.pack()
+
 move_button = tk.Button(root, text="Seleccionar", command=move_author)
 move_button.pack()
 
@@ -53,4 +70,3 @@ return_button = tk.Button(root, text="Retornar autores seleccionados", command=r
 return_button.pack()
 
 root.mainloop()
-
