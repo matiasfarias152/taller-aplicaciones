@@ -12,10 +12,8 @@ def categoriaslistbox():
     for category in categories:
         categories_listbox.insert(tk.END, category)
         categories_listbox.pack(side=tk.LEFT)
+        categories_listbox.configure(width=25, height=15)
 
-    selected_categories_listbox = tk.Listbox(root)
-    selected_categories_listbox.pack(side=tk.LEFT)
-    selected_categories_listbox.configure(width=25, height=15)
 
     selected_categories_listbox = tk.Listbox(root)
     selected_categories_listbox.pack(side=tk.RIGHT)
@@ -63,3 +61,5 @@ def categoriaslistbox():
     return_button.pack()
 
     root.mainloop()
+
+categoriaslistbox()
