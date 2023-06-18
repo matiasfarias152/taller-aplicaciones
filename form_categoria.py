@@ -1,68 +1,60 @@
 import tkinter as tk
-from DAO import *
-from Clases.Categoria import *
+
 root = tk.Tk()
 
 categories_listbox = tk.Listbox(root)
 
-categories = ["Novela", "Ciencia Ficción", "Misterio", "Romance", "Biografía", "Historia", "Educación", "Cocina", "Arte", "Tecnología"]
+categories = ["Stephen King", "J.K. Rowling", "Dan Brown", "Agatha Christie", "Nicholas Sparks", "Malcolm X", "Michelle Obama", "Jamie Oliver", "Leonardo da Vinci", "Steve Jobs"]
 
-for category in categories:
-    categories_listbox.insert(tk.END, category)
-    categories_listbox.pack(side=tk.LEFT)
-
-new_category_entry = tk.Entry(root)
-new_category_entry.pack(side=tk.TOP)
-
-def add_category():
-    new_category = new_category_entry.get()
-    if new_category:
-        categories_listbox.insert(tk.END, new_category)
-        new_category_entry.delete(0, tk.END)
+selected_categories_listbox = tk.Listbox(root)
+selected_categories_listbox.pack(side=tk.LEFT)
+selected_categories_listbox.configure(width=30, height=20)
 
 selected_categories_listbox = tk.Listbox(root)
 selected_categories_listbox.pack(side=tk.RIGHT)
+selected_categories_listbox.configure(width=30, height=20)
 
-def move_category():
+def move_author():
     selected_index = categories_listbox.curselection()
     if selected_index:
-        selected_category = categories_listbox.get(selected_index[0])
+        selected_author = categories_listbox.get(selected_index[0])
         categories_listbox.delete(selected_index[0])
-        selected_categories_listbox.insert(tk.END, selected_category)
+        selected_categories_listbox.insert(tk.END, selected_author)
 
-def move_back_category():
+def move_back_author():
     selected_index = selected_categories_listbox.curselection()
     if selected_index:
-        selected_category = selected_categories_listbox.get(selected_index[0])
+        selected_author = selected_categories_listbox.get(selected_index[0])
         selected_categories_listbox.delete(selected_index[0])
-        categories_listbox.insert(tk.END, selected_category)
-
-
-def registrar_categoria():
-    dao = DAO()
-    categorias = selected_categories_listbox.get(0, tk.END)
-    categoria = Categoria("",categorias)
-    dao.registrarCategoria(categoria)
-
-
-
+        categories_listbox.insert(tk.END, selected_author)
 
 def return_values():
     selected_categories = selected_categories_listbox.get(0, tk.END)
-    print("Categorías seleccionadas:", selected_categories)
+    print("Categorias seleccionadas:", selected_categories)
 
-move_button = tk.Button(root, text="Seleccionar", command=move_category)
+def filter_categories():
+    search_str = filter_entry.get().lower()
+    filtered_categories = [author for author in categories if search_str in author.lower()]
+    categories_listbox.delete(0, tk.END)
+    for author in filtered_categories:
+        categories_listbox.insert(tk.END, author)
+
+filter_label = tk.Label(root, text="Buscar una categoria:")
+filter_label.pack()
+
+filter_entry = tk.Entry(root)
+filter_entry.pack()
+
+filter_button = tk.Button(root, text="Buscar", command=filter_categories)
+filter_button.pack()
+
+move_button = tk.Button(root, text="Seleccionar", command=move_author)
 move_button.pack()
 
-move_back_button = tk.Button(root, text="Retirar", command=move_back_category)
+move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
 move_back_button.pack()
 
-add_category_button = tk.Button(root, text="Añadir categoría", command=add_category)
-add_category_button.pack()
-
-return_button = tk.Button(root, text="Retornar categorías seleccionadas", command=return_values)
+return_button = tk.Button(root, text="Retornar autores seleccionados", command=return_values)
 return_button.pack()
-
-boton_registrar = tk.Button(root, text="Registrar categorias", command=registrar_categoria)
 
 root.mainloop()
