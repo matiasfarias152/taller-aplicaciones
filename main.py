@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter.ttk import Combobox
 from DAO import *
-from form_categoria import categoriaslistbox
+from Clases.Formcategoriastest import *
 
-
+categorias_seleccionadas = []
 
 def mostrar_error():
     label_error = Label(ventana_principal, text="Credenciales inválidas")
@@ -68,13 +68,15 @@ def registro_tipoproducto():
 
 def frame_registrarproducto():
     global info_descripcion
-
     info_descripcion = StringVar()
     global ventana_frame
     # Cerrar frame anterior 
     cerrar_frame()
+    
+    categorias_lb = CategoriasListBox()
 
     ventana_frame = Frame(ventana_admin, width=400, height=400)
+
 
     Label(ventana_frame, text="Introduzca los datos del producto", bg="LightGreen").pack()
     Label(ventana_frame, text="").pack()
@@ -89,12 +91,20 @@ def frame_registrarproducto():
     etiqueta_categoria = Label(ventana_frame,text='Categoria *')
     etiqueta_categoria.pack()
 
-    categoriaseleccionada = StringVar()
-    categoriaseleccionada.set('hola')
+    categorias_seleccionadas = categorias_lb.obtener_categorias_seleccionadas()
+
+
+    entry_cat = Entry(ventana_frame,textvariable=categorias_seleccionadas,state=DISABLED)
+    entry_cat.pack()
+
+   
+ 
     
-    Entry(ventana_frame,textvariable=categoriaseleccionada,state=DISABLED).pack()
+   
+
+ 
     
-    Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categoriaslistbox).pack()
+    Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categorias_lb.mostrar_ventana).pack()
    
  
 
