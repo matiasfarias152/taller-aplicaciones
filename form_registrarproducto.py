@@ -39,6 +39,9 @@ entrada_descripcion = Entry(ventana, textvariable=descripcion)
 entrada_descripcion.pack()
 
 # Etiqueta y combobox para la categoría
+
+
+
 etiqueta_categoria = Label(ventana, text="Categoría:")
 etiqueta_categoria.pack()
 entrada_categoria = Combobox(ventana, values=categorias)

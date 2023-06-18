@@ -1,11 +1,13 @@
 from tkinter import *
 from tkinter.ttk import Combobox
 from DAO import *
+from form_categoria import categoriaslistbox
 
 
 def mostrar_error():
     label_error = Label(ventana_principal, text="Credenciales inválidas")
     label_error.pack()
+
 
 def cerrar_frame():
     # Cerrar frame anterior
@@ -45,18 +47,96 @@ def registro_usuario():
     entrada_rut.delete(0, END)
 
 
+def registro_categoria():
+    dao = DAO()
+    nombre = nombre_categoria.get()
+    categoria = Categoria("", nombre)
+    dao.registrarCategoria(categoria)
+
 def registro_autor():
     dao = DAO()
     nombre = entrada_autor.get()
     autor = Autor("", nombre)
     dao.registrarAutor(autor)
 
+def registro_tipoproducto():
+    dao = DAO()
+    nombre = nombre_tipo.get()
+    tipo = Tipo_producto("",nombre)
+    dao.registrarTipoproducto(tipo)
+
+def frame_registrarproducto():
+    global info_descripcion
+
+    info_descripcion = StringVar()
+    global ventana_frame
+    # Cerrar frame anterior 
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+    Label(ventana_frame, text="Introduzca los datos del producto", bg="LightGreen").pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_descripcion = Label(ventana_frame,text='Descripcion *')
+    etiqueta_descripcion.pack()
+    entrada_descripcion = Entry(ventana_frame, textvariable=info_descripcion)
+    entrada_descripcion.pack()
+
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_categoria = Label(ventana_frame,text='Categoria *')
+    etiqueta_categoria.pack()
+
+    categoriaseleccionada = StringVar()
+    categoriaseleccionada.set('hola')
+    Entry(ventana_frame,textvariable=categoriaseleccionada,state=DISABLED).pack()
+
+    Label(ventana_frame, text="").pack()
+
+    Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categoriaslistbox).pack()
+
+    etiqueta_tipoproducto = Label(ventana_frame,text='Tipo de producto *')
+    etiqueta_tipoproducto.pack()
+
+    tiposeleccionado= StringVar()
+    tiposeleccionado.set('hola')
+    Entry(ventana_frame,textvariable=tiposeleccionado,state=DISABLED).pack()
+
+
+    Label(ventana_frame, text="").pack()
+    Button(ventana_frame, text="Registrar producto", width=20, height=1, bg="LightGreen", command=registro_tipoproducto).pack()
+
+    ventana_frame.pack(fill='both', expand=1)
+
+def frame_registrartipoproducto():
+    global nombre_tipo
+
+    nombre_tipo = StringVar()
+    global ventana_frame
+    # Cerrar frame anterior 
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+    Label(ventana_frame, text="Introduzca tipo", bg="LightGreen").pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_tipo = Label(ventana_frame,text='Tipo de producto *')
+    etiqueta_tipo.pack()
+    entrada_tipo = Entry(ventana_frame, textvariable=nombre_tipo)
+    entrada_tipo.pack()
+
+    Label(ventana_frame, text="").pack()
+    Button(ventana_frame, text="Registrar tipo de producto", width=20, height=1, bg="LightGreen", command=registro_tipoproducto).pack()
+
+    ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrarautor():
     global autor
     global entrada_autor
-    global ventana_frame
 
+    global ventana_frame
     autor = StringVar()
 
     # Cerrar frame anterior
@@ -64,7 +144,7 @@ def frame_registrarautor():
 
     ventana_frame = Frame(ventana_admin, width=400, height=400)
 
-    Label(ventana_frame, text='Introduzca datos', bg='LightGreen').pack()
+    Label(ventana_frame, text='Introduzca autor', bg='LightGreen').pack()
     Label(ventana_frame, text="").pack()
 
     etiqueta_autor = Label(ventana_frame, text='Nombre del autor *')
@@ -77,7 +157,31 @@ def frame_registrarautor():
     ventana_frame.pack(fill='both', expand=1)
 
 
+def frame_registrarcategoria():
+    global nombre_categoria
+
+    nombre_categoria = StringVar()
+    global ventana_frame
+    # Cerrar frame anterior 
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+    Label(ventana_frame, text="Introduzca categoria", bg="LightGreen").pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_categoria = Label(ventana_frame,text='Categoria *')
+    etiqueta_categoria.pack()
+    entrada_categoria = Entry(ventana_frame, textvariable=nombre_categoria)
+    entrada_categoria.pack()
+
+    Label(ventana_frame, text="").pack()
+    Button(ventana_frame, text="Registrar categoria", width=15, height=1, bg="LightGreen", command=registro_categoria).pack()
+
+    ventana_frame.pack(fill='both', expand=1)
+
 def frame_registrarusuario():
+    global ventana_frame
     global nombre_usuario
     global clave
     global telefono
@@ -89,7 +193,8 @@ def frame_registrarusuario():
     global entrada_nombre
     global entrada_clave
     global entrada_rol
-    global ventana_frame
+   
+   
 
     nombre_usuario = StringVar()
     clave = StringVar()
@@ -151,10 +256,10 @@ def mostrar_menu():
     menu_admin = Menu(ventana_admin)
     opciones_registrar = Menu(menu_admin)
     opciones_registrar.add_command(label='Registrar usuario', command=frame_registrarusuario)
-    opciones_registrar.add_command(label='Registrar producto')
-    opciones_registrar.add_command(label='Registrar categoría')
+    opciones_registrar.add_command(label='Registrar producto', command=frame_registrarproducto)
+    opciones_registrar.add_command(label='Registrar categoría', command=frame_registrarcategoria)
     opciones_registrar.add_command(label='Registrar autor', command=frame_registrarautor)
-    opciones_registrar.add_command(label='Registrar tipo de producto')
+    opciones_registrar.add_command(label='Registrar tipo de producto', command=frame_registrartipoproducto)
 
     opciones_eliminar = Menu(menu_admin)
     opciones_eliminar.add_command(label='Eliminar productos')
@@ -176,12 +281,17 @@ Label(text="").pack()
 verifica_usuario = StringVar()
 verifica_clave = StringVar()
 
+Label(ventana_principal, text="Nombre de usuario * ").pack()
+
 entrada_login_usuario = Entry(ventana_principal, textvariable=verifica_usuario)
 entrada_login_usuario.pack()
+
 Label(ventana_principal, text="").pack()
 Label(ventana_principal, text="Contraseña * ").pack()
+
 entrada_login_clave = Entry(ventana_principal, textvariable=verifica_clave, show='*')
 entrada_login_clave.pack()
+
 Label(ventana_principal, text="").pack()
 Button(ventana_principal, text="Acceder", width=10, height=1, command=verifica_login).pack()
 
