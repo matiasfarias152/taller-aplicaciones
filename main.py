@@ -4,6 +4,7 @@ from DAO import *
 from form_categoria import categoriaslistbox
 
 
+
 def mostrar_error():
     label_error = Label(ventana_principal, text="Credenciales inválidas")
     label_error.pack()
@@ -90,11 +91,18 @@ def frame_registrarproducto():
 
     categoriaseleccionada = StringVar()
     categoriaseleccionada.set('hola')
+    
     Entry(ventana_frame,textvariable=categoriaseleccionada,state=DISABLED).pack()
+    
+    Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categoriaslistbox).pack()
+   
+ 
+
+    
 
     Label(ventana_frame, text="").pack()
 
-    Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categoriaslistbox).pack()
+    
 
     etiqueta_tipoproducto = Label(ventana_frame,text='Tipo de producto *')
     etiqueta_tipoproducto.pack()
