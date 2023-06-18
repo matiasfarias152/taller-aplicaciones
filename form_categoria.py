@@ -8,11 +8,11 @@ categories = ["Stephen King", "J.K. Rowling", "Dan Brown", "Agatha Christie", "N
 
 selected_categories_listbox = tk.Listbox(root)
 selected_categories_listbox.pack(side=tk.LEFT)
-selected_categories_listbox.configure(width=30, height=20)
+selected_categories_listbox.configure(width=25, height=15)
 
 selected_categories_listbox = tk.Listbox(root)
 selected_categories_listbox.pack(side=tk.RIGHT)
-selected_categories_listbox.configure(width=30, height=20)
+selected_categories_listbox.configure(width=25, height=15)
 
 def move_author():
     selected_index = categories_listbox.curselection()
