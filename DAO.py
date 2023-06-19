@@ -89,7 +89,7 @@ class DAO:
     """
     def registrarProducto(self,producto:Producto): #Se asignan los 2 parametros self y producto, donde producto es un objeto de tipo Producto
         self.conectar()  #Se conecta a la base de datos
-        sql = 'INSERT INTO productos (idproducto, nombre, tipo, categoria, descripcion) VALUES (%s, %s, %s, %s)' #Sentencia SQL para ingresar items a la base de datos
+        sql = 'INSERT INTO producto (idproducto, descripcion, categoria_idcategoria, tipoproducto_idtipo) VALUES (%s, %s, %s, %s)' #Sentencia SQL para ingresar items a la base de datos
         values = (producto.get_id(),producto.get_descripcion(),producto.get_categoria(),producto.get_tipoproducto()) #Valores que tendran los items ingresados
         self.__cursor.execute(sql,values) #Ejecución de la sentencia SQL y valores
         self.cerrar() #Se cierra la conexión a la base de datos y guarda
@@ -218,6 +218,7 @@ class DAO:
         self.__cursor.execute(sql,values)
         idtipo = self.__cursor.fetchone()
         self.cerrar()
+        print(idtipo)
         return idtipo[0]
 
     """
@@ -252,6 +253,7 @@ class DAO:
         self.__cursor.execute(sql,values)
         idcategoria = self.__cursor.fetchone()
         self.cerrar()
+        print(idcategoria)
         return idcategoria[0]
 
     

@@ -1,18 +1,17 @@
-import tkinter as tk
+import tkinter as tk    
 from DAO import DAO
 
-class CategoriasListBox:
+class TipoproductoListBox:
     def __init__(self):
-        self.categorias_seleccionadas = tk.StringVar()
-       
-
+        self.tipoproducto_seleccionado = tk.StringVar()
+    
     def mostrar_ventana(self):
         dao = DAO()
         root = tk.Tk()
 
         categories_listbox = tk.Listbox(root)
 
-        categories = dao.obtener_categorias()
+        categories = dao.obtener_tiposproductos()
         for category in categories:
             categories_listbox.insert(tk.END, category)
             categories_listbox.pack(side=tk.LEFT)
@@ -38,7 +37,7 @@ class CategoriasListBox:
                 categories_listbox.insert(tk.END, selected_categories)
 
         def return_values():
-            self.categorias_seleccionadas.set(selected_categories_listbox.get(0, tk.END))
+            self.tipoproducto_seleccionado.set(selected_categories_listbox.get(0, tk.END))
             root.destroy()
 
         def filter_categories():
@@ -48,7 +47,7 @@ class CategoriasListBox:
             for author in filtered_categories:
                 categories_listbox.insert(tk.END, author)
 
-        filter_label = tk.Label(root, text="Buscar una categoria:").pack()
+        filter_label = tk.Label(root, text="Buscar un tipo de producto:").pack()
         filter_entry = tk.Entry(root)
         filter_entry.pack()
 
@@ -61,14 +60,10 @@ class CategoriasListBox:
         move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
         move_back_button.pack()
 
-        return_button = tk.Button(root, text="Retornar autores seleccionados", command=return_values)
+        return_button = tk.Button(root, text="Retornar tipo seleccionados", command=return_values)
         return_button.pack()
 
         root.mainloop()
 
-    def obtener_categorias_seleccionadas(self):
-        return self.categorias_seleccionadas
-        
-
-
-    
+    def obtener_tipos_seleccionados(self):
+        return self.tipoproducto_seleccionado

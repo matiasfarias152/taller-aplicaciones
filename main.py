@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from DAO import *
 from Clases.Formcategoriastest import *
+from Clases.Formtipoproducto import *
+from Clases.Producto import *
 
 categorias_seleccionadas = []
 
@@ -66,13 +68,33 @@ def registro_tipoproducto():
     tipo = Tipo_producto("",nombre)
     dao.registrarTipoproducto(tipo)
 
+def registro_productos():
+    dao = DAO()
+    categoria = entry_cat.get()
+    tipos = entry_tipo.get()
+    descripcion = info_descripcion.get()
+    idcategoria = dao.obtener_idcategorias(categoria)
+    idtipo = dao.obtener_idtipoproducto(tipos)
+    producto = Producto(1,descripcion,idcategoria,idtipo)
+    dao.registrarProducto(producto)
+    
+
+
+
+
 def frame_registrarproducto():
+
+
     global info_descripcion
+    global entry_tipo
+    global entry_cat
+
     info_descripcion = StringVar()
     global ventana_frame
     # Cerrar frame anterior 
     cerrar_frame()
-    
+    tipoproducto_lb = TipoproductoListBox()
+
     categorias_lb = CategoriasListBox()
 
     ventana_frame = Frame(ventana_admin, width=400, height=400)
@@ -91,39 +113,35 @@ def frame_registrarproducto():
     etiqueta_categoria = Label(ventana_frame,text='Categoria *')
     etiqueta_categoria.pack()
 
-    categorias_seleccionadas = categorias_lb.obtener_categorias_seleccionadas()
-
-
-    entry_cat = Entry(ventana_frame,textvariable=categorias_seleccionadas,state=DISABLED)
+    categorias_s = categorias_lb.obtener_categorias_seleccionadas()
+    
+    
+    entry_cat = Entry(ventana_frame,textvariable=categorias_s)
     entry_cat.pack()
 
-   
- 
-    
-   
 
- 
-    
     Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categorias_lb.mostrar_ventana).pack()
-   
- 
-
-    
 
     Label(ventana_frame, text="").pack()
 
-    
+    tipos_seleccionados = tipoproducto_lb.obtener_tipos_seleccionados()
+
 
     etiqueta_tipoproducto = Label(ventana_frame,text='Tipo de producto *')
     etiqueta_tipoproducto.pack()
 
-    tiposeleccionado= StringVar()
-    tiposeleccionado.set('hola')
-    Entry(ventana_frame,textvariable=tiposeleccionado,state=DISABLED).pack()
+    
+    
+    entry_tipo = Entry(ventana_frame,textvariable=tipos_seleccionados)
+    entry_tipo.pack()
+
+    Button(ventana_frame,text='Tipos de producto', width=20,height=1,bg='LightGreen', command=tipoproducto_lb.mostrar_ventana).pack()
 
 
     Label(ventana_frame, text="").pack()
-    Button(ventana_frame, text="Registrar producto", width=20, height=1, bg="LightGreen", command=registro_tipoproducto).pack()
+    
+    btnregistrar = Button(ventana_frame, text="Registrar producto", width=20, height=1, bg="LightGreen", command=registro_productos)
+    btnregistrar.pack()
 
     ventana_frame.pack(fill='both', expand=1)
 

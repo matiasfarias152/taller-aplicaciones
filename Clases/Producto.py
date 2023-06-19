@@ -19,7 +19,7 @@ class Producto:
     :param descripcion: descripcion
     :type descripcion: str
     """
-    def __init__(self,id:int,descripcion:str,categoria:str,tipoproducto:str):
+    def __init__(self,id:int,descripcion:str,categoria:int,tipoproducto:int):
         self.__id = id
         self.__tipoproducto = tipoproducto
         self.__categoria = categoria
@@ -33,12 +33,12 @@ class Producto:
 
     def get_tipoproducto(self):
         return self.__tipoproducto
-    def set_tipoproducto(self,tipo:str):
+    def set_tipoproducto(self,tipo:int):
         self.__tipoproducto = tipo
         
     def get_categoria(self):
         return self.__categoria
-    def set_categoria(self,categoria:str):
+    def set_categoria(self,categoria:int):
         self.__categoria = categoria
         
     def get_descripcion(self):
