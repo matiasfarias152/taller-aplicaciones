@@ -60,7 +60,7 @@ class TipoproductoListBox:
         move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
         move_back_button.pack()
 
-        return_button = tk.Button(root, text="Retornar tipo seleccionados", command=return_values)
+        return_button = tk.Button(root, text="Ingresar", command=return_values)
         return_button.pack()
 
         root.mainloop()

@@ -7,6 +7,8 @@ from Clases.Tipousuario import Tipousuario
 from Clases.Categoria import Categoria
 from Clases.Tipo_producto import Tipo_producto
 from Clases.Autor import Autor
+from Clases.Producto_Autor import *
+
 class DAO:
     def __init__(self):
         self.__conexion = None
@@ -158,6 +160,88 @@ class DAO:
         values = (tipoproducto.get_idtipo(),tipoproducto.get_tipo_producto())#Se recuperan los valores con las 2 funciones get de la clase Tipo_producto
         self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
+
+
+
+    """
+    Funcion para obtener productos
+
+    obtener los productos disponibles
+
+    obtener los productos ingresados en la base de datos
+    """
+
+    def obtener_productos(self):
+        self.conectar()
+        sql = 'SELECT descripcion FROM producto'
+        self.__cursor.execute(sql)
+        productos = self.__cursor.fetchall()
+        self.cerrar()
+        productos = [producto[0].strip('{') for producto in productos]
+        return productos
+
+
+    def obtener_idproductos(self,producto):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'SELECT idproducto FROM producto WHERE descripcion = %s'
+        values = (producto,)
+        self.__cursor.execute(sql,values)
+        idproducto = self.__cursor.fetchone()
+        self.cerrar()
+        return idproducto[0]
+
+    """
+    Funcion para obtener autores
+
+    obtener los autores disponibles
+
+    obtener los autores ingresados en la base de datos
+    """
+
+    def obtener_autores(self):
+        self.conectar()
+        sql = 'SELECT nombre FROM autor'
+        self.__cursor.execute(sql)
+        autores = self.__cursor.fetchall()
+        self.cerrar()
+        autores = [autor[0].strip('{') for autor in autores]
+        return autores
+        
+
+
+
+    def obtener_idautor(self,autor):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'SELECT idautor FROM autor WHERE nombre = %s'
+        values = (autor,)
+        self.__cursor.execute(sql,values)
+        idautor = self.__cursor.fetchone()
+        self.cerrar()
+        return idautor[0]
+
+
+    """
+    Funcion para asignar autores
+
+    asignar un autor a un producto
+
+    asignar un autor a un producto en la base de datos
+    """
+
+
+    def asignarAutor(self,producto_autor:Producto_Autor):
+        self.conectar()#Se conecta a la base de datos 
+        sql = 'INSERT INTO producto_autor(idproductoautor,producto_idproducto,autor_idautor) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        values = (producto_autor.get_id(),producto_autor.get_idproducto(),producto_autor.get_idautor())#Se recuperan los valores con las 2 funciones get de la clase Tipo_producto
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la coenxion a la base de datos con un commit
+
+
+
+
+
+
+
 
 
     """

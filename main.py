@@ -4,6 +4,10 @@ from DAO import *
 from Clases.Formcategoriastest import *
 from Clases.Formtipoproducto import *
 from Clases.Producto import *
+from Clases.ListboxProductos import *
+from Clases.ListboxAutor import *
+from Clases.Producto_Autor import *
+
 
 categorias_seleccionadas = []
 
@@ -75,10 +79,18 @@ def registro_productos():
     descripcion = info_descripcion.get()
     idcategoria = dao.obtener_idcategorias(categoria)
     idtipo = dao.obtener_idtipoproducto(tipos)
-    producto = Producto(1,descripcion,idcategoria,idtipo)
+    producto = Producto("",descripcion,idcategoria,idtipo)
     dao.registrarProducto(producto)
     
 
+def asignar_autor():
+    dao = DAO()
+    producto = entry_producto.get()
+    autor = entry_autor.get()
+    idproducto =  dao.obtener_idproductos(producto)
+    idautor = dao.obtener_idautor(autor)
+    producto_autor = Producto_Autor("",idproducto,idautor)
+    dao.asignarAutor(producto_autor)
 
 
 
@@ -171,7 +183,7 @@ def frame_registrartipoproducto():
 def frame_registrarautor():
     global autor
     global entrada_autor
-
+ 
     global ventana_frame
     autor = StringVar()
 
@@ -282,6 +294,56 @@ def frame_registrarusuario():
 
     ventana_frame.pack(fill='both', expand=1)
 
+def frame_asignarautor():
+    global productoid
+    global autorid 
+    global ventana_frame
+    global entry_producto
+    global entry_autor
+
+    autor_lb = ListboxAutor()
+    producto_lb = ListboxProductos()
+
+    productoid = StringVar()
+    autorid = StringVar()
+
+    #Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+
+
+
+
+    Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_productos = Label(ventana_frame,text='Productos *')
+    etiqueta_productos.pack()
+
+    productos = producto_lb.obtener_tipos_seleccionados()
+
+    entry_producto = Entry(ventana_frame,textvariable=productos)
+    entry_producto.pack()
+    Button(ventana_frame,text='Productos', width=20,height=1,bg='LightGreen', command=producto_lb.mostrar_ventana).pack()
+
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_autores = Label(ventana_frame,text='Autores *')
+    etiqueta_autores.pack()
+
+    autores = autor_lb.obtener_tipos_seleccionados()
+
+    entry_autor = Entry(ventana_frame,textvariable=autores)
+    entry_autor.pack()
+    Button(ventana_frame,text='Autores', width=20,height=1,bg='LightGreen', command=autor_lb.mostrar_ventana).pack()
+
+    Label(ventana_frame, text="").pack()
+
+    Button(ventana_frame, text='Asignar Autor', width=20, height=1, bg='LightGreen',command=asignar_autor).pack()
+    ventana_frame.pack(fill='both', expand=1)
+
 
 def mostrar_menu():
     ventana_principal.destroy()
@@ -302,8 +364,15 @@ def mostrar_menu():
     opciones_eliminar.add_command(label='Eliminar editorial')
     opciones_eliminar.add_command(label='Eliminar bodega')
 
+    opciones_asignar = Menu(menu_admin)
+    opciones_asignar.add_command(label='Asignar Autor',command=frame_asignarautor)
+    opciones_asignar.add_command(label='Asignar Bodega')
+
+    
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)
     menu_admin.add_cascade(label='Eliminar', menu=opciones_eliminar)
+    menu_admin.add_cascade(label='Asignar', menu =opciones_asignar)
+
     ventana_admin.config(menu=menu_admin)
 
     ventana_admin.mainloop()
