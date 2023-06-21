@@ -86,11 +86,19 @@ def registro_productos():
 def asignar_autor():
     dao = DAO()
     producto = entry_producto.get()
-    autor = entry_autor.get()
+    autorr = autores.get()
+    print('AUTORES SELECCIONADOS: ')
+    print(autorr) #('yo','pablo neruda','b')
     idproducto =  dao.obtener_idproductos(producto)
-    idautor = dao.obtener_idautor(autor)
-    producto_autor = Producto_Autor("",idproducto,idautor)
-    dao.asignarAutor(producto_autor)
+    autorr = eval(autorr)
+    print('CONVERSION A TUPLA: ')
+    print(autorr)
+    for a in autorr:
+        print('AUTOR: ')
+        print(a)
+        idautor = dao.obtener_idautor(a)
+        producto_autor = Producto_Autor("",idproducto,idautor)
+        dao.asignarAutor(producto_autor)
 
 
 
@@ -299,7 +307,7 @@ def frame_asignarautor():
     global autorid 
     global ventana_frame
     global entry_producto
-    global entry_autor
+    global autores
 
     autor_lb = ListboxAutor()
     producto_lb = ListboxProductos()
@@ -335,9 +343,11 @@ def frame_asignarautor():
 
     autores = autor_lb.obtener_tipos_seleccionados()
 
-    entry_autor = Entry(ventana_frame,textvariable=autores)
-    entry_autor.pack()
-    Button(ventana_frame,text='Autores', width=20,height=1,bg='LightGreen', command=autor_lb.mostrar_ventana).pack()
+    autor_lb.mostrar_ventana(ventana_frame)
+
+    # entry_autor = Entry(ventana_frame,textvariable=autores)
+    # entry_autor.pack()
+    # Button(ventana_frame,text='Autores', width=20,height=1,bg='LightGreen', command=autor_lb.mostrar_ventana).pack()
 
     Label(ventana_frame, text="").pack()
 

@@ -5,11 +5,11 @@ class ListboxAutor:
     def __init__(self):
         self.tipoproducto_seleccionado = tk.StringVar()
     
-    def mostrar_ventana(self):
+    def mostrar_ventana(self,frame):
         dao = DAO()
-        root = tk.Tk()
+    
 
-        categories_listbox = tk.Listbox(root)
+        categories_listbox = tk.Listbox(frame)
 
         autores = dao.obtener_autores()
         for autor in autores:
@@ -18,7 +18,7 @@ class ListboxAutor:
             categories_listbox.configure(width=25, height=15)
 
 
-        selected_categories_listbox = tk.Listbox(root)
+        selected_categories_listbox = tk.Listbox(frame)
         selected_categories_listbox.pack(side=tk.RIGHT)
         selected_categories_listbox.configure(width=25, height=15)
 
@@ -28,6 +28,8 @@ class ListboxAutor:
                 selected_author = categories_listbox.get(selected_index[0])
                 categories_listbox.delete(selected_index[0])
                 selected_categories_listbox.insert(tk.END, selected_author)
+            autoresget = selected_categories_listbox.get(0, tk.END)
+            self.tipoproducto_seleccionado.set(autoresget)
 
         def move_back_author():
             selected_index = selected_categories_listbox.curselection()
@@ -35,13 +37,14 @@ class ListboxAutor:
                 selected_categories = selected_categories_listbox.get(selected_index[0])
                 selected_categories_listbox.delete(selected_index[0])
                 categories_listbox.insert(tk.END, selected_categories)
+                autoresget = selected_categories_listbox.get(0, tk.END)
+                self.tipoproducto_seleccionado.set(autoresget)
+        # def return_values():
+        #     autoresget = selected_categories_listbox.get(0, tk.END)
 
-        def return_values():
-            autoresget = selected_categories_listbox.get(0, tk.END)
-
-            autoresget = [autor.strip('{') for autor in autoresget]
-            self.tipoproducto_seleccionado.set(autoresget)
-            root.destroy()
+        #     # autoresget = [autor.strip('{') for autor in autoresget]
+        #     self.tipoproducto_seleccionado.set(autoresget)
+        #     # root.destroy()
 
         def filter_categories():
             search_str = filter_entry.get().lower()
@@ -50,23 +53,23 @@ class ListboxAutor:
             for author in filtered_categories:
                 categories_listbox.insert(tk.END, author)
 
-        filter_label = tk.Label(root, text="Buscar un tipo de producto:").pack()
-        filter_entry = tk.Entry(root)
+        filter_label = tk.Label(frame, text="Buscar un tipo de producto:").pack()
+        filter_entry = tk.Entry(frame)
         filter_entry.pack()
 
-        filter_button = tk.Button(root, text="Buscar", command=filter_categories)
+        filter_button = tk.Button(frame, text="Buscar", command=filter_categories)
         filter_button.pack()
 
-        move_button = tk.Button(root, text="Seleccionar", command=move_author)
+        move_button = tk.Button(frame, text="Seleccionar", command=move_author)
         move_button.pack()
 
-        move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
+        move_back_button = tk.Button(frame, text="Retirar", command=move_back_author)
         move_back_button.pack()
 
-        return_button = tk.Button(root, text="Ingresar", command=return_values)
-        return_button.pack()
+        # return_button = tk.Button(frame, text="Ingresar", command=return_values)
+        # return_button.pack()
 
-        root.mainloop()
+        # root.mainloop()
 
     def obtener_tipos_seleccionados(self):
         return self.tipoproducto_seleccionado
