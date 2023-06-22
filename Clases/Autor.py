@@ -6,6 +6,8 @@ class Autor:
     """
     constructor de la clase
 
+    :param id: id.
+    :type id: int.
     :param nombre: nombre.
     :type nombre: str.
     """

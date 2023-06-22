@@ -7,7 +7,10 @@ from Clases.Producto import *
 from Clases.ListboxProductos import *
 from Clases.ListboxAutor import *
 from Clases.Producto_Autor import *
-
+from Clases.Bodega import *
+from Clases.ListboxBodega import *
+from Clases.ListboxUsuario import *
+from Clases.Bodega_usuario import *
 
 categorias_seleccionadas = []
 
@@ -82,6 +85,12 @@ def registro_productos():
     producto = Producto("",descripcion,idcategoria,idtipo)
     dao.registrarProducto(producto)
     
+def registro_bodega():
+    dao = DAO()
+    nombre = nombrebodega.get()
+    ubicacion = ubicacionbodega.get()
+    bodega = Bodega("",nombre,ubicacion)
+    dao.registrarBodega(bodega)
 
 def asignar_autor():
     dao = DAO()
@@ -100,7 +109,54 @@ def asignar_autor():
         producto_autor = Producto_Autor("",idproducto,idautor)
         dao.asignarAutor(producto_autor)
 
+def asignar_bodega():
+    dao = DAO()
+    usuario = usuarios.get()
+    bodega = bodegas.get()
+    print('BODEGA SELECCIONADA: ')
+    print(bodega)
+    bodegatupla = eval(bodega)
+    
 
+    idbodega = dao.obtener_idbodega(bodegatupla[0])
+    usuario = eval(usuario)
+
+    for user in usuario:
+        idusuario = dao.obtener_idusuario(user)
+        bodega_usuario = Bodega_usuario("",idusuario,idbodega)
+        dao.asignarBodega(bodega_usuario)
+
+def frame_registrarbodega():
+    global nombrebodega
+    global ubicacionbodega
+
+    global ventana_frame
+    nombrebodega = StringVar()
+    ubicacionbodega = StringVar()
+
+    # Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+    Label(ventana_frame, text='Introduzca datos de bodega', bg='LightGreen').pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_nombrebodega = Label(ventana_frame, text='Nombre de bodega *')
+    etiqueta_nombrebodega.pack()
+    entrada_nombrebodega = Entry(ventana_frame, textvariable=nombrebodega)
+    entrada_nombrebodega.pack()
+
+    etiqueta_ubicacionbodega = Label(ventana_frame, text ='Ubicacion de la bodega *')
+    etiqueta_ubicacionbodega.pack()
+    entrada_ubicacionbodega = Entry(ventana_frame, textvariable=ubicacionbodega)
+    entrada_ubicacionbodega.pack()
+
+    Label(ventana_frame, text="").pack()
+
+    Button(ventana_frame, text="Registrar bodega", width=20, height=1, bg="LightGreen", command=registro_bodega).pack()
+
+    ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrarproducto():
 
@@ -321,9 +377,6 @@ def frame_asignarautor():
     ventana_frame = Frame(ventana_admin, width=400, height=400)
 
 
-
-
-
     Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
     Label(ventana_frame, text="").pack()
 
@@ -332,7 +385,7 @@ def frame_asignarautor():
 
     productos = producto_lb.obtener_tipos_seleccionados()
 
-    entry_producto = Entry(ventana_frame,textvariable=productos)
+    entry_producto = Entry(ventana_frame,textvariable=productos,state='readonly')
     entry_producto.pack()
     Button(ventana_frame,text='Productos', width=20,height=1,bg='LightGreen', command=producto_lb.mostrar_ventana).pack()
 
@@ -354,7 +407,40 @@ def frame_asignarautor():
     Button(ventana_frame, text='Asignar Autor', width=20, height=1, bg='LightGreen',command=asignar_autor).pack()
     ventana_frame.pack(fill='both', expand=1)
 
+def frame_asignarbodega():
+    global ventana_frame
+    global bodegas
+    global usuarios
+    bodega_lb = ListboxBodega()
+    usuario_lb = ListboxUsuario()
 
+
+    #Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = Frame(ventana_admin, width=400, height=400)
+
+
+    Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_bodegas = Label(ventana_frame,text='Bodegas *')
+    etiqueta_bodegas.pack()
+
+    bodega_lb.mostrar_ventana(ventana_frame)
+
+    bodegas = bodega_lb.obtener_bodegas_seleccionadas()
+    Label(ventana_frame, text="").pack()
+
+    etiqueta_usuarios = Label(ventana_frame,text='Usuarios *')
+    etiqueta_usuarios.pack()
+
+    usuario_lb.mostrar_ventana(ventana_frame)
+
+    usuarios = usuario_lb.obtener_usuario_seleccionados()
+
+    Button(ventana_frame, text='Asignar Usuarios', width=20, height=1, bg='LightGreen',command=asignar_bodega).pack()
+    ventana_frame.pack(fill='both', expand=1)
 def mostrar_menu():
     ventana_principal.destroy()
     global ventana_admin
@@ -368,6 +454,7 @@ def mostrar_menu():
     opciones_registrar.add_command(label='Registrar categoría', command=frame_registrarcategoria)
     opciones_registrar.add_command(label='Registrar autor', command=frame_registrarautor)
     opciones_registrar.add_command(label='Registrar tipo de producto', command=frame_registrartipoproducto)
+    opciones_registrar.add_command(label='Registrar bodega', command=frame_registrarbodega)
 
     opciones_eliminar = Menu(menu_admin)
     opciones_eliminar.add_command(label='Eliminar productos')
@@ -376,7 +463,7 @@ def mostrar_menu():
 
     opciones_asignar = Menu(menu_admin)
     opciones_asignar.add_command(label='Asignar Autor',command=frame_asignarautor)
-    opciones_asignar.add_command(label='Asignar Bodega')
+    opciones_asignar.add_command(label='Asignar Bodega', command=frame_asignarbodega)
 
     
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)

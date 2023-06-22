@@ -8,6 +8,9 @@ from Clases.Categoria import Categoria
 from Clases.Tipo_producto import Tipo_producto
 from Clases.Autor import Autor
 from Clases.Producto_Autor import *
+from Clases.Bodega import *
+from Clases.Bodega_usuario import *
+
 
 class DAO:
     def __init__(self):
@@ -112,6 +115,22 @@ class DAO:
         self.cerrar()#Se cierra la conexión a la base de datos y guarda
 
 
+    """
+    Funcion para registrar bodegas
+
+    registrar una bodega en la base de datos
+
+    obtener el id, nombre y ubicacion para luego insertarlo en la base de datos
+    """
+
+    def registrarBodega(self,bodega:Bodega): #Se asignan los 2 parametros self y bodega, donde bodega es un objeto de tipo Bodega
+        self.conectar() #Se conecta a la base de datos
+        sql = 'INSERT INTO bodega (idbodega,nombre,ubicacion) VALUES (%s, %s,%s)'#Sentencia SQL para ingresar items a la base de datos
+        values = (bodega.get_id(),bodega.get_nombre(),bodega.get_ubicacion())#Valores que tendran los items ingresados
+        self.__cursor.execute(sql,values)#Ejecución de la sentencia SQL y valores
+        self.cerrar()#Se cierra la conexión a la base de datos y guarda
+
+
 
 
     """
@@ -162,6 +181,76 @@ class DAO:
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
+    """
+    Funcion para obtener bodegas
+
+    obtener las bodegas disponibles
+
+    obtener las bodegas ingresados en la base de datos
+    """
+
+    def obtener_bodegas(self):
+        self.conectar()
+        sql = 'SELECT nombre FROM bodega'
+        self.__cursor.execute(sql)
+        bodegas = self.__cursor.fetchall()
+        self.cerrar()
+        bodegas = [producto[0].strip('{') for producto in bodegas]
+        return bodegas
+    
+    """
+    Funcion para obtener los ids de las bodegas
+
+    obtener los id's de las bodegas disponibles
+
+    obtener los id's de bodegas ingresadas en la base de datos
+    """
+
+    def obtener_idbodega(self,nombre):
+        self.conectar()
+        sql = 'SELECT idbodega FROM bodega WHERE nombre = %s'
+        values = (nombre,)
+        self.__cursor.execute(sql,values)
+        idbodega = self.__cursor.fetchone()
+        self.cerrar()
+        
+        return idbodega[0]
+
+
+    
+    """
+    Funcion para obtener usuarios
+
+    obtener los usuarios disponibles
+
+    obtener los usuarios ingresados en la base de datos
+    """
+
+    def obtener_usuarios(self):
+        self.conectar()
+        sql = 'SELECT nombre FROM usuario'
+        self.__cursor.execute(sql)
+        usuarios = self.__cursor.fetchall()
+        self.cerrar()
+        usuarios = [producto[0].strip('{') for producto in usuarios]
+        return usuarios
+    
+    """
+    Funcion para obtener los ids de los usuarios
+
+    obtener los id's de los usuarios disponibles
+
+    obtener los id's de usuarios ingresados en la base de datos
+    """
+
+    def obtener_idusuario(self,nombre):
+        self.conectar()
+        sql = 'SELECT idusuario FROM usuario WHERE nombre = %s'
+        values = (nombre,)
+        self.__cursor.execute(sql,values)
+        idusuario = self.__cursor.fetchone()
+        self.cerrar()
+        return idusuario[0]
 
     """
     Funcion para obtener productos
@@ -239,6 +328,21 @@ class DAO:
 
 
 
+    """
+    Funcion para asignar usuarios a bodega
+
+    asignar usuarios a una bodega
+
+    asignar varios usuarios a una bodega en la base de datos
+    """
+
+
+    def asignarBodega(self,bodega_usuario:Bodega_usuario):
+        self.conectar()#Se conecta a la base de datos 
+        sql = 'INSERT INTO bodega_usuario(idbodegausuario,usuario_idusuario,bodega_idbodega) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        values = (bodega_usuario.get_idbodegausuario(),bodega_usuario.get_idusuario(),bodega_usuario.get_idbodega())#Se recuperan los valores con las 3 funciones get de la clase Bodega_usuario
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
 
