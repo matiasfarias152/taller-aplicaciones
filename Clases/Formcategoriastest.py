@@ -23,14 +23,14 @@ class CategoriasListBox:
         selected_categories_listbox.pack(side=tk.RIGHT)
         selected_categories_listbox.configure(width=25, height=15)
 
-        def move_author():
+        def move_categoria():
             selected_index = categories_listbox.curselection()
             if selected_index:
-                selected_author = categories_listbox.get(selected_index[0])
+                selected_categoria = categories_listbox.get(selected_index[0])
                 categories_listbox.delete(selected_index[0])
-                selected_categories_listbox.insert(tk.END, selected_author)
+                selected_categories_listbox.insert(tk.END, selected_categoria)
 
-        def move_back_author():
+        def move_back_categoria():
             selected_index = selected_categories_listbox.curselection()
             if selected_index:
                 selected_categories = selected_categories_listbox.get(selected_index[0])
@@ -43,10 +43,10 @@ class CategoriasListBox:
 
         def filter_categories():
             search_str = filter_entry.get().lower()
-            filtered_categories = [author for author in categories if search_str in author.lower()]
+            filtered_categories = [categoria for categoria in categories if search_str in categoria.lower()]
             categories_listbox.delete(0, tk.END)
-            for author in filtered_categories:
-                categories_listbox.insert(tk.END, author)
+            for categoria in filtered_categories:
+                categories_listbox.insert(tk.END, categoria)
 
         filter_label = tk.Label(root, text="Buscar una categoria:").pack()
         filter_entry = tk.Entry(root)
@@ -55,10 +55,10 @@ class CategoriasListBox:
         filter_button = tk.Button(root, text="Buscar", command=filter_categories)
         filter_button.pack()
 
-        move_button = tk.Button(root, text="Seleccionar", command=move_author)
+        move_button = tk.Button(root, text="Seleccionar", command=move_categoria)
         move_button.pack()
 
-        move_back_button = tk.Button(root, text="Retirar", command=move_back_author)
+        move_back_button = tk.Button(root, text="Retirar", command=move_back_categoria)
         move_back_button.pack()
 
         return_button = tk.Button(root, text="Ingresar", command=return_values)
