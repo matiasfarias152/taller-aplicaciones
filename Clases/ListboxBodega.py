@@ -8,62 +8,62 @@ class ListboxBodega:
     def mostrar_ventana(self,frame):
         dao = DAO()
     
-
-        categories_listbox = tk.Listbox(frame)
+        
+        bodegas_listbox = tk.Listbox(frame)
 
         bodegas = dao.obtener_bodegas()
-        for autor in bodegas:
-            categories_listbox.insert(tk.END, autor)
-            categories_listbox.pack(side=tk.LEFT)
-            categories_listbox.configure(width=25, height=15)
+        for bodega in bodegas:
+            bodegas_listbox.insert(tk.END, bodega)
+            bodegas_listbox.pack(side=tk.LEFT)
+            bodegas_listbox.configure(width=25, height=15)
 
 
-        selected_categories_listbox = tk.Listbox(frame)
-        selected_categories_listbox.pack(side=tk.RIGHT)
-        selected_categories_listbox.configure(width=25, height=15)
+        selected_bodegas_listbox = tk.Listbox(frame)
+        selected_bodegas_listbox.pack(side=tk.RIGHT)
+        selected_bodegas_listbox.configure(width=25, height=15)
 
-        def move_author():
-            selected_index = categories_listbox.curselection()
+        def move_bodega():
+            selected_index = bodegas_listbox.curselection()
             if selected_index:
-                selected_author = categories_listbox.get(selected_index[0])
-                categories_listbox.delete(selected_index[0])
-                selected_categories_listbox.insert(tk.END, selected_author)
-            autoresget = selected_categories_listbox.get(0, tk.END)
-            self.bodega_seleccionada.set(autoresget)
+                selected_bodega = bodegas_listbox.get(selected_index[0])
+                bodegas_listbox.delete(selected_index[0])
+                selected_bodegas_listbox.insert(tk.END, selected_bodega)
+            bodegasget = selected_bodegas_listbox.get(0, tk.END)
+            self.bodega_seleccionada.set(bodegasget)
 
-        def move_back_author():
-            selected_index = selected_categories_listbox.curselection()
+        def move_back_bodega():
+            selected_index = selected_bodegas_listbox.curselection()
             if selected_index:
-                selected_categories = selected_categories_listbox.get(selected_index[0])
-                selected_categories_listbox.delete(selected_index[0])
-                categories_listbox.insert(tk.END, selected_categories)
-                autoresget = selected_categories_listbox.get(0, tk.END)
-                self.bodega_seleccionada.set(autoresget)
+                selected_categories = selected_bodegas_listbox.get(selected_index[0])
+                selected_bodegas_listbox.delete(selected_index[0])
+                bodegas_listbox.insert(tk.END, selected_categories)
+                bodegasget = selected_bodegas_listbox.get(0, tk.END)
+                self.bodega_seleccionada.set(bodegasget)
         # def return_values():
-        #     autoresget = selected_categories_listbox.get(0, tk.END)
+        #     bodegasget = selected_bodegas_listbox.get(0, tk.END)
 
-        #     # autoresget = [autor.strip('{') for autor in autoresget]
-        #     self.tipoproducto_seleccionado.set(autoresget)
+        #     # bodegasget = [bodega.strip('{') for bodega in bodegasget]
+        #     self.tipoproducto_seleccionado.set(bodegasget)
         #     # root.destroy()
 
-        def filter_categories():
+        def filter_bodegas():
             search_str = filter_entry.get().lower()
-            filtered_categories = [author for author in bodegas if search_str in author.lower()]
-            categories_listbox.delete(0, tk.END)
-            for author in filtered_categories:
-                categories_listbox.insert(tk.END, author)
+            filtered_bodegas = [bodega for bodega in bodegas if search_str in bodega.lower()]
+            bodegas_listbox.delete(0, tk.END)
+            for bodega in filtered_bodegas:
+                bodegas_listbox.insert(tk.END, bodega)
 
         filter_label = tk.Label(frame, text="Buscar Bodega:").pack()
         filter_entry = tk.Entry(frame)
         filter_entry.pack()
 
-        filter_button = tk.Button(frame, text="Buscar", command=filter_categories)
+        filter_button = tk.Button(frame, text="Buscar", command=filter_bodegas)
         filter_button.pack()
 
-        move_button = tk.Button(frame, text="Seleccionar", command=move_author)
+        move_button = tk.Button(frame, text="Seleccionar", command=move_bodega)
         move_button.pack()
 
-        move_back_button = tk.Button(frame, text="Retirar", command=move_back_author)
+        move_back_button = tk.Button(frame, text="Retirar", command=move_back_bodega)
         move_back_button.pack()
 
         # return_button = tk.Button(frame, text="Ingresar", command=return_values)
