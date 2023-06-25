@@ -8,12 +8,21 @@ class ListboxBodega:
     def mostrar_ventana(self,frame):
         dao = DAO()
     
+<<<<<<< HEAD
         
         bodegas_listbox = tk.Listbox(frame)
 
         bodegas = dao.obtener_bodegas()
         for bodega in bodegas:
             bodegas_listbox.insert(tk.END, bodega)
+=======
+
+        bodegas_listbox = tk.Listbox(frame)
+
+        bodegas = dao.obtener_bodegas()
+        for autor in bodegas:
+            bodegas_listbox.insert(tk.END, autor)
+>>>>>>> e7c9c796fa992bc67c855105106ac28a104b256b
             bodegas_listbox.pack(side=tk.LEFT)
             bodegas_listbox.configure(width=25, height=15)
 
@@ -28,12 +37,18 @@ class ListboxBodega:
                 selected_bodega = bodegas_listbox.get(selected_index[0])
                 bodegas_listbox.delete(selected_index[0])
                 selected_bodegas_listbox.insert(tk.END, selected_bodega)
+<<<<<<< HEAD
             bodegasget = selected_bodegas_listbox.get(0, tk.END)
             self.bodega_seleccionada.set(bodegasget)
+=======
+            autoresget = selected_bodegas_listbox.get(0, tk.END)
+            self.bodega_seleccionada.set(autoresget)
+>>>>>>> e7c9c796fa992bc67c855105106ac28a104b256b
 
         def move_back_bodega():
             selected_index = selected_bodegas_listbox.curselection()
             if selected_index:
+<<<<<<< HEAD
                 selected_categories = selected_bodegas_listbox.get(selected_index[0])
                 selected_bodegas_listbox.delete(selected_index[0])
                 bodegas_listbox.insert(tk.END, selected_categories)
@@ -41,6 +56,15 @@ class ListboxBodega:
                 self.bodega_seleccionada.set(bodegasget)
         # def return_values():
         #     bodegasget = selected_bodegas_listbox.get(0, tk.END)
+=======
+                selected_bodegas = selected_bodegas_listbox.get(selected_index[0])
+                selected_bodegas_listbox.delete(selected_index[0])
+                bodegas_listbox.insert(tk.END, selected_bodegas)
+                autoresget = selected_bodegas_listbox.get(0, tk.END)
+                self.bodega_seleccionada.set(autoresget)
+        # def return_values():
+        #     autoresget = selected_bodegas_listbox.get(0, tk.END)
+>>>>>>> e7c9c796fa992bc67c855105106ac28a104b256b
 
         #     # bodegasget = [bodega.strip('{') for bodega in bodegasget]
         #     self.tipoproducto_seleccionado.set(bodegasget)

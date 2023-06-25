@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import Combobox
+from tkinter import ttk
 from DAO import *
 from Clases.Formcategoriastest import *
 from Clases.Formtipoproducto import *
@@ -418,7 +419,7 @@ def frame_asignarbodega():
     #Cerrar frame anterior
     cerrar_frame()
 
-    ventana_frame = Frame(ventana_admin, width=400, height=400)
+    ventana_frame = Frame(ventana_admin, width=1000, height=1000)
 
 
     Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
@@ -426,16 +427,20 @@ def frame_asignarbodega():
 
     etiqueta_bodegas = Label(ventana_frame,text='Bodegas *')
     etiqueta_bodegas.pack()
-
     bodega_lb.mostrar_ventana(ventana_frame)
 
+
     bodegas = bodega_lb.obtener_bodegas_seleccionadas()
+
+   
     Label(ventana_frame, text="").pack()
 
     etiqueta_usuarios = Label(ventana_frame,text='Usuarios *')
     etiqueta_usuarios.pack()
-
     usuario_lb.mostrar_ventana(ventana_frame)
+
+
+
 
     usuarios = usuario_lb.obtener_usuario_seleccionados()
 
