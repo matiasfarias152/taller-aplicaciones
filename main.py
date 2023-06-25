@@ -408,6 +408,7 @@ def frame_asignarautor():
     Button(ventana_frame, text='Asignar Autor', width=20, height=1, bg='LightGreen',command=asignar_autor).pack()
     ventana_frame.pack(fill='both', expand=1)
 
+
 def frame_asignarbodega():
     global ventana_frame
     global bodegas
@@ -415,37 +416,26 @@ def frame_asignarbodega():
     bodega_lb = ListboxBodega()
     usuario_lb = ListboxUsuario()
 
-
-    #Cerrar frame anterior
+    # Cerrar frame anterior
     cerrar_frame()
 
-    ventana_frame = Frame(ventana_admin, width=1000, height=1000)
+    ventana_frame = tk.Frame(ventana_admin)
 
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Seleccione datos", bg="LightGreen")
+    etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, pady=10)
 
-    Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
-    Label(ventana_frame, text="").pack()
-
-    etiqueta_bodegas = Label(ventana_frame,text='Bodegas *')
-    etiqueta_bodegas.pack()
     bodega_lb.mostrar_ventana(ventana_frame)
-
-
     bodegas = bodega_lb.obtener_bodegas_seleccionadas()
 
-   
-    Label(ventana_frame, text="").pack()
-
-    etiqueta_usuarios = Label(ventana_frame,text='Usuarios *')
-    etiqueta_usuarios.pack()
     usuario_lb.mostrar_ventana(ventana_frame)
-
-
-
-
     usuarios = usuario_lb.obtener_usuario_seleccionados()
 
-    Button(ventana_frame, text='Asignar Usuarios', width=20, height=1, bg='LightGreen',command=asignar_bodega).pack()
-    ventana_frame.pack(fill='both', expand=1)
+    boton_asignar_usuarios = tk.Button(ventana_frame, text='Asignar Usuarios', width=20, height=1, bg='LightGreen',
+                                      command=asignar_bodega)
+    boton_asignar_usuarios.grid(row=8, column=0, columnspan=2, pady=10)
+
+    ventana_frame.pack()
+   
 def mostrar_menu():
     ventana_principal.destroy()
     global ventana_admin

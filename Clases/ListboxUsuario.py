@@ -4,24 +4,25 @@ from DAO import DAO
 class ListboxUsuario:
     def __init__(self):
         self.usuario_seleccionado = tk.StringVar()
-    
-    def mostrar_ventana(self,frame):
+
+    def mostrar_ventana(self, frame):
         dao = DAO()
-    
+
+        etiqueta_usuarios = tk.Label(frame, text="Usuarios")
+        etiqueta_usuarios.grid(row=4, column=0, padx=10, pady=10)
 
         usuarios_listbox = tk.Listbox(frame)
-        
-        
+        usuarios_listbox.grid(row=5, column=0, padx=10)
+
         usuarios = dao.obtener_usuarios()
         for usuario in usuarios:
             usuarios_listbox.insert(tk.END, usuario)
-            usuarios_listbox.pack(side=tk.LEFT)
-            usuarios_listbox.configure(width=25, height=15)
 
+        etiqueta_usuarios_seleccionados = tk.Label(frame, text="Usuarios seleccionados")
+        etiqueta_usuarios_seleccionados.grid(row=4, column=1, padx=10, pady=10)
 
         selected_usuarios_listbox = tk.Listbox(frame)
-        selected_usuarios_listbox.pack(side=tk.RIGHT)
-        selected_usuarios_listbox.configure(width=25, height=15)
+        selected_usuarios_listbox.grid(row=5, column=1, padx=10)
 
         def move_usuario():
             selected_index = usuarios_listbox.curselection()
@@ -40,37 +41,12 @@ class ListboxUsuario:
                 usuarios_listbox.insert(tk.END, selected_categories)
                 usuarioesget = selected_usuarios_listbox.get(0, tk.END)
                 self.usuario_seleccionado.set(usuarioesget)
-        # def return_values():
-        #     usuarioesget = selected_usuarios_listbox.get(0, tk.END)
-
-        #     # usuarioesget = [usuario.strip('{') for usuario in usuarioesget]
-        #     self.tipoproducto_seleccionado.set(usuarioesget)
-        #     # root.destroy()
-
-        def filter_usuarios():
-            search_str = filter_entry.get().lower()
-            filtered_usuarios = [usuario for usuario in usuarios if search_str in usuario.lower()]
-            usuarios_listbox.delete(0, tk.END)
-            for usuario in filtered_usuarios:
-                usuarios_listbox.insert(tk.END, usuario)
-
-        filter_label = tk.Label(frame, text="Buscar Usuario:").pack()
-        filter_entry = tk.Entry(frame)
-        filter_entry.pack()
-
-        filter_button = tk.Button(frame, text="Buscar", command=filter_usuarios)
-        filter_button.pack()
 
         move_button = tk.Button(frame, text="Seleccionar", command=move_usuario)
-        move_button.pack()
+        move_button.grid(row=7, column=0, pady=10)
 
         move_back_button = tk.Button(frame, text="Retirar", command=move_back_usuario)
-        move_back_button.pack()
-
-        # return_button = tk.Button(frame, text="Ingresar", command=return_values)
-        # return_button.pack()
-
-        # root.mainloop()
+        move_back_button.grid(row=7, column=1, pady=10)
 
     def obtener_usuario_seleccionados(self):
         return self.usuario_seleccionado
