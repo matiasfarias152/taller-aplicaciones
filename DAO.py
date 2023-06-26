@@ -10,6 +10,7 @@ from Clases.Autor import Autor
 from Clases.Producto_Autor import *
 from Clases.Bodega import *
 from Clases.Bodega_usuario import *
+from Clases.Copia import *
 
 
 class DAO:
@@ -345,6 +346,21 @@ class DAO:
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
+    """
+    Funcion para asignar copias a productos y bodegas
+
+    asignar copias a una bodega y producto
+
+    asignar varias copias a una bodega en la base de datos
+    """
+
+
+    def asignarCopia(self,copia:Copia):
+        self.conectar()#Se conecta a la base de datos 
+        sql = 'INSERT INTO copia(idcopia,nombre,descripcion,producto_idproducto,bodega_idbodega) VALUES (%s,%s,%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        values = (copia.get_id(),copia.get_nombre(),copia.get_descripcion(),copia.get_idproducto(),copia.get_idbodega())#Se recuperan los valores con las 5 funciones get de la clase Copia
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
 

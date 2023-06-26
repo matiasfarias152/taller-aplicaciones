@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import ttk
+from tkcalendar import *
 from DAO import *
 from Clases.Formcategoriastest import *
 from Clases.Formtipoproducto import *
@@ -12,6 +13,7 @@ from Clases.Bodega import *
 from Clases.ListboxBodega import *
 from Clases.ListboxUsuario import *
 from Clases.Bodega_usuario import *
+from Clases.Copia import *
 
 categorias_seleccionadas = []
 
@@ -118,6 +120,7 @@ def asignar_bodega():
     print(bodega)
     bodegatupla = eval(bodega)
     
+    
 
     idbodega = dao.obtener_idbodega(bodegatupla[0])
     usuario = eval(usuario)
@@ -126,6 +129,33 @@ def asignar_bodega():
         idusuario = dao.obtener_idusuario(user)
         bodega_usuario = Bodega_usuario("",idusuario,idbodega)
         dao.asignarBodega(bodega_usuario)
+
+def asignar_copia():
+    dao = DAO()
+    nombrecopia = nombre_copia.get()
+    descripcioncopia = descripcion_copia.get()
+    producto = productoscopia.get()
+    bodega = bodegascopia.get()
+    print('BODEGA SELECCIONADA: ')
+    print('PRODUCTO SELECCIONADO: ')
+    print(bodega)
+    print(producto)
+
+    productotupla = eval(producto)
+    bodegatupla = eval(bodega)
+
+    print(productotupla[0],bodegatupla[0])
+    idproducto = dao.obtener_idproductos(productotupla[0])
+    idbodega = dao.obtener_idbodega(bodegatupla[0])
+
+    cantidad = cantidad_copia.get()
+  
+
+    limite = 0
+    while(cantidad >= limite):
+        copia = Copia("",nombrecopia,descripcioncopia,idproducto,idbodega)
+        dao.asignarCopia(copia)
+        limite+=1
 
 def frame_registrarbodega():
     global nombrebodega
@@ -430,12 +460,100 @@ def frame_asignarbodega():
     usuario_lb.mostrar_ventana(ventana_frame)
     usuarios = usuario_lb.obtener_usuario_seleccionados()
 
-    boton_asignar_usuarios = tk.Button(ventana_frame, text='Asignar Usuarios', width=20, height=1, bg='LightGreen',
-                                      command=asignar_bodega)
+    boton_asignar_usuarios = tk.Button(ventana_frame, text='Asignar Usuarios', width=20, height=1, bg='LightGreen',command=asignar_bodega)
+                                      
     boton_asignar_usuarios.grid(row=8, column=0, columnspan=2, pady=10)
 
     ventana_frame.pack()
-   
+
+
+def frame_asignar_copia():
+    global ventana_frame
+    global bodegascopia
+    global productoscopia
+    global nombre_copia
+    global descripcion_copia
+    global cantidad_copia
+
+    cantidad_copia = tk.IntVar()
+    nombre_copia = tk.StringVar()
+    descripcion_copia = tk.StringVar()
+
+    producto_lb = ListboxProductos()
+    bodega_lb = ListboxBodega()
+    # Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Ingrese datos", bg="LightGreen")
+    etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+    etiqueta_nombrecopia = tk.Label(ventana_frame, text="Nombre: *" )
+    etiqueta_nombrecopia.grid(row=1, column=0, sticky="e", padx=10, pady=5)
+    entrada_nombrecopia = tk.Entry(ventana_frame, textvariable=nombre_copia, )
+    entrada_nombrecopia.grid(row=1, column=1, padx=10, pady=5)
+
+    etiqueta_descripcioncopia = tk.Label(ventana_frame, text="Descripción: *" )
+    etiqueta_descripcioncopia.grid(row=2, column=0, sticky="e", padx=10, pady=5)
+    entrada_descripcioncopia = tk.Entry(ventana_frame, textvariable=descripcion_copia, )
+    entrada_descripcioncopia.grid(row=2, column=1, padx=10, pady=5)
+
+    etiqueta_cantidadcopia = tk.Label(ventana_frame, text="Cantidad: *")
+    etiqueta_cantidadcopia.grid(row=3, column=0, sticky="e", padx=10, pady=5)
+    entrada_cantidadcopia = tk.Entry(ventana_frame, textvariable=cantidad_copia )
+    entrada_cantidadcopia.grid(row=3, column=1, padx=10, pady=5)
+
+    productoscopia = producto_lb.obtener_tipos_seleccionados()
+    etiqueta_productocopia = tk.Label(ventana_frame, text="Producto: *" )
+    etiqueta_productocopia.grid(row=4, column=0, sticky="e", padx=10, pady=5)
+    entry_productocopia = tk.Entry(ventana_frame, textvariable=productoscopia, state='readonly' )
+    entry_productocopia.grid(row=4, column=1, padx=10, pady=5)
+    tk.Button(ventana_frame, text='Seleccionar', width=20, height=1, bg='LightGreen', command=producto_lb.mostrar_ventana, ).grid(row=4, column=2, padx=10, pady=5)
+
+    bodega_frame = tk.Frame(ventana_frame)
+    bodega_lb.mostrar_ventana(bodega_frame)
+    bodega_frame.grid(row=5, column=0, columnspan=2, padx=10, pady=5)
+
+    bodegascopia = bodega_lb.obtener_bodegas_seleccionadas()
+
+    boton_asignar_copia = tk.Button(ventana_frame, text='Asignar Copias', width=20, height=1, bg='LightGreen',command=asignar_copia)
+    boton_asignar_copia.grid(row=6, column=0, columnspan=2,padx=10,pady=10)
+                                      
+
+    ventana_frame.pack()
+
+def frame_asignar_movimiento():
+    global ventana_frame
+    global fecha_movimiento
+
+    usuario_lb = ListboxUsuario()
+    # Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Ingrese datos", bg="LightGreen")
+    etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+    datos_frame = tk.Frame(ventana_frame)
+    datos_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10)  # Posición del marco
+
+    etiqueta_fechamovimiento = tk.Label(datos_frame, text="Fecha: *")
+    etiqueta_fechamovimiento.grid(row=0, column=0, padx=10, pady=5)
+
+    cal = DateEntry(datos_frame, width=12, background='LightGreen', foreground='white', borderwidth=2)
+    cal.grid(row=1, column=0, padx=10, pady=5)
+
+
+    usuario_frame = tk.Frame(ventana_frame)
+    usuario_lb.mostrar_ventana(usuario_frame)
+    usuario_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
+
+    btn = tk.Button(ventana_frame,text='Asignar movimiento',width=20, height=1, bg='LightGreen',command="")
+    btn.grid(row=4,column=0,columnspan=2,padx=10,pady=10)
+    ventana_frame.pack()
+
 def mostrar_menu():
     ventana_principal.destroy()
     global ventana_admin
@@ -459,6 +577,8 @@ def mostrar_menu():
     opciones_asignar = Menu(menu_admin)
     opciones_asignar.add_command(label='Asignar Autor',command=frame_asignarautor)
     opciones_asignar.add_command(label='Asignar Bodega', command=frame_asignarbodega)
+    opciones_asignar.add_command(label='Asignar Copia', command=frame_asignar_copia)
+    opciones_asignar.add_command(label='Asignar Movimiento',command=frame_asignar_movimiento)
 
     
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)
