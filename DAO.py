@@ -11,7 +11,7 @@ from Clases.Producto_Autor import *
 from Clases.Bodega import *
 from Clases.Bodega_usuario import *
 from Clases.Copia import *
-
+from Clases.Movimiento import *
 
 class DAO:
     def __init__(self):
@@ -357,11 +357,28 @@ class DAO:
 
     def asignarCopia(self,copia:Copia):
         self.conectar()#Se conecta a la base de datos 
-        sql = 'INSERT INTO copia(idcopia,nombre,descripcion,producto_idproducto,bodega_idbodega) VALUES (%s,%s,%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        sql = 'INSERT INTO copia(idcopia,nombre,descripcion,producto_idproducto,bodega_idbodega) VALUES (%s,%s,%s,%s,%s)'#Sentencia SQL para ingresar una copia a la base de datos
         values = (copia.get_id(),copia.get_nombre(),copia.get_descripcion(),copia.get_idproducto(),copia.get_idbodega())#Se recuperan los valores con las 5 funciones get de la clase Copia
         self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
+
+    
+    """
+    Funcion para asignar movimientos a usuarios
+
+    asignar movimientos a un usuario
+
+    asignar movimientos de un usuario a la base de datos
+    """
+
+
+    def asignarMovimiento(self,movimiento:Movimiento):
+        self.conectar()#Se conecta a la base de datos 
+        sql = 'INSERT INTO movimiento(idmov,fecha,usuario_idusuario) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un movimiento a la base de datos
+        values = (movimiento.get_id(),movimiento.get_fecha(),movimiento.get_idusuario())#Se recuperan los valores con las 3 funciones get de la clase Movimiento
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
     """

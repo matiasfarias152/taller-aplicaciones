@@ -152,10 +152,22 @@ def asignar_copia():
   
 
     limite = 0
-    while(cantidad >= limite):
+    while(cantidad-1 >= limite):
         copia = Copia("",nombrecopia,descripcioncopia,idproducto,idbodega)
         dao.asignarCopia(copia)
         limite+=1
+
+def asignarmovimiento():
+    dao = DAO()
+    fechamovimiento = fecha_movimiento
+    print(fechamovimiento)
+    usuariomovimiento = usuariomov.get()
+    
+    usuariotupla = eval(usuariomovimiento)
+    idusuario = dao.obtener_idusuario(usuariotupla[0])
+
+    movimiento = Movimiento("",fechamovimiento,idusuario)
+    dao.asignarMovimiento(movimiento)
 
 def frame_registrarbodega():
     global nombrebodega
@@ -526,7 +538,7 @@ def frame_asignar_copia():
 def frame_asignar_movimiento():
     global ventana_frame
     global fecha_movimiento
-
+    global usuariomov
     usuario_lb = ListboxUsuario()
     # Cerrar frame anterior
     cerrar_frame()
@@ -545,12 +557,14 @@ def frame_asignar_movimiento():
     cal = DateEntry(datos_frame, width=12, background='LightGreen', foreground='white', borderwidth=2)
     cal.grid(row=1, column=0, padx=10, pady=5)
 
+    fecha_movimiento = cal.get_date()
+    usuariomov = usuario_lb.obtener_usuario_seleccionados()
 
     usuario_frame = tk.Frame(ventana_frame)
     usuario_lb.mostrar_ventana(usuario_frame)
     usuario_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
 
-    btn = tk.Button(ventana_frame,text='Asignar movimiento',width=20, height=1, bg='LightGreen',command="")
+    btn = tk.Button(ventana_frame,text='Asignar movimiento',width=20, height=1, bg='LightGreen',command=asignarmovimiento)
     btn.grid(row=4,column=0,columnspan=2,padx=10,pady=10)
     ventana_frame.pack()
 
