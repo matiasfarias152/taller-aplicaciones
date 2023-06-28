@@ -21,7 +21,6 @@ def mostrar_error():
     label_error = Label(ventana_principal, text="Credenciales inválidas")
     label_error.pack()
 
-
 def cerrar_frame():
     # Cerrar frame anterior
     if 'ventana_frame' in globals():
