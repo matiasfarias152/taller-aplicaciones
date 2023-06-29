@@ -14,6 +14,9 @@ from Clases.ListboxBodega import *
 from Clases.ListboxUsuario import *
 from Clases.Bodega_usuario import *
 from Clases.Copia import *
+from Clases.ListboxCopia import *
+from Clases.BodegaMov import *
+from Clases.CopiaMovimiento import *
 
 categorias_seleccionadas = []
 
@@ -27,6 +30,7 @@ def cerrar_frame():
         ventana_frame.destroy()
 
 def verifica_login():
+    global usuario1
     usuario1 = verifica_usuario.get()
     clave1 = verifica_clave.get()
     entrada_login_usuario.delete(0, END)
@@ -34,7 +38,9 @@ def verifica_login():
     dao = DAO()
     resultado = dao.validar_credenciales(usuario1, clave1)
     if resultado and dao.validar_permisos(usuario1) == 1:
-        mostrar_menu()
+        mostrar_menuadmin()
+    elif resultado and dao.validar_permisos(usuario1) == 2:
+        mostrar_menubodeguero()
     else:
         mostrar_error()
 
@@ -156,17 +162,72 @@ def asignar_copia():
         dao.asignarCopia(copia)
         limite+=1
 
-def asignarmovimiento():
-    dao = DAO()
-    fechamovimiento = fecha_movimiento
-    print(fechamovimiento)
-    usuariomovimiento = usuariomov.get()
-    
-    usuariotupla = eval(usuariomovimiento)
-    idusuario = dao.obtener_idusuario(usuariotupla[0])
+def realizarmovimiento():
 
-    movimiento = Movimiento("",fechamovimiento,idusuario)
+    #Tabla Movimiento
+
+    dao = DAO()
+    
+    
+    fecha_movimiento = cal.get_date()
+    print(fecha_movimiento)
+
+    print('USUARIO SELECCIONADO')
+    print(usuario1)
+
+
+    idusuario = dao.obtener_idusuario(usuario1)
+
+    movimiento = Movimiento("",fecha_movimiento,idusuario)
+
     dao.asignarMovimiento(movimiento)
+
+
+    #Tabla bodegamov
+    
+    bodegasalida = salida_bodega.get()
+    bodegaentrada = entrada_bodega.get()
+
+    print(f'BODEGA SALIDA {bodegasalida}')
+    print(f'BODEGA ENTRADA {bodegaentrada}')
+
+    idbodegasalida = dao.obtener_idbodega(bodegasalida)
+    idbodegaentrada = dao.obtener_idbodega(bodegaentrada)
+    idmovimiento = dao.obtener_ultimomov()
+
+
+    print(f'ID BODEGA  SALIDA {idbodegasalida}')
+    print(f'ID BODEGA  ENTRADA {idbodegaentrada}')
+    print(f'ID MOVIMIENTO {idmovimiento}')
+    #Ingresar movimiento de bodega de salida
+
+    bodegamovsalida = BodegaMov("",0,idmovimiento,idbodegasalida)
+
+    dao.registrarBodegamov(bodegamovsalida)
+
+
+    #Ingresar movimiento de bodega de entrada
+
+    bodegamoventrada = BodegaMov("",1,idmovimiento,idbodegaentrada)
+
+    dao.registrarBodegamov(bodegamoventrada)
+
+
+    #Ingresar copia_movimiento 
+
+    copia = copiamovimiento.get()
+    print(f'COPIA MOVIMIENTO: {copia}')
+    copiatupla = eval(copia)
+
+    print(copiatupla)
+
+
+    idcopia = dao.obtener_idcopia(copiatupla[0])
+
+    copia_movimiento = CopiaMovimiento("",idcopia,idmovimiento)
+
+    dao.registrarCopiamovimiento(copia_movimiento)
+
 
 def frame_registrarbodega():
     global nombrebodega
@@ -534,15 +595,23 @@ def frame_asignar_copia():
 
     ventana_frame.pack()
 
-def frame_asignar_movimiento():
+def frame_realizarmov():
+    dao = DAO()
+    #verifica usuario se saca el usuario
+
+    global copiamovimiento
     global ventana_frame
-    global fecha_movimiento
-    global usuariomov
-    usuario_lb = ListboxUsuario()
+    global cal
+    global entrada_bodega
+    global salida_bodega
+    
+    copias_lb = ListboxCopia()
+
+
     # Cerrar frame anterior
     cerrar_frame()
 
-    ventana_frame = tk.Frame(ventana_admin)
+    ventana_frame = tk.Frame(ventana_bodeguero)
 
     etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Ingrese datos", bg="LightGreen")
     etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
@@ -556,22 +625,56 @@ def frame_asignar_movimiento():
     cal = DateEntry(datos_frame, width=12, background='LightGreen', foreground='white', borderwidth=2)
     cal.grid(row=1, column=0, padx=10, pady=5)
 
-    fecha_movimiento = cal.get_date()
-    usuariomov = usuario_lb.obtener_usuario_seleccionados()
+   
 
-    usuario_frame = tk.Frame(ventana_frame)
-    usuario_lb.mostrar_ventana(usuario_frame)
-    usuario_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
+    bodegas = dao.obtener_bodegas()
 
-    btn = tk.Button(ventana_frame,text='Asignar movimiento',width=20, height=1, bg='LightGreen',command=asignarmovimiento)
-    btn.grid(row=4,column=0,columnspan=2,padx=10,pady=10)
+    bodega_frame = tk.Frame(ventana_frame)
+
+    # entrada_rol = Combobox(ventana_frame, values=roles, state='readonly')
+    # entrada_rol.pack()
+
+    etiqueta_bodegasalida = tk.Label(bodega_frame,text='Bodega salida')
+    etiqueta_bodegasalida.grid(row=2,column=0,padx=10,pady=5)
+    salida_bodega = Combobox(bodega_frame, values = bodegas, state='readonly')
+    salida_bodega.grid(row=3,column=0,columnspan=2,padx=10,pady=5)
+
+    etiqueta_bodegaentrada = tk.Label(bodega_frame,text='Bodega entrada')
+    etiqueta_bodegaentrada.grid(row=4,column=0,padx=10,pady=5)
+    entrada_bodega= Combobox(bodega_frame,values=bodegas,state='readonly')
+    entrada_bodega.grid(row=5,column=0,columnspan=2,padx=10,pady=5)
+
+
+    bodega_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
+
+
+    copias_frame = tk.Frame(ventana_frame)
+
+    etiqueta_copias = tk.Label(copias_frame,text='Seleccione producto')
+    etiqueta_copias.grid(row=0,column=0,columnspan=2,padx=10,pady=5)
+
+    copias_lb.mostrar_ventana(copias_frame)
+
+    copiamovimiento = copias_lb.obtener_copias_seleccionadas()
+    copias_frame.grid(row=4,column=0,columnspan=2,padx=10,pady=5)
+    # productos_frame = tk.Frame(ventana_frame)
+
+    # productos= productos_lb.obtener_tipos_seleccionados()
+
+    # productos_lb.mostrar_ventana(productos_frame)
+
+
+    # productos_frame.grid(row=4,column=0,columnspan=2,padx=10,pady=5)
+
+    btn = tk.Button(ventana_frame,text='Realizar movimiento',width=20, height=1, bg='LightGreen',command=realizarmovimiento)
+    btn.grid(row=7,column=0,columnspan=2,padx=10,pady=10)
     ventana_frame.pack()
 
-def mostrar_menu():
+def mostrar_menuadmin():
     ventana_principal.destroy()
     global ventana_admin
     ventana_admin = Tk()
-    ventana_admin.title("Menú principal")
+    ventana_admin.title("Menú Admin")
 
     menu_admin = Menu(ventana_admin)
     opciones_registrar = Menu(menu_admin)
@@ -591,7 +694,7 @@ def mostrar_menu():
     opciones_asignar.add_command(label='Asignar Autor',command=frame_asignarautor)
     opciones_asignar.add_command(label='Asignar Bodega', command=frame_asignarbodega)
     opciones_asignar.add_command(label='Asignar Copia', command=frame_asignar_copia)
-    opciones_asignar.add_command(label='Asignar Movimiento',command=frame_asignar_movimiento)
+
 
     
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)
@@ -602,14 +705,37 @@ def mostrar_menu():
 
     ventana_admin.mainloop()
 
+def mostrar_menubodeguero():
+    ventana_principal.destroy()
+    global ventana_bodeguero
+    ventana_bodeguero = Tk()
+    ventana_bodeguero.title('Menú Bodeguero')
+
+    menu_bodeguero = Menu(ventana_bodeguero)
+    opcion_realizarmov = Menu(menu_bodeguero)
+    opcion_realizarmov.add_command(label='Realizar movimiento',command=frame_realizarmov)
+
+    opcion_gestionar= Menu(menu_bodeguero)
+    opcion_gestionar.add_command(label='Gestionar bodegas',command="")
+
+    menu_bodeguero.add_cascade(label='Realizar movimiento',menu=opcion_realizarmov)
+    menu_bodeguero.add_cascade(label='Gestionar bodegas',menu=opcion_gestionar)
+
+
+    ventana_bodeguero.config(menu=menu_bodeguero)
+    ventana_bodeguero.mainloop()
+    
+global verifica_usuario
 
 ventana_principal = Tk()
 ventana_principal.geometry("300x250")
 ventana_principal.title("Login con tkinter")
 Label(text="").pack()
 
+
 verifica_usuario = StringVar()
 verifica_clave = StringVar()
+
 
 Label(ventana_principal, text="Nombre de usuario * ").pack()
 

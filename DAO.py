@@ -12,8 +12,11 @@ from Clases.Bodega import *
 from Clases.Bodega_usuario import *
 from Clases.Copia import *
 from Clases.Movimiento import *
+from Clases.BodegaMov import *
+from Clases.CopiaMovimiento import *
 
 class DAO:
+    
     def __init__(self):
         self.__conexion = None
         self.__cursor = None
@@ -182,6 +185,39 @@ class DAO:
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
+
+
+    """
+    Funcion para registrar movimientos en bodegas
+
+    registrar un movimiento en la base de datos
+
+    registrar un movimiento vinculado a una bodega en la base de datos
+    """
+
+    def registrarBodegamov(self,bodegamov:BodegaMov):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'INSERT INTO bodega_movimiento(idbodegamov,estado,movimiento_idmov,bodega_idbodega) VALUES (%s,%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        values = (bodegamov.get_id(),bodegamov.get_estado(),bodegamov.get_idmov(), bodegamov.get_idbodega())#Se recuperan los valores con las 4 funciones get de la clase BodegaMov
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la conexion a la base de datos con un commit
+
+    """
+    Funcion para registrar movimientos de copias
+
+    registrar un movimiento de copias en la base de datos
+
+    ingresar un movimiento de copias en la base de datos
+    """
+
+    def registrarCopiamovimiento(self,copiamovimiento:CopiaMovimiento):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'INSERT INTO copia_movimiento(idcopiamov,copia_idcopia,movimiento_idmov) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
+        values = (copiamovimiento.get_idcopiamov(),copiamovimiento.get_idcopia(),copiamovimiento.get_idmov())#Se recuperan los valores con las 4 funciones get de la clase BodegaMov
+        self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
+        self.cerrar()#Se cierra la conexion a la base de datos con un commit
+
+
     """
     Funcion para obtener bodegas
 
@@ -199,6 +235,45 @@ class DAO:
         bodegas = [producto[0].strip('{') for producto in bodegas]
         return bodegas
     
+
+
+
+    
+    """
+    Funcion para obtener copias
+
+    obtener las copias disponibles
+
+    obtener las copias ingresadas en la base de datos
+    """
+
+    def obtener_copias(self):
+        self.conectar()
+        sql = 'SELECT nombre FROM copia'
+        self.__cursor.execute(sql)
+        copias = self.__cursor.fetchall()
+        self.cerrar()
+        copias = [copia[0].strip('{') for copia in copias]
+        return copias
+    
+
+
+    """
+    Funcion para obtener el ultimo id de los movimientos
+
+    obtener el id del ultimo movimiento disponible
+
+    obtener id del ultimo movimiento registrado en la base de datos
+    """
+
+    def obtener_ultimomov(self):
+        self.conectar()
+        sql = 'SELECT MAX(idmov) FROM movimiento'
+        self.__cursor.execute(sql)
+        idmov = self.__cursor.fetchone()
+        self.cerrar()
+        return idmov[0]
+
     """
     Funcion para obtener los ids de las bodegas
 
@@ -217,6 +292,23 @@ class DAO:
         
         return idbodega[0]
 
+    """
+    Funcion para obtener los ids de las copias
+
+    obtener los id's de las copias disponibles
+
+    obtener los id's de copias ingresadas en la base de datos
+    """
+
+    def obtener_idcopia(self,nombre):
+        self.conectar()
+        sql = 'SELECT idcopia FROM copia WHERE nombre = %s LIMIT 1'
+        values = (nombre,)
+        self.__cursor.execute(sql,values)
+        idcopia = self.__cursor.fetchone()
+        self.cerrar()
+        
+        return idcopia[0]
 
     
     """
