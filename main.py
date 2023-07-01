@@ -215,18 +215,33 @@ def realizarmovimiento():
 
     #Ingresar copia_movimiento 
 
-    copia = copiamovimiento.get()
-    print(f'COPIA MOVIMIENTO: {copia}')
-    copiatupla = eval(copia)
+    copias = copiamovimiento.get()
+    
+    codigo = ""
+    for letra in copias:
+        if letra != "(" and letra != "'" and letra != "-" and copias != None:
+            codigo+= letra
+        elif letra == "-":
+            break  
+    
+    print(f'CODIGO : {codigo}')
 
-    print(copiatupla)
+    codigocopia = int(codigo)
+
+    print(f'CODIGO ENTERO TIPO: {type(codigocopia)}  y codigo: {codigocopia}')
+    
 
 
-    idcopia = dao.obtener_idcopia(copiatupla[0])
 
-    copia_movimiento = CopiaMovimiento("",idcopia,idmovimiento)
+    copia_movimiento = CopiaMovimiento("",codigocopia,idmovimiento)
 
     dao.registrarCopiamovimiento(copia_movimiento)
+
+
+    #Updatear tabla copia
+
+    dao.actualizar_idbodegacopias(idbodegaentrada,codigocopia)
+
 
 
 def frame_registrarbodega():
@@ -639,11 +654,15 @@ def frame_realizarmov():
     salida_bodega = Combobox(bodega_frame, values = bodegas, state='readonly')
     salida_bodega.grid(row=3,column=0,columnspan=2,padx=10,pady=5)
 
-    etiqueta_bodegaentrada = tk.Label(bodega_frame,text='Bodega entrada')
-    etiqueta_bodegaentrada.grid(row=4,column=0,padx=10,pady=5)
-    entrada_bodega= Combobox(bodega_frame,values=bodegas,state='readonly')
-    entrada_bodega.grid(row=5,column=0,columnspan=2,padx=10,pady=5)
+    btnprint = tk.Button(bodega_frame,text='Mostrar copias',width=20, height=1, bg='LightGreen',command=mostrarcopiaslist)
+    btnprint.grid(row=4,column=0,columnspan=2,padx=10,pady=10)
 
+    etiqueta_bodegaentrada = tk.Label(bodega_frame,text='Bodega entrada')
+    etiqueta_bodegaentrada.grid(row=5,column=0,padx=10,pady=5)
+    entrada_bodega= Combobox(bodega_frame,values=bodegas,state='readonly')
+    entrada_bodega.grid(row=6,column=0,columnspan=2,padx=10,pady=5)
+
+  
 
     bodega_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5)
 
@@ -662,14 +681,32 @@ def frame_realizarmov():
     # productos= productos_lb.obtener_tipos_seleccionados()
 
     # productos_lb.mostrar_ventana(productos_frame)
-
+    
 
     # productos_frame.grid(row=4,column=0,columnspan=2,padx=10,pady=5)
 
     btn = tk.Button(ventana_frame,text='Realizar movimiento',width=20, height=1, bg='LightGreen',command=realizarmovimiento)
     btn.grid(row=7,column=0,columnspan=2,padx=10,pady=10)
+
+ 
     ventana_frame.pack()
 
+def mostrarcopiaslist():
+
+    bodegaselec = salida_bodega.get()
+    print(f'BODEGA SELECCIONADA: {bodegaselec}')
+    copiaslb = ListboxCopia()
+    dao = DAO()
+    bodegasalida = salida_bodega.get()
+    idbodegasalida = dao.obtener_idbodega(bodegasalida)
+    copiaslb.mostrar_copias(idbodegasalida)
+
+
+    
+
+
+
+    
 def mostrar_menuadmin():
     ventana_principal.destroy()
     global ventana_admin

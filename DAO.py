@@ -247,10 +247,11 @@ class DAO:
     obtener las copias ingresadas en la base de datos
     """
 
-    def obtener_copias(self):
+    def obtener_copias(self,idbodega):
         self.conectar()
-        sql = 'SELECT nombre FROM copia'
-        self.__cursor.execute(sql)
+        sql = 'SELECT CONCAT (idcopia,"-",nombre) FROM copia WHERE bodega_idbodega = %s'
+        values = (idbodega,)
+        self.__cursor.execute(sql,values)
         copias = self.__cursor.fetchall()
         self.cerrar()
         copias = [copia[0].strip('{') for copia in copias]
@@ -309,6 +310,7 @@ class DAO:
         self.cerrar()
         
         return idcopia[0]
+
 
     
     """
@@ -570,3 +572,19 @@ class DAO:
         return idcategoria[0]
 
     
+
+    """
+    Funcion para actualizar los id's de bodega en las copias
+
+    obtener los id's de bodegas de las copias y actualizarlos
+
+    Actualizar los bodega_idbodega de la tabla copia ingresadas en la base de datos
+    """
+
+    def actualizar_idbodegacopias(self,idbodega,idcopia):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'UPDATE copia SET bodega_idbodega = %s WHERE idcopia = %s'
+        values = (idbodega,idcopia)
+        self.__cursor.execute(sql,values)
+        self.cerrar()
+ 

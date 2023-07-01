@@ -8,15 +8,14 @@ class ListboxCopia:
     def mostrar_ventana(self, frame):
         dao = DAO()
 
+        global selected_copias_listbox
+        global copias_listbox
         etiqueta_copias = tk.Label(frame, text="Copias")
         etiqueta_copias.grid(row=1, column=0, padx=10, pady=10)
 
         copias_listbox = tk.Listbox(frame)
         copias_listbox.grid(row=2, column=0, padx=10)
 
-        copias = dao.obtener_copias()
-        for copia in copias:
-            copias_listbox.insert(tk.END, copia)
 
         etiqueta_copias_seleccionadas = tk.Label(frame, text="Copias seleccionadas")
         etiqueta_copias_seleccionadas.grid(row=1, column=1, padx=10, pady=10)
@@ -50,3 +49,12 @@ class ListboxCopia:
 
     def obtener_copias_seleccionadas(self):
         return self.copia_seleccionada
+    
+    def mostrar_copias(self,idbodega):
+
+        copias_listbox.delete(0, tk.END)
+        selected_copias_listbox.delete(0, tk.END)
+        dao = DAO()
+        copias = dao.obtener_copias(idbodega)
+        for copia in copias:
+            copias_listbox.insert(tk.END, copia)
