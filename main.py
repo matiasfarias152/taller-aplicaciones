@@ -90,10 +90,33 @@ def informefiltrado():
 
     #Añadirle los datos
     
-    # producto = dao.obtenerproductosfiltro(bodega,editorial)
+    bodegasel = bodegainforme.get()
+    idbodega = dao.obtener_idbodega(bodegasel)
+
+    editorialsel = editorialesinforme.get()
+    editorialtupla = eval(editorialsel)
+    ideditorial = dao.obtener_idautor(editorialtupla[0])
+
+    datos = dao.obtenerproductosfiltro(idbodega,ideditorial)
+    
+    indice = 0
+    
+    for fila in datos:
+        
+        nombre_copia = fila[0]
+        cantidad = fila[1]
+        tipo_producto = fila[2]
+        treeview.insert(parent='',index='end',iid=indice, text='',values=(nombre_copia,cantidad,tipo_producto))
+        print(f"Nombre de la copia: {nombre_copia}")
+        print(f"Cantidad: {cantidad}")
+        print(f"Tipo de producto: {tipo_producto}")
+        print("---")
+
+        indice+=1
 
 
-    # treeview.insert(parent='',index='end',iid=0, text='', values=(bodegasalida,bodegaentrada,copias,cantidad,usuario1))
+    treeview.pack(pady=20)
+ 
 
 
 
@@ -658,7 +681,8 @@ def frame_asignarbodega():
 
 def frame_informebodega():
     global ventana_frame
-
+    global bodegainforme
+    global editorialesinforme
     editorial_lb = ListboxAutor()
     dao = DAO()
     #Cerrar frame anterior
@@ -670,9 +694,9 @@ def frame_informebodega():
     etiqueta_bodegas.grid(row=0,column=0,columnspan=2,pady=10)
 
     bodegas= dao.obtener_bodegas()
-    bodega = Combobox(ventana_frame, values = bodegas, state='readonly')
+    bodegainforme = Combobox(ventana_frame, values = bodegas, state='readonly')
 
-    bodega.grid(row=1,column=0,columnspan=2,pady=10)
+    bodegainforme.grid(row=1,column=0,columnspan=2,pady=10)
 
     etiqueta_editoriales = tk.Label(ventana_frame,text='Seleccione editorial', bg='LightGreen')
     etiqueta_editoriales.grid(row=2,column=0,columnspan=2,pady=10)
@@ -680,6 +704,8 @@ def frame_informebodega():
     editorial_frame = tk.Frame(ventana_frame)
     editorial_lb.mostrar_ventana(editorial_frame)
     editorial_frame.grid(row=3,column=0,columnspan=2,pady=10)
+
+    editorialesinforme = editorial_lb.obtener_tipos_seleccionados()
 
     btnverinforme = tk.Button(ventana_frame,text='Filtrar informe',width=20, height=1, bg='LightGreen',command=informefiltrado)
     btnverinforme.grid(row=4,column=0,columnspan=2,pady=10)

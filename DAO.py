@@ -571,7 +571,26 @@ class DAO:
         print(idcategoria)
         return idcategoria[0]
 
+
+    """
+    Funcion para obtener productos filtrandolos por bodega y editorial
+
+    obtener los productos filtrados disponibles
+
+    obtener los productos disponibles en la base de datos
+    """
+
+    def obtenerproductosfiltro(self,bodega,editorial):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'SELECT copia.nombre, COUNT(*)AS cantidad, tipoproducto.tipo AS tipo_producto FROM copia JOIN producto ON copia.producto_idproducto = producto.idproducto JOIN producto_autor ON producto.idproducto = producto_autor.producto_idproducto JOIN autor ON producto_autor.autor_idautor = autor.idautor JOIN bodega ON copia.bodega_idbodega = bodega.idbodega JOIN tipoproducto ON producto.tipoproducto_idtipo = tipoproducto.idtipo WHERE bodega.idbodega = %s AND autor.idautor = %s GROUP BY copia.nombre, tipoproducto.tipo'
+        values = (bodega,editorial)
+        self.__cursor.execute(sql,values)
+        resultados = self.__cursor.fetchall()
+        self.cerrar()
+        return resultados
     
+
+    # def obtener
 
     """
     Funcion para actualizar los id's de bodega en las copias
