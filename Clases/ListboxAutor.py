@@ -46,19 +46,19 @@ class ListboxAutor:
         #     self.tipoproducto_seleccionado.set(autoresget)
         #     # root.destroy()
 
-        def filter_autores():
-            search_str = filter_entry.get().lower()
-            filtered_autores = [author for author in autores if search_str in author.lower()]
-            autores_listbox.delete(0, tk.END)
-            for author in filtered_autores:
-                autores_listbox.insert(tk.END, author)
+        # def filter_autores():
+        #     search_str = filter_entry.get().lower()
+        #     filtered_autores = [author for author in autores if search_str in author.lower()]
+        #     autores_listbox.delete(0, tk.END)
+        #     for author in filtered_autores:
+        #         autores_listbox.insert(tk.END, author)
 
-        filter_label = tk.Label(frame, text="Buscar Autor:").pack()
-        filter_entry = tk.Entry(frame)
-        filter_entry.pack()
+        # filter_label = tk.Label(frame, text="Buscar Autor:").pack()
+        # filter_entry = tk.Entry(frame)
+        # filter_entry.pack()
 
-        filter_button = tk.Button(frame, text="Buscar", command=filter_autores)
-        filter_button.pack()
+        # filter_button = tk.Button(frame, text="Buscar", command=filter_autores)
+        # filter_button.pack()
 
         move_button = tk.Button(frame, text="Seleccionar", command=move_author)
         move_button.pack()

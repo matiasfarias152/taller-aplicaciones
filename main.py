@@ -29,6 +29,16 @@ def cerrar_frame():
     if 'ventana_frame' in globals():
         ventana_frame.destroy()
 
+def cerrar_frameprev():
+    # Cerrar frame anterior
+    if 'ventanaprev' in globals():
+        ventanaprev.destroy()
+
+def cerrar_frameinformefiltrado():
+    #Cerrar frame anterior
+    if 'ventanainformefiltrado' in globals():
+        ventanainformefiltrado.destroy()
+
 def verifica_login():
     global usuario1
     usuario1 = verifica_usuario.get()
@@ -44,6 +54,99 @@ def verifica_login():
     else:
         mostrar_error()
 
+def informefiltrado():
+    global ventanainformefiltrado
+
+    dao = DAO()
+    #Cerrar ventana anterior
+    cerrar_frameinformefiltrado()
+
+
+    #Ventana informe
+
+    ventanainformefiltrado = Tk()
+    ventanainformefiltrado.title('Ventana informe')
+    ventanainformefiltrado.geometry('600x600')
+
+    treeview = ttk.Treeview(ventanainformefiltrado)
+
+    #Definir columnas
+
+    treeview['columns'] = ('Producto','Cantidad','Tipo')
+
+    #Darle formato a las columnas
+
+    treeview.column('#0', width=120, minwidth=25)
+    treeview.column('Producto', anchor=W, width=120, minwidth=25)
+    treeview.column('Cantidad', anchor=W, width=120, minwidth=25)
+    treeview.column('Tipo', anchor=W, width=120, minwidth=25)
+
+    #Headers
+
+    treeview.heading('#0',text='Etiqueta',anchor=W)
+    treeview.heading('Producto', text='Producto', anchor=W)
+    treeview.heading('Cantidad', text='Cantidad', anchor=W)
+    treeview.heading('Tipo', text='Tipo', anchor=W)
+
+    #Añadirle los datos
+    
+    # producto = dao.obtenerproductosfiltro(bodega,editorial)
+
+
+    # treeview.insert(parent='',index='end',iid=0, text='', values=(bodegasalida,bodegaentrada,copias,cantidad,usuario1))
+
+
+
+
+
+
+
+def previsualizarmov():
+    global ventanaprev
+
+    #Cerrar ventana anterior
+    cerrar_frameprev()
+
+    #Ventana previsualizacion
+
+    ventanaprev = Tk()
+    ventanaprev.title('Ventana informe')
+    ventanaprev.geometry('600x600')
+    treeview = ttk.Treeview(ventanaprev)
+
+    #Definir las columnas
+
+    treeview['columns'] = ('Bodega origen', 'Bodega destino','Copia','Cantidad','Usuario')
+
+    #Darle formato a las columnas
+
+    treeview.column('#0', width=120, minwidth=25)
+    treeview.column('Bodega origen', anchor=W, width=120)
+    treeview.column('Bodega destino', anchor=W, width=120)
+    treeview.column('Copia', anchor=W, width=120)
+    treeview.column('Cantidad', anchor=W, width= 80)
+    treeview.column('Usuario', anchor= CENTER,width=80)
+
+    #Headers
+
+    treeview.heading('#0',text='Label',anchor=W)
+    treeview.heading('Bodega origen', text='Bodega origen', anchor=W)
+    treeview.heading('Bodega destino', text='Bodega destino', anchor=W)
+    treeview.heading('Copia', text='Copia', anchor=W)
+    treeview.heading('Cantidad',text='Cantidad', anchor=W)
+    treeview.heading('Usuario', text='Usuario', anchor=CENTER)
+
+    #Añadir datos al treeview
+    bodegasalida = salida_bodega.get()
+    bodegaentrada = entrada_bodega.get()
+    copias = copiamovimiento.get()
+    cantidad = 1
+    
+
+    treeview.insert(parent='',index='end',iid=0, text='Movimiento', values=(bodegasalida,bodegaentrada,copias,cantidad,usuario1))
+    
+
+    treeview.pack(pady=20)
 
 def registro_usuario():
     dao = DAO()
@@ -553,6 +656,38 @@ def frame_asignarbodega():
 
     ventana_frame.pack()
 
+def frame_informebodega():
+    global ventana_frame
+
+    editorial_lb = ListboxAutor()
+    dao = DAO()
+    #Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_bodegas = tk.Label(ventana_frame,text='Seleccione bodega', bg='LightGreen')
+    etiqueta_bodegas.grid(row=0,column=0,columnspan=2,pady=10)
+
+    bodegas= dao.obtener_bodegas()
+    bodega = Combobox(ventana_frame, values = bodegas, state='readonly')
+
+    bodega.grid(row=1,column=0,columnspan=2,pady=10)
+
+    etiqueta_editoriales = tk.Label(ventana_frame,text='Seleccione editorial', bg='LightGreen')
+    etiqueta_editoriales.grid(row=2,column=0,columnspan=2,pady=10)
+
+    editorial_frame = tk.Frame(ventana_frame)
+    editorial_lb.mostrar_ventana(editorial_frame)
+    editorial_frame.grid(row=3,column=0,columnspan=2,pady=10)
+
+    btnverinforme = tk.Button(ventana_frame,text='Filtrar informe',width=20, height=1, bg='LightGreen',command=informefiltrado)
+    btnverinforme.grid(row=4,column=0,columnspan=2,pady=10)
+
+    ventana_frame.pack()
+
+
+
 
 def frame_asignar_copia():
     global ventana_frame
@@ -688,6 +823,9 @@ def frame_realizarmov():
     btn = tk.Button(ventana_frame,text='Realizar movimiento',width=20, height=1, bg='LightGreen',command=realizarmovimiento)
     btn.grid(row=7,column=0,columnspan=2,padx=10,pady=10)
 
+    btnprevisualizar = tk.Button(ventana_frame,text='Previsualizar',width=20, height=1, bg='LightGreen',command=previsualizarmov)
+    btnprevisualizar.grid(row=8,column=0,columnspan=2,padx=10,pady=10)
+
  
     ventana_frame.pack()
 
@@ -732,11 +870,14 @@ def mostrar_menuadmin():
     opciones_asignar.add_command(label='Asignar Bodega', command=frame_asignarbodega)
     opciones_asignar.add_command(label='Asignar Copia', command=frame_asignar_copia)
 
-
+    opciones_gestion = Menu(menu_admin)
+    opciones_gestion.add_command(label='Informe por bodega',command=frame_informebodega)
+    opciones_gestion.add_command(label='Informe todos movimientos',command='')
     
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)
     menu_admin.add_cascade(label='Eliminar', menu=opciones_eliminar)
     menu_admin.add_cascade(label='Asignar', menu =opciones_asignar)
+    menu_admin.add_cascade(label='Gestion', menu=opciones_gestion)
 
     ventana_admin.config(menu=menu_admin)
 
