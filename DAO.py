@@ -588,16 +588,45 @@ class DAO:
         resultados = self.__cursor.fetchall()
         self.cerrar()
         return resultados
-    
-    def eliminarBodega(self,bodega):
-        self.conectar()
-        sql = 'DELETE FROM `bodega` WHERE 0'
+
+    def obtenerstockbodegas(self):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'SELECT bodega.nombre, bodega.ubicacion, COUNT(*) AS cantidad FROM bodega JOIN copia ON copia.bodega_idbodega = bodega.idbodega GROUP BY bodega.nombre'
         self.__cursor.execute(sql)
-        bodegas = self.__cursor.fetchall()
+        resultados = self.__cursor.fetchall()
         self.cerrar()
-        bodegas = [producto[0].strip('{') for producto in bodegas]
-        return bodegas
+        return resultados
+
+    def obtenermovimientosusuario(self):
+        self.conectar()#Se conecta a la base de datos
+        sql = 'SELECT movimiento.idmov, movimiento.fecha, movimiento.usuario_idusuario, usuario.nombre FROM movimiento JOIN usuario ON movimiento.usuario_idusuario = usuario.idusuario'
+        self.__cursor.execute(sql)
+        resultados = self.__cursor.fetchall()
+        self.cerrar()
+        return resultados
+
     
+    def eliminarBodega(self,idbodega):
+        self.conectar()
+        sql = 'DELETE FROM `bodega` WHERE idbodega = %s'
+        values = (idbodega,)
+        self.__cursor.execute(sql,values)
+        self.cerrar()
+
+    def eliminarAutor(self,idautor):
+        self.conectar()
+        sql = 'DELETE FROM `autor` WHERE idautor = %s'
+        values = (idautor,)
+        self.__cursor.execute(sql,values)
+        self.cerrar()
+
+    
+    def eliminarProducto(self,idproducto):
+        self.conectar()
+        sql = 'DELETE FROM `producto` WHERE idproducto = %s'
+        values = (idproducto,)
+        self.__cursor.execute(sql,values)
+        self.cerrar()
 
     # def obtener
 

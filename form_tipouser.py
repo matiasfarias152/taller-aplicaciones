@@ -18,7 +18,6 @@ usuario_seleccionado.pack() # Lo agregamos a la ventana
 
 
 
-
 def obtener_tipodeusuario(): #Ingresar tipo de usuario a la base de datos
     dao = DAO() #Inicializacion del DAO
     usuario = usuario_seleccionado.get() #Obtener el tipo de usuario

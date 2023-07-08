@@ -5,22 +5,24 @@ class ListboxAutor:
     def __init__(self):
         self.tipoproducto_seleccionado = tk.StringVar()
     
-    def mostrar_ventana(self,frame):
+    def mostrar_ventana(self, frame):
         dao = DAO()
-    
+
+        etiqueta_autores = tk.Label(frame, text="Autores")
+        etiqueta_autores.grid(row=1, column=0, padx=10, pady=10)
 
         autores_listbox = tk.Listbox(frame)
+        autores_listbox.grid(row=2, column=0, padx=10)
 
         autores = dao.obtener_autores()
         for autor in autores:
             autores_listbox.insert(tk.END, autor)
-            autores_listbox.pack(side=tk.LEFT)
-            autores_listbox.configure(width=25, height=15)
 
+        etiqueta_autores_seleccionados = tk.Label(frame, text="Autores seleccionados")
+        etiqueta_autores_seleccionados.grid(row=1, column=1, padx=10, pady=10)
 
         selected_autores_listbox = tk.Listbox(frame)
-        selected_autores_listbox.pack(side=tk.RIGHT)
-        selected_autores_listbox.configure(width=25, height=15)
+        selected_autores_listbox.grid(row=2, column=1, padx=10)
 
         def move_author():
             selected_index = autores_listbox.curselection()
@@ -39,37 +41,12 @@ class ListboxAutor:
                 autores_listbox.insert(tk.END, selected_autores)
                 autoresget = selected_autores_listbox.get(0, tk.END)
                 self.tipoproducto_seleccionado.set(autoresget)
-        # def return_values():
-        #     autoresget = selected_autores_listbox.get(0, tk.END)
-
-        #     # autoresget = [autor.strip('{') for autor in autoresget]
-        #     self.tipoproducto_seleccionado.set(autoresget)
-        #     # root.destroy()
-
-        # def filter_autores():
-        #     search_str = filter_entry.get().lower()
-        #     filtered_autores = [author for author in autores if search_str in author.lower()]
-        #     autores_listbox.delete(0, tk.END)
-        #     for author in filtered_autores:
-        #         autores_listbox.insert(tk.END, author)
-
-        # filter_label = tk.Label(frame, text="Buscar Autor:").pack()
-        # filter_entry = tk.Entry(frame)
-        # filter_entry.pack()
-
-        # filter_button = tk.Button(frame, text="Buscar", command=filter_autores)
-        # filter_button.pack()
 
         move_button = tk.Button(frame, text="Seleccionar", command=move_author)
-        move_button.pack()
+        move_button.grid(row=3, column=0, pady=10)
 
         move_back_button = tk.Button(frame, text="Retirar", command=move_back_author)
-        move_back_button.pack()
-
-        # return_button = tk.Button(frame, text="Ingresar", command=return_values)
-        # return_button.pack()
-
-        # root.mainloop()
+        move_back_button.grid(row=3, column=1, pady=10)
 
     def obtener_tipos_seleccionados(self):
         return self.tipoproducto_seleccionado

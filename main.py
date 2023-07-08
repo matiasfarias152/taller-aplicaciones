@@ -17,6 +17,7 @@ from Clases.Copia import *
 from Clases.ListboxCopia import *
 from Clases.BodegaMov import *
 from Clases.CopiaMovimiento import *
+from tkinter import messagebox
 
 categorias_seleccionadas = []
 
@@ -39,6 +40,15 @@ def cerrar_frameinformefiltrado():
     if 'ventanainformefiltrado' in globals():
         ventanainformefiltrado.destroy()
 
+def cerrar_ventanainformegestion():
+    #Cerrar frame anterior
+    if 'ventanainformegestion' in globals():
+        ventanainformefiltrado.destroy()
+
+def cerrar_ventanainformeusuarios():
+    #Cerrar frame anterior
+    if 'ventanainformeusuarios' in globals():
+        ventanainformeusuarios.destroy()
 def verifica_login():
     global usuario1
     usuario1 = verifica_usuario.get()
@@ -53,6 +63,122 @@ def verifica_login():
         mostrar_menubodeguero()
     else:
         mostrar_error()
+
+def informegestion():
+    global ventanainformegestion
+
+    dao = DAO()
+
+    #Cerrar ventana anterior 
+    # 
+    cerrar_ventanainformegestion() 
+
+    #Ventana informe
+
+    ventanainformegestion = Tk()
+    ventanainformegestion.title('Ventana Gestion')
+    ventanainformegestion.geometry('600x600')
+
+    treeview = ttk.Treeview(ventanainformegestion)
+
+    #Definir columnas
+
+    treeview['columns'] = ('Nombre','Ubicacion','Cantidad de productos')
+
+    #Darle formato a las columnas
+
+    treeview.column('#0', width=120, minwidth=25)
+    treeview.column('Nombre', anchor=W, width=120, minwidth=25)
+    treeview.column('Ubicacion', anchor=W, width=120, minwidth=25)
+    treeview.column('Cantidad de productos', anchor=W, width=120, minwidth=25)
+
+    #Headers
+
+    treeview.heading('#0',text='Bodega',anchor=W)
+    treeview.heading('Nombre', text='Nombre', anchor=W)
+    treeview.heading('Ubicacion', text='Ubicacion', anchor=W)
+    treeview.heading('Cantidad de productos', text='Cantidad de productos', anchor=W)
+
+    #Añadir datos
+
+    datos = dao.obtenerstockbodegas()
+    indice = 0
+    for fila in datos:
+        
+        nombre_bodega = fila[0]
+        ubicacion = fila[1]
+        cantidad = fila[2]
+        treeview.insert(parent='',index='end',iid=indice, text='',values=(nombre_bodega,ubicacion,cantidad))
+        print(f"Nombre de la bodega: {nombre_bodega}")
+        print(f"Ubicacion: {ubicacion}")
+        print(f"Cantidad: {cantidad}")
+        print("---")
+
+        indice+=1
+
+
+    treeview.pack(pady=20)
+
+
+def informeusuarios():
+    global ventanainformeusuarios
+
+    dao = DAO()
+
+    #Cerrar ventana anterior 
+    # 
+    cerrar_ventanainformeusuarios() 
+
+    #Ventana informe
+
+    ventanainformeusuarios = Tk()
+    ventanainformeusuarios.title('Ventana Informe usuarios')
+    ventanainformeusuarios.geometry('600x600')
+
+    treeview = ttk.Treeview(ventanainformeusuarios)
+
+    #Definir columnas
+
+    treeview['columns'] = ('IDmovimiento','Fecha','IDusuario','Nombre usuario')
+
+    #Darle formato a las columnas
+
+    treeview.column('#0', width=120, minwidth=25)
+    treeview.column('IDmovimiento', anchor=W, width=120, minwidth=25)
+    treeview.column('Fecha', anchor=W, width=120, minwidth=25)
+    treeview.column('IDusuario', anchor=W, width=120, minwidth=25)
+    treeview.column('Nombre usuario', anchor=W, width=120, minwidth=25)
+
+    #Headers
+
+    treeview.heading('#0',text='Usuarios_Mov',anchor=W)
+    treeview.heading('IDmovimiento', text='IDmovimiento', anchor=W)
+    treeview.heading('Fecha', text='Fecha', anchor=W)
+    treeview.heading('IDusuario', text='IDusuario', anchor=W)
+    treeview.heading('Nombre usuario', text='Nombre usuario', anchor=W)
+
+    #Añadir datos
+
+    datos = dao.obtenermovimientosusuario()
+    indice = 0
+    for fila in datos:
+        
+        idmovimiento = fila[0]
+        fechamovimiento = fila[1]
+        idusuario = fila[2]
+        nombreusuario = fila[3]
+        treeview.insert(parent='',index='end',iid=indice, text='',values=(idmovimiento,fechamovimiento,idusuario,nombreusuario))
+        print(f"ID mov: {idmovimiento}")
+        print(f"Fecha mov: {fechamovimiento}")
+        print(f"ID USUARIO: {idusuario}")
+        print(f'Nombre usuario: {nombreusuario}')
+        print("---")
+
+        indice+=1
+
+
+    treeview.pack(pady=20)
+
 
 def informefiltrado():
     global ventanainformefiltrado
@@ -228,16 +354,59 @@ def registro_bodega():
 
 def eliminar_bodega():
     dao = DAO()
-    bodega = Bodega("",)
-    dao.eliminarBodega(bodega)
+    strbodegaeliminar = bodegaseliminar.get()
+    tuplabodegaeliminar = eval(strbodegaeliminar)
+    idbodegaeliminar = dao.obtener_idbodega(tuplabodegaeliminar[0]) 
+    try:
+        dao.eliminarBodega(idbodegaeliminar)
+    except mysql.connector.Error as error:
+        if isinstance(error, mysql.connector.IntegrityError):
+            messagebox.showerror("Error de integridad", "La bodega contiene productos dentro de ella")
+        else:
+            messagebox.showerror("Error desconocido", str(error))
+
+def eliminar_editorial():
+    dao = DAO( )
+    streditorialeliminar = editorialeliminar.get()
+    tuplaeditorialeliminar = eval(streditorialeliminar)
+    ideditorialeliminar = dao.obtener_idautor(tuplaeditorialeliminar[0])
+    print(streditorialeliminar)
+    try:
+        dao.eliminarAutor(ideditorialeliminar)
+
+    except mysql.connector.Error as error:
+        if isinstance(error, mysql.connector.IntegrityError):
+            messagebox.showerror("Error de integridad", "La editorial a eliminar contiene libros asignados")
+        else:
+            messagebox.showerror("Error desconocido", str(error))
+
+def eliminar_productos():
+    dao = DAO( )
+    strproductoeliminar = productoeliminar.get()
+    tuplaproductoeliminar = eval(strproductoeliminar)
+    idproductoeliminar = dao.obtener_idproductos(tuplaproductoeliminar[0])
+    print(strproductoeliminar)
+    try:
+        dao.eliminarProducto(idproductoeliminar)
+
+    except mysql.connector.Error as error:
+        if isinstance(error, mysql.connector.IntegrityError):
+            messagebox.showerror("Error de integridad", "El producto a eliminar ya está registrado en una bodega")
+        else:
+            messagebox.showerror("Error desconocido", str(error))
 
 def asignar_autor():
     dao = DAO()
-    producto = entry_producto.get()
-    autorr = autores.get()
+    asignar = productosasignarautor.get()
+    autorr = autoresasignarproducto.get()
     print('AUTORES SELECCIONADOS: ')
     print(autorr) #('yo','pablo neruda','b')
-    idproducto =  dao.obtener_idproductos(producto)
+
+    print('PRODUCTO SELECCIONADO: ')
+    print(asignar)
+
+    productotupla= eval(asignar)
+    idproducto =  dao.obtener_idproductos(productotupla[0])
     autorr = eval(autorr)
     print('CONVERSION A TUPLA: ')
     print(autorr)
@@ -607,9 +776,9 @@ def frame_registrarusuario():
 
     ventana_frame.pack(fill='both', expand=1)
 
-def frame_eliminarproducto():
+def frame_eliminarbodega():
     global ventana_frame
-    global bodegas
+    global bodegaseliminar
 
     bodega_lb = ListboxBodega()
 
@@ -618,11 +787,11 @@ def frame_eliminarproducto():
 
     ventana_frame = tk.Frame(ventana_admin)
 
-    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Seleccione Bodegas", bg="LightGreen")
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Seleccione Bodega a eliminar", bg="LightGreen")
     etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, pady=10)
 
     bodega_lb.mostrar_ventana(ventana_frame)
-    bodegas = bodega_lb.obtener_bodegas_seleccionadas()
+    bodegaseliminar = bodega_lb.obtener_bodegas_seleccionadas()
 
     boton_eliminar_bodega = tk.Button(ventana_frame, text='Eliminar Bodega', width=20, height=1, bg='LightGreen',command=eliminar_bodega)
                                       
@@ -631,55 +800,86 @@ def frame_eliminarproducto():
     ventana_frame.pack()
 
 
+def frame_eliminareditorial():
+    global ventana_frame
+    global editorialeliminar
+
+    editorial_lb = ListboxAutor()
+
+    #Cerrar frame anterior 
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text='Seleccione Editorial a eliminar', bg='LightGreen')
+    etiqueta_seleccione_datos.grid(row=0,column=0,columnspan=2,pady=10)
+
+    editorial_lb.mostrar_ventana(ventana_frame)
+    editorialeliminar = editorial_lb.obtener_tipos_seleccionados()
+
+    boton_eliminar_bodega = tk.Button(ventana_frame, text='Eliminar Editorial', width=20, height=1, bg='LightGreen',command=eliminar_editorial)
+                                      
+    boton_eliminar_bodega.grid(row=8, column=0, columnspan=2, pady=10)
+
+    ventana_frame.pack()
+
+def frame_eliminarproducto():
+    global ventana_frame
+    global productoeliminar
+    
+    producto_lb = ListboxProductos()
+
+    #Cerrar frame anterior 
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text='Seleccione Producto a eliminar', bg='LightGreen')
+    etiqueta_seleccione_datos.grid(row=0,column=0,columnspan=2,pady=10)
+
+    producto_lb.mostrar_ventana(ventana_frame)
+    productoeliminar = producto_lb.obtener_tipos_seleccionados()
+
+    boton_eliminar_producto = tk.Button(ventana_frame, text='Eliminar Producto', width=20, height=1, bg='LightGreen',command=eliminar_productos)
+                                      
+    boton_eliminar_producto.grid(row=8, column=0, columnspan=2, pady=10)
+
+    ventana_frame.pack()
 
 def frame_asignarautor():
-    global productoid
-    global autorid 
+    global productosasignarautor
+    global autoresasignarproducto
     global ventana_frame
-    global entry_producto
-    global autores
+
 
     autor_lb = ListboxAutor()
     producto_lb = ListboxProductos()
 
-    productoid = StringVar()
-    autorid = StringVar()
 
     #Cerrar frame anterior
     cerrar_frame()
 
     ventana_frame = Frame(ventana_admin, width=400, height=400)
 
+    Label(ventana_frame, text="Introduzca datos a asignar", bg="LightGreen").grid(row=0, column=0,columnspan=2,pady=10)
+    
+    productos_frame = tk.Frame(ventana_frame)
+    productosasignarautor = producto_lb.obtener_tipos_seleccionados()
 
-    Label(ventana_frame, text="Introduzca datos", bg="LightGreen").pack()
-    Label(ventana_frame, text="").pack()
+    producto_lb.mostrar_ventana(productos_frame)
 
-    etiqueta_productos = Label(ventana_frame,text='Productos *')
-    etiqueta_productos.pack()
+    productos_frame.grid(row=3,column=0,columnspan=2,pady=10)
 
-    productos = producto_lb.obtener_tipos_seleccionados()
 
-    entry_producto = Entry(ventana_frame,textvariable=productos,state='readonly')
-    entry_producto.pack()
-    Button(ventana_frame,text='Productos', width=20,height=1,bg='LightGreen', command=producto_lb.mostrar_ventana).pack()
+    autores_frame = tk.Frame(ventana_frame)
+    autoresasignarproducto = autor_lb.obtener_tipos_seleccionados()
+    
+    autor_lb.mostrar_ventana(autores_frame)
 
-    Label(ventana_frame, text="").pack()
+    autores_frame.grid(row=5,column=0,columnspan=2,pady=10)
 
-    etiqueta_autores = Label(ventana_frame,text='Autores *')
-    etiqueta_autores.pack()
-
-    autores = autor_lb.obtener_tipos_seleccionados()
-
-    autor_lb.mostrar_ventana(ventana_frame)
-
-    # entry_autor = Entry(ventana_frame,textvariable=autores)
-    # entry_autor.pack()
-    # Button(ventana_frame,text='Autores', width=20,height=1,bg='LightGreen', command=autor_lb.mostrar_ventana).pack()
-
-    Label(ventana_frame, text="").pack()
-
-    Button(ventana_frame, text='Asignar Autor', width=20, height=1, bg='LightGreen',command=asignar_autor).pack()
-    ventana_frame.pack(fill='both', expand=1)
+    Button(ventana_frame, text='Asignar Autor', width=20, height=1, bg='LightGreen',command=asignar_autor).grid(row=7,column=0,columnspan=2,pady=10)
+    ventana_frame.pack()
 
 
 def frame_asignarbodega():
@@ -917,9 +1117,9 @@ def mostrar_menuadmin():
     opciones_registrar.add_command(label='Registrar bodega', command=frame_registrarbodega)
 
     opciones_eliminar = Menu(menu_admin)
-    opciones_eliminar.add_command(label='Eliminar productos',command=frame_eliminarproducto)
-    opciones_eliminar.add_command(label='Eliminar editorial')
-    opciones_eliminar.add_command(label='Eliminar bodega')
+    opciones_eliminar.add_command(label='Eliminar bodega',command=frame_eliminarbodega)
+    opciones_eliminar.add_command(label='Eliminar editorial', command=frame_eliminareditorial)
+    opciones_eliminar.add_command(label='Eliminar producto', command=frame_eliminarproducto)
 
     opciones_asignar = Menu(menu_admin)
     opciones_asignar.add_command(label='Asignar Autor',command=frame_asignarautor)
@@ -928,7 +1128,7 @@ def mostrar_menuadmin():
 
     opciones_gestion = Menu(menu_admin)
     opciones_gestion.add_command(label='Informe por bodega',command=frame_informebodega)
-    opciones_gestion.add_command(label='Informe todos movimientos',command='')
+    opciones_gestion.add_command(label='Informe movimientos de usuarios',command=informeusuarios)
     
     menu_admin.add_cascade(label='Registrar', menu=opciones_registrar)
     menu_admin.add_cascade(label='Eliminar', menu=opciones_eliminar)
@@ -950,7 +1150,7 @@ def mostrar_menubodeguero():
     opcion_realizarmov.add_command(label='Realizar movimiento',command=frame_realizarmov)
 
     opcion_gestionar= Menu(menu_bodeguero)
-    opcion_gestionar.add_command(label='Gestionar bodegas',command="")
+    opcion_gestionar.add_command(label='Gestionar bodegas',command=informegestion)
 
     menu_bodeguero.add_cascade(label='Realizar movimiento',menu=opcion_realizarmov)
     menu_bodeguero.add_cascade(label='Gestionar bodegas',menu=opcion_gestionar)
