@@ -226,6 +226,11 @@ def registro_bodega():
     bodega = Bodega("",nombre,ubicacion)
     dao.registrarBodega(bodega)
 
+def eliminar_bodega():
+    dao = DAO()
+    bodega = Bodega("",)
+    dao.eliminarBodega(bodega)
+
 def asignar_autor():
     dao = DAO()
     producto = entry_producto.get()
@@ -602,6 +607,31 @@ def frame_registrarusuario():
 
     ventana_frame.pack(fill='both', expand=1)
 
+def frame_eliminarproducto():
+    global ventana_frame
+    global bodegas
+
+    bodega_lb = ListboxBodega()
+
+    # Cerrar frame anterior
+    cerrar_frame()
+
+    ventana_frame = tk.Frame(ventana_admin)
+
+    etiqueta_seleccione_datos = tk.Label(ventana_frame, text="Seleccione Bodegas", bg="LightGreen")
+    etiqueta_seleccione_datos.grid(row=0, column=0, columnspan=2, pady=10)
+
+    bodega_lb.mostrar_ventana(ventana_frame)
+    bodegas = bodega_lb.obtener_bodegas_seleccionadas()
+
+    boton_eliminar_bodega = tk.Button(ventana_frame, text='Eliminar Bodega', width=20, height=1, bg='LightGreen',command=eliminar_bodega)
+                                      
+    boton_eliminar_bodega.grid(row=8, column=0, columnspan=2, pady=10)
+
+    ventana_frame.pack()
+
+
+
 def frame_asignarautor():
     global productoid
     global autorid 
@@ -887,7 +917,7 @@ def mostrar_menuadmin():
     opciones_registrar.add_command(label='Registrar bodega', command=frame_registrarbodega)
 
     opciones_eliminar = Menu(menu_admin)
-    opciones_eliminar.add_command(label='Eliminar productos')
+    opciones_eliminar.add_command(label='Eliminar productos',command=frame_eliminarproducto)
     opciones_eliminar.add_command(label='Eliminar editorial')
     opciones_eliminar.add_command(label='Eliminar bodega')
 

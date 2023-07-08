@@ -589,6 +589,15 @@ class DAO:
         self.cerrar()
         return resultados
     
+    def eliminarBodega(self,bodega):
+        self.conectar()
+        sql = 'DELETE FROM `bodega` WHERE 0'
+        self.__cursor.execute(sql)
+        bodegas = self.__cursor.fetchall()
+        self.cerrar()
+        bodegas = [producto[0].strip('{') for producto in bodegas]
+        return bodegas
+    
 
     # def obtener
 
