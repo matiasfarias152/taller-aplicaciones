@@ -2,7 +2,7 @@ import tkinter as tk
 from DAO import DAO
 from tkinter import messagebox
 
-class ListboxAutor:
+class ListboxAutorMultiple:
     def __init__(self):
         self.tipoproducto_seleccionado = tk.StringVar()
     
@@ -27,9 +27,7 @@ class ListboxAutor:
         selected_autores_listbox.grid(row=2, column=1, padx=10)
 
         def move_author():
-            if selected_autores_listbox.size() == 1:
-                messagebox.showerror("Error", "Ya hay un autor seleccionado")
-            else:    
+            
                 selected_index = autores_listbox.curselection()
                 if selected_index:
                     selected_author = autores_listbox.get(selected_index[0])

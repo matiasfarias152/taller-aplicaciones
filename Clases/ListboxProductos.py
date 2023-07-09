@@ -1,5 +1,6 @@
 import tkinter as tk    
 from DAO import DAO
+from tkinter import messagebox
 
 class ListboxProductos:
     def __init__(self):
@@ -7,6 +8,8 @@ class ListboxProductos:
     
     def mostrar_ventana(self, frame):
             dao = DAO()
+            global selected_productos_listbox
+
 
             etiqueta_productos = tk.Label(frame, text="Productos")
             etiqueta_productos.grid(row=1, column=0, padx=10, pady=10)
@@ -25,13 +28,16 @@ class ListboxProductos:
             selected_productos_listbox.grid(row=2, column=1, padx=10)
 
             def move_producto():
-                selected_index = productos_listbox.curselection()
-                if selected_index:
-                    selected_producto = productos_listbox.get(selected_index[0])
-                    productos_listbox.delete(selected_index[0])
-                    selected_productos_listbox.insert(tk.END, selected_producto)
-                productosget = selected_productos_listbox.get(0, tk.END)
-                self.tipoproducto_seleccionado.set(productosget)
+                if selected_productos_listbox.size() == 1:
+                    messagebox.showerror("Error", "Ya hay un producto seleccionado")
+                else:
+                    selected_index = productos_listbox.curselection()
+                    if selected_index:
+                        selected_producto = productos_listbox.get(selected_index[0])
+                        productos_listbox.delete(selected_index[0])
+                        selected_productos_listbox.insert(tk.END, selected_producto)
+                    productosget = selected_productos_listbox.get(0, tk.END)
+                    self.tipoproducto_seleccionado.set(productosget)
             def move_back_producto():
                 selected_index = selected_productos_listbox.curselection()
                 if selected_index:
@@ -51,3 +57,11 @@ class ListboxProductos:
 
     def obtener_tipos_seleccionados(self):
         return self.tipoproducto_seleccionado
+    
+    def clear_listbox(listbox):
+        selected_productos_listbox.delete(0, tk.END)
+    
+    def tamanio_selected(self):
+        tamanio = selected_productos_listbox.size()
+        print(tamanio)
+        return tamanio

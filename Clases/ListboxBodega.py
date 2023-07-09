@@ -1,5 +1,6 @@
 import tkinter as tk    
 from DAO import DAO
+from tkinter import messagebox
 
 class ListboxBodega:
     def __init__(self):
@@ -7,6 +8,8 @@ class ListboxBodega:
 
     def mostrar_ventana(self, frame):
         dao = DAO()
+
+        global selected_bodegas_listbox
 
         etiqueta_bodegas = tk.Label(frame, text="Bodegas")
         etiqueta_bodegas.grid(row=1, column=0, padx=10, pady=10)
@@ -25,13 +28,16 @@ class ListboxBodega:
         selected_bodegas_listbox.grid(row=2, column=1, padx=10)
 
         def move_bodega():
-            selected_index = bodegas_listbox.curselection()
-            if selected_index:
-                selected_bodega = bodegas_listbox.get(selected_index[0])
-                bodegas_listbox.delete(selected_index[0])
-                selected_bodegas_listbox.insert(tk.END, selected_bodega)
-            bodegasget = selected_bodegas_listbox.get(0, tk.END)
-            self.bodega_seleccionada.set(bodegasget)
+            if selected_bodegas_listbox.size() == 1:
+                messagebox.showerror("Error", "Ya hay una bodega seleccionada")
+            else:
+                selected_index = bodegas_listbox.curselection()
+                if selected_index:
+                    selected_bodega = bodegas_listbox.get(selected_index[0])
+                    bodegas_listbox.delete(selected_index[0])
+                    selected_bodegas_listbox.insert(tk.END, selected_bodega)
+                bodegasget = selected_bodegas_listbox.get(0, tk.END)
+                self.bodega_seleccionada.set(bodegasget)
 
         def move_back_bodega():
             selected_index = selected_bodegas_listbox.curselection()
@@ -50,3 +56,11 @@ class ListboxBodega:
 
     def obtener_bodegas_seleccionadas(self):
         return self.bodega_seleccionada
+    
+    def clear_listbox(listbox):
+        selected_bodegas_listbox.delete(0, tk.END)
+
+    def tamanio_selected(self):
+        tamanio = selected_bodegas_listbox.size()
+        print(tamanio)
+        return tamanio

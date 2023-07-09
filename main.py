@@ -18,22 +18,20 @@ from Clases.ListboxCopia import *
 from Clases.BodegaMov import *
 from Clases.CopiaMovimiento import *
 from tkinter import messagebox
+from Clases.ListboxAutorMultiple import *
+from Clases.ProductosEmergente import *
 
 categorias_seleccionadas = []
 
 def mostrar_error():
-    label_error = Label(ventana_principal, text="Credenciales inválidas")
-    label_error.pack()
+    messagebox.showerror("Error", "Credenciales invalidas.")
 
 def cerrar_frame():
     # Cerrar frame anterior
     if 'ventana_frame' in globals():
         ventana_frame.destroy()
 
-def cerrar_frameprev():
-    # Cerrar frame anterior
-    if 'ventanaprev' in globals():
-        ventanaprev.destroy()
+
 
 def cerrar_frameinformefiltrado():
     #Cerrar frame anterior
@@ -253,9 +251,6 @@ def informefiltrado():
 def previsualizarmov():
     global ventanaprev
 
-    #Cerrar ventana anterior
-    cerrar_frameprev()
-
     #Ventana previsualizacion
 
     ventanaprev = Tk()
@@ -297,17 +292,41 @@ def previsualizarmov():
 
     treeview.pack(pady=20)
 
-def registro_usuario():
-    dao = DAO()
+
+
+def validarregistrar():
+       # Obtener los contenidos de los Entry y el Combobox
     usuario_info = nombre_usuario.get()
     clave_info = clave.get()
     correo_info = correo.get()
     telefono_info = telefono.get()
     rut_info = rut.get()
     roles = entrada_rol.get()
-    idtipo = dao.obtener_idtipousuario(roles)
 
-    usuario = User("", telefono_info, correo_info, usuario_info, rut_info, idtipo, clave_info)
+    # Verificar si algún campo está vacío
+    if not usuario_info or not clave_info or not correo_info or not telefono_info or not rut_info or not roles:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        # Validar que el campo de teléfono sea un número entero
+        try:
+            telefono_int = int(telefono_info)
+            
+            if telefono_int < 0:
+                messagebox.showerror("Error", "El campo de teléfono debe ser un número positivo.")
+                return  
+            
+        except ValueError:
+            messagebox.showerror("Error", "El campo de teléfono debe ser un número entero.")
+            return
+
+        # Llamar a la función de registro de datos
+        registro_usuario(usuario_info, clave_info, correo_info, telefono_int, rut_info, roles)
+    
+def registro_usuario(nombre,clave,correo,telefono,rut,rol):
+    dao = DAO()
+    idtipo = dao.obtener_idtipousuario(rol)
+
+    usuario = User("", telefono, correo, nombre, rut, idtipo, clave)
     dao.crear_usuario(usuario)
 
     entrada_nombre.delete(0, END)
@@ -315,107 +334,176 @@ def registro_usuario():
     entrada_correo.delete(0, END)
     entrada_telefono.delete(0, END)
     entrada_rut.delete(0, END)
-
+    entrada_rol.set("")
 
 def registro_categoria():
     dao = DAO()
     nombre = nombre_categoria.get()
-    categoria = Categoria("", nombre)
-    dao.registrarCategoria(categoria)
+    if not nombre:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        categoria = Categoria("", nombre)
+        dao.registrarCategoria(categoria)
+        entrada_categoria.delete(0, END)
 
 def registro_autor():
     dao = DAO()
     nombre = entrada_autor.get()
-    autor = Autor("", nombre)
-    dao.registrarAutor(autor)
+    if not nombre:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        autor = Autor("", nombre)
+        dao.registrarAutor(autor)
+        entrada_autor.delete(0,END)
 
 def registro_tipoproducto():
     dao = DAO()
     nombre = nombre_tipo.get()
-    tipo = Tipo_producto("",nombre)
-    dao.registrarTipoproducto(tipo)
+    if not nombre:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        tipo = Tipo_producto("",nombre)
+        dao.registrarTipoproducto(tipo)
+        entrada_tipo.delete(0,END)
 
 def registro_productos():
     dao = DAO()
     categoria = entry_cat.get()
     tipos = entry_tipo.get()
     descripcion = info_descripcion.get()
-    idcategoria = dao.obtener_idcategorias(categoria)
-    idtipo = dao.obtener_idtipoproducto(tipos)
-    producto = Producto("",descripcion,idcategoria,idtipo)
-    dao.registrarProducto(producto)
+
+    # Verificar si algún campo está vacío
+    if not categoria or not tipos or not descripcion:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        idcategoria = dao.obtener_idcategorias(categoria)
+        idtipo = dao.obtener_idtipoproducto(tipos)
+        producto = Producto("",descripcion,idcategoria,idtipo)
+        dao.registrarProducto(producto)
+
+        entrada_descripcion.delete(0, END)
+
+        entry_cat.config(state='normal')
+        entry_cat.delete(0,END)
+        entry_cat.config(state='readonly')
+
+        entry_tipo.config(state='normal')
+        entry_tipo.delete(0,END)
+        entry_tipo.config(state='readonly')
     
 def registro_bodega():
     dao = DAO()
     nombre = nombrebodega.get()
     ubicacion = ubicacionbodega.get()
-    bodega = Bodega("",nombre,ubicacion)
-    dao.registrarBodega(bodega)
+     # Verificar si algún campo está vacío
+    if not nombre or not ubicacion:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else: 
+        bodega = Bodega("",nombre,ubicacion)
+        dao.registrarBodega(bodega)
+
+        #Limpiar entry's
+        entrada_ubicacionbodega.delete(0,END)
+        entrada_nombrebodega.delete(0,END)
 
 def eliminar_bodega():
+    lb_bodega = ListboxBodega()
     dao = DAO()
-    strbodegaeliminar = bodegaseliminar.get()
-    tuplabodegaeliminar = eval(strbodegaeliminar)
-    idbodegaeliminar = dao.obtener_idbodega(tuplabodegaeliminar[0]) 
-    try:
-        dao.eliminarBodega(idbodegaeliminar)
-    except mysql.connector.Error as error:
-        if isinstance(error, mysql.connector.IntegrityError):
-            messagebox.showerror("Error de integridad", "La bodega contiene productos dentro de ella")
-        else:
-            messagebox.showerror("Error desconocido", str(error))
+    tamanio = lb_bodega.tamanio_selected()
+    if tamanio == 0:
+        messagebox.showerror("Error","Debe seleccionar una bodega")
+    else:
+        strbodegaeliminar = bodegaseliminar.get()
+        tuplabodegaeliminar = eval(strbodegaeliminar)
+        idbodegaeliminar = dao.obtener_idbodega(tuplabodegaeliminar[0]) 
+        try:
+            dao.eliminarBodega(idbodegaeliminar)
+            lb_bodega.clear_listbox()
+        
+            
+        except mysql.connector.Error as error:
+            if isinstance(error, mysql.connector.IntegrityError):
+                messagebox.showerror("Error de integridad", "La bodega contiene productos dentro de ella")
+            else:
+                messagebox.showerror("Error desconocido", str(error))
 
 def eliminar_editorial():
     dao = DAO( )
-    streditorialeliminar = editorialeliminar.get()
-    tuplaeditorialeliminar = eval(streditorialeliminar)
-    ideditorialeliminar = dao.obtener_idautor(tuplaeditorialeliminar[0])
-    print(streditorialeliminar)
-    try:
-        dao.eliminarAutor(ideditorialeliminar)
+    lb_editorial = ListboxAutor()
+    tamanio = lb_editorial.tamanio_selected()
 
-    except mysql.connector.Error as error:
-        if isinstance(error, mysql.connector.IntegrityError):
-            messagebox.showerror("Error de integridad", "La editorial a eliminar contiene libros asignados")
-        else:
-            messagebox.showerror("Error desconocido", str(error))
+    if tamanio == 0:
+        messagebox.showerror("Error","Debe seleccionar una editorial")
+    else:
+        streditorialeliminar = editorialeliminar.get()
+        tuplaeditorialeliminar = eval(streditorialeliminar)
+        ideditorialeliminar = dao.obtener_idautor(tuplaeditorialeliminar[0])
+        print(streditorialeliminar)
+        try:
+            dao.eliminarAutor(ideditorialeliminar)
+            lb_editorial.clear_listbox()
+
+        except mysql.connector.Error as error:
+            if isinstance(error, mysql.connector.IntegrityError):
+                messagebox.showerror("Error de integridad", "La editorial a eliminar contiene libros asignados")
+            else:
+                messagebox.showerror("Error desconocido", str(error))
 
 def eliminar_productos():
-    dao = DAO( )
-    strproductoeliminar = productoeliminar.get()
-    tuplaproductoeliminar = eval(strproductoeliminar)
-    idproductoeliminar = dao.obtener_idproductos(tuplaproductoeliminar[0])
-    print(strproductoeliminar)
-    try:
-        dao.eliminarProducto(idproductoeliminar)
+    lb_producto = ListboxProductos()
+    dao = DAO()
 
-    except mysql.connector.Error as error:
-        if isinstance(error, mysql.connector.IntegrityError):
-            messagebox.showerror("Error de integridad", "El producto a eliminar ya está registrado en una bodega")
-        else:
-            messagebox.showerror("Error desconocido", str(error))
+    tamanio = lb_producto.tamanio_selected()
+    
+    if tamanio == 0:
+        messagebox.showerror("Error","Debe seleccionar un producto")
+    else:
+        strproductoeliminar = productoeliminar.get()
+        tuplaproductoeliminar = eval(strproductoeliminar)
+        idproductoeliminar = dao.obtener_idproductos(tuplaproductoeliminar[0])
+        print(strproductoeliminar)
+        try:
+            dao.eliminarProducto(idproductoeliminar)
+            lb_producto.clear_listbox()
+
+        except mysql.connector.Error as error:
+            if isinstance(error, mysql.connector.IntegrityError):
+                messagebox.showerror("Error de integridad", "El producto a eliminar ya está registrado en una bodega")
+            else:
+                messagebox.showerror("Error desconocido", str(error))
 
 def asignar_autor():
     dao = DAO()
-    asignar = productosasignarautor.get()
-    autorr = autoresasignarproducto.get()
-    print('AUTORES SELECCIONADOS: ')
-    print(autorr) #('yo','pablo neruda','b')
+    lb_autores = ListboxAutorMultiple()
+    lb_producto = ListboxProductos()
+    tamanioautor = lb_autores.tamanio_selected()
+    tamanioproducto = lb_producto.tamanio_selected()
+    if tamanioautor == 0:
+        messagebox.showerror("Error","Debe seleccionar una editorial")
+    elif tamanioproducto == 0:
+        messagebox.showerror("Error","Debe seleccionar un producto")
+    else:
+        asignar = productosasignarautor.get()
+        autorr = autoresasignarproducto.get()
+        print('AUTORES SELECCIONADOS: ')
+        print(autorr) #('yo','pablo neruda','b')
 
-    print('PRODUCTO SELECCIONADO: ')
-    print(asignar)
+        print('PRODUCTO SELECCIONADO: ')
+        print(asignar)
 
-    productotupla= eval(asignar)
-    idproducto =  dao.obtener_idproductos(productotupla[0])
-    autorr = eval(autorr)
-    print('CONVERSION A TUPLA: ')
-    print(autorr)
-    for a in autorr:
-        print('AUTOR: ')
-        print(a)
-        idautor = dao.obtener_idautor(a)
-        producto_autor = Producto_Autor("",idproducto,idautor)
-        dao.asignarAutor(producto_autor)
+        productotupla= eval(asignar)
+        idproducto =  dao.obtener_idproductos(productotupla[0])
+        autorr = eval(autorr)
+        print('CONVERSION A TUPLA: ')
+        print(autorr)
+        for a in autorr:
+            print('AUTOR: ')
+            print(a)
+            idautor = dao.obtener_idautor(a)
+            producto_autor = Producto_Autor("",idproducto,idautor)
+            dao.asignarAutor(producto_autor)
+
+
 
 def asignar_bodega():
     dao = DAO()
@@ -435,8 +523,8 @@ def asignar_bodega():
         bodega_usuario = Bodega_usuario("",idusuario,idbodega)
         dao.asignarBodega(bodega_usuario)
 
-def asignar_copia():
-    dao = DAO()
+def validar_asignarcopia():
+    cantidad = cantidad_copia.get()
     nombrecopia = nombre_copia.get()
     descripcioncopia = descripcion_copia.get()
     producto = productoscopia.get()
@@ -446,6 +534,28 @@ def asignar_copia():
     print(bodega)
     print(producto)
 
+    if not cantidad or not nombrecopia or not descripcioncopia or not producto or not bodega:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    else:
+        # Validar que el campo de teléfono sea un número entero
+        try:
+            cantidad_int = int(cantidad)
+            
+            if cantidad_int < 0:
+                messagebox.showerror("Error", "El campo de cantidad debe ser un número positivo.")
+                return  
+            
+        except ValueError:
+            messagebox.showerror("Error", "El campo de cantidad debe ser un número entero.")
+            return
+
+        # Llamar a la función de registro de datos
+        asignar_copia(producto,bodega,cantidad_int,nombrecopia,descripcioncopia)
+
+def asignar_copia(producto,bodega,cantidad,nombrecopia,descripcioncopia):
+    dao = DAO()
+
+    bodegas_lb = ListboxBodega()
     productotupla = eval(producto)
     bodegatupla = eval(bodega)
 
@@ -453,7 +563,7 @@ def asignar_copia():
     idproducto = dao.obtener_idproductos(productotupla[0])
     idbodega = dao.obtener_idbodega(bodegatupla[0])
 
-    cantidad = cantidad_copia.get()
+
   
 
     limite = 0
@@ -461,8 +571,30 @@ def asignar_copia():
         copia = Copia("",nombrecopia,descripcioncopia,idproducto,idbodega)
         dao.asignarCopia(copia)
         limite+=1
+    
+    entrada_nombrecopia.delete(0,END)
+    entrada_descripcioncopia.delete(0,END)
+    entrada_cantidadcopia.delete(0,END)
 
-def realizarmovimiento():
+    entry_productocopia.config(state='normal')
+    entry_productocopia.delete(0,END)
+    entry_productocopia.config(state='readonly')
+
+    bodegas_lb.clear_listbox()
+
+
+def validarrealizarmov():
+    bodegasalida = salida_bodega.get()
+    bodegaentrada = entrada_bodega.get()
+    if not bodegasalida or not bodegaentrada:
+        messagebox.showerror("Error", "Todos los campos son requeridos.")
+    elif bodegasalida == bodegaentrada:
+        messagebox.showerror("Error","No debes seleccionar las mismas bodegas de entrada y salida")
+    else:
+        realizarmovimiento(bodegasalida,bodegaentrada)
+
+def realizarmovimiento(bodegasalida,bodegaentrada):
+
 
     #Tabla Movimiento
 
@@ -485,8 +617,7 @@ def realizarmovimiento():
 
     #Tabla bodegamov
     
-    bodegasalida = salida_bodega.get()
-    bodegaentrada = entrada_bodega.get()
+
 
     print(f'BODEGA SALIDA {bodegasalida}')
     print(f'BODEGA ENTRADA {bodegaentrada}')
@@ -547,6 +678,8 @@ def realizarmovimiento():
 def frame_registrarbodega():
     global nombrebodega
     global ubicacionbodega
+    global entrada_nombrebodega
+    global entrada_ubicacionbodega
 
     global ventana_frame
     nombrebodega = StringVar()
@@ -578,7 +711,7 @@ def frame_registrarbodega():
 
 def frame_registrarproducto():
 
-
+    global entrada_descripcion
     global info_descripcion
     global entry_tipo
     global entry_cat
@@ -610,7 +743,7 @@ def frame_registrarproducto():
     categorias_s = categorias_lb.obtener_categorias_seleccionadas()
     
     
-    entry_cat = Entry(ventana_frame,textvariable=categorias_s)
+    entry_cat = Entry(ventana_frame,textvariable=categorias_s,state='readonly')
     entry_cat.pack()
 
 
@@ -626,7 +759,7 @@ def frame_registrarproducto():
 
     
     
-    entry_tipo = Entry(ventana_frame,textvariable=tipos_seleccionados)
+    entry_tipo = Entry(ventana_frame,textvariable=tipos_seleccionados,state='readonly')
     entry_tipo.pack()
 
     Button(ventana_frame,text='Tipos de producto', width=20,height=1,bg='LightGreen', command=tipoproducto_lb.mostrar_ventana).pack()
@@ -644,6 +777,7 @@ def frame_registrartipoproducto():
 
     nombre_tipo = StringVar()
     global ventana_frame
+    global entrada_tipo
     # Cerrar frame anterior 
     cerrar_frame()
 
@@ -689,6 +823,7 @@ def frame_registrarautor():
 
 def frame_registrarcategoria():
     global nombre_categoria
+    global entrada_categoria
 
     nombre_categoria = StringVar()
     global ventana_frame
@@ -728,7 +863,7 @@ def frame_registrarusuario():
 
     nombre_usuario = StringVar()
     clave = StringVar()
-    telefono = IntVar()
+    telefono = StringVar()
     correo = StringVar()
     rut = StringVar()
 
@@ -772,7 +907,7 @@ def frame_registrarusuario():
     entrada_rol = Combobox(ventana_frame, values=roles, state='readonly')
     entrada_rol.pack()
 
-    Button(ventana_frame, text="Registrarse", width=10, height=1, bg="LightGreen", command=registro_usuario).pack()
+    Button(ventana_frame, text="Registrarse", width=10, height=1, bg="LightGreen", command=validarregistrar).pack()
 
     ventana_frame.pack(fill='both', expand=1)
 
@@ -852,7 +987,7 @@ def frame_asignarautor():
     global ventana_frame
 
 
-    autor_lb = ListboxAutor()
+    autor_lb = ListboxAutorMultiple()
     producto_lb = ListboxProductos()
 
 
@@ -952,12 +1087,16 @@ def frame_asignar_copia():
     global nombre_copia
     global descripcion_copia
     global cantidad_copia
+    global entrada_nombrecopia
+    global entrada_descripcioncopia
+    global entrada_cantidadcopia
+    global entry_productocopia
 
-    cantidad_copia = tk.IntVar()
+    cantidad_copia = tk.StringVar()
     nombre_copia = tk.StringVar()
     descripcion_copia = tk.StringVar()
 
-    producto_lb = ListboxProductos()
+    producto_lb = ListboxProductoEmergente()
     bodega_lb = ListboxBodega()
     # Cerrar frame anterior
     cerrar_frame()
@@ -995,7 +1134,7 @@ def frame_asignar_copia():
 
     bodegascopia = bodega_lb.obtener_bodegas_seleccionadas()
 
-    boton_asignar_copia = tk.Button(ventana_frame, text='Asignar Copias', width=20, height=1, bg='LightGreen',command=asignar_copia)
+    boton_asignar_copia = tk.Button(ventana_frame, text='Asignar Copias', width=20, height=1, bg='LightGreen',command=validar_asignarcopia)
     boton_asignar_copia.grid(row=6, column=0, columnspan=2,padx=10,pady=10)
                                       
 
@@ -1076,7 +1215,7 @@ def frame_realizarmov():
 
     # productos_frame.grid(row=4,column=0,columnspan=2,padx=10,pady=5)
 
-    btn = tk.Button(ventana_frame,text='Realizar movimiento',width=20, height=1, bg='LightGreen',command=realizarmovimiento)
+    btn = tk.Button(ventana_frame,text='Realizar movimiento',width=20, height=1, bg='LightGreen',command=validarrealizarmov)
     btn.grid(row=7,column=0,columnspan=2,padx=10,pady=10)
 
     btnprevisualizar = tk.Button(ventana_frame,text='Previsualizar',width=20, height=1, bg='LightGreen',command=previsualizarmov)

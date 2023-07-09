@@ -1,5 +1,6 @@
 import tkinter as tk    
 from DAO import DAO
+from tkinter import messagebox
 
 class ListboxCopia:
     def __init__(self):
@@ -24,13 +25,16 @@ class ListboxCopia:
         selected_copias_listbox.grid(row=2, column=1, padx=10)
 
         def move_copia():
-            selected_index = copias_listbox.curselection()
-            if selected_index:
-                selected_copia = copias_listbox.get(selected_index[0])
-                copias_listbox.delete(selected_index[0])
-                selected_copias_listbox.insert(tk.END, selected_copia)
-            copiasget = selected_copias_listbox.get(0, tk.END)
-            self.copia_seleccionada.set(copiasget)
+            if selected_copias_listbox.size() == 1:
+                messagebox.showerror("Error", "Ya hay una copia seleccionada")
+            else:
+                selected_index = copias_listbox.curselection()
+                if selected_index:
+                    selected_copia = copias_listbox.get(selected_index[0])
+                    copias_listbox.delete(selected_index[0])
+                    selected_copias_listbox.insert(tk.END, selected_copia)
+                copiasget = selected_copias_listbox.get(0, tk.END)
+                self.copia_seleccionada.set(copiasget)
 
         def move_back_copia():
             selected_index = selected_copias_listbox.curselection()

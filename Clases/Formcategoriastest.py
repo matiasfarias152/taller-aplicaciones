@@ -1,5 +1,6 @@
 import tkinter as tk
 from DAO import DAO
+from tkinter import messagebox
 
 class CategoriasListBox:
     def __init__(self):
@@ -24,11 +25,16 @@ class CategoriasListBox:
         selected_categories_listbox.configure(width=25, height=15)
 
         def move_categoria():
-            selected_index = categories_listbox.curselection()
-            if selected_index:
-                selected_categoria = categories_listbox.get(selected_index[0])
-                categories_listbox.delete(selected_index[0])
-                selected_categories_listbox.insert(tk.END, selected_categoria)
+            
+            if selected_categories_listbox.size() == 1:
+                
+                messagebox.showerror("Error", "Ya hay una categoria seleccionada")
+            else:
+                selected_index = categories_listbox.curselection()
+                if selected_index:
+                    selected_categoria = categories_listbox.get(selected_index[0])
+                    categories_listbox.delete(selected_index[0])
+                    selected_categories_listbox.insert(tk.END, selected_categoria)
 
         def move_back_categoria():
             selected_index = selected_categories_listbox.curselection()
@@ -41,19 +47,6 @@ class CategoriasListBox:
             self.categorias_seleccionadas.set(selected_categories_listbox.get(0, tk.END))
             root.destroy()
 
-        def filter_categories():
-            search_str = filter_entry.get().lower()
-            filtered_categories = [categoria for categoria in categories if search_str in categoria.lower()]
-            categories_listbox.delete(0, tk.END)
-            for categoria in filtered_categories:
-                categories_listbox.insert(tk.END, categoria)
-
-        filter_label = tk.Label(root, text="Buscar una categoria:").pack()
-        filter_entry = tk.Entry(root)
-        filter_entry.pack()
-
-        filter_button = tk.Button(root, text="Buscar", command=filter_categories)
-        filter_button.pack()
 
         move_button = tk.Button(root, text="Seleccionar", command=move_categoria)
         move_button.pack()
