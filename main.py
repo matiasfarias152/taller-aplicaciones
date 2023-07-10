@@ -20,6 +20,9 @@ from Clases.CopiaMovimiento import *
 from tkinter import messagebox
 from Clases.ListboxAutorMultiple import *
 from Clases.ProductosEmergente import *
+from Clases.ListboxUsuarioMultiple import *
+
+
 
 categorias_seleccionadas = []
 
@@ -67,9 +70,6 @@ def informegestion():
 
     dao = DAO()
 
-    #Cerrar ventana anterior 
-    # 
-    cerrar_ventanainformegestion() 
 
     #Ventana informe
 
@@ -182,8 +182,6 @@ def informefiltrado():
     global ventanainformefiltrado
 
     dao = DAO()
-    #Cerrar ventana anterior
-    cerrar_frameinformefiltrado()
 
 
     #Ventana informe
@@ -507,21 +505,33 @@ def asignar_autor():
 
 def asignar_bodega():
     dao = DAO()
+    lb_bodega = ListboxBodega()
+    lb_usuario = ListboxUsuarioMultiple()
+
     usuario = usuarios.get()
     bodega = bodegas.get()
-    print('BODEGA SELECCIONADA: ')
-    print(bodega)
-    bodegatupla = eval(bodega)
-    
-    
 
-    idbodega = dao.obtener_idbodega(bodegatupla[0])
-    usuario = eval(usuario)
+    tamaniobodega = lb_bodega.tamanio_selected()
+    tamaniousuario = lb_usuario.tamanio_selected()
 
-    for user in usuario:
-        idusuario = dao.obtener_idusuario(user)
-        bodega_usuario = Bodega_usuario("",idusuario,idbodega)
-        dao.asignarBodega(bodega_usuario)
+    if tamaniobodega == 0:
+        messagebox.showerror("Error","Debe seleccionar una bodega")
+    elif tamaniousuario == 0:
+        messagebox.showerror("Error","Debe seleccionar un usuario")
+    else:
+        print('BODEGA SELECCIONADA: ')
+        print(bodega)
+        bodegatupla = eval(bodega)
+        
+        
+
+        idbodega = dao.obtener_idbodega(bodegatupla[0])
+        usuario = eval(usuario)
+
+        for user in usuario:
+            idusuario = dao.obtener_idusuario(user)
+            bodega_usuario = Bodega_usuario("",idusuario,idbodega)
+            dao.asignarBodega(bodega_usuario)
 
 def validar_asignarcopia():
     cantidad = cantidad_copia.get()
@@ -1021,8 +1031,9 @@ def frame_asignarbodega():
     global ventana_frame
     global bodegas
     global usuarios
+
     bodega_lb = ListboxBodega()
-    usuario_lb = ListboxUsuario()
+    usuario_lb = ListboxUsuarioMultiple()
 
     # Cerrar frame anterior
     cerrar_frame()

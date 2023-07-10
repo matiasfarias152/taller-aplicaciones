@@ -2,7 +2,7 @@ import tkinter as tk
 from DAO import DAO
 from tkinter import messagebox 
 
-class ListboxUsuario:
+class ListboxUsuarioMultiple:
     def __init__(self):
         self.usuario_seleccionado = tk.StringVar()
 
@@ -28,9 +28,6 @@ class ListboxUsuario:
         selected_usuarios_listbox.grid(row=5, column=1, padx=10)
 
         def move_usuario():
-            if selected_usuarios_listbox.size() == 1:
-                    messagebox.showerror("Error", "Ya hay un usuario seleccionado")
-            else:
                 selected_index = usuarios_listbox.curselection()
                 if selected_index:
                     selected_usuario = usuarios_listbox.get(selected_index[0])
