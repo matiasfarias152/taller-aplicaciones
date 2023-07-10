@@ -3,10 +3,29 @@ from DAO import DAO
 from tkinter import messagebox 
 
 class ListboxUsuario:
+
+    """
+    Clase para crear una interfaz gráfica de usuario con una lista de usuarios.
+    """
+
     def __init__(self):
+
+        """
+        Constructor de la clase ListboxUsuario.
+
+        Inicializa la variable de instancia 'usuario_seleccionado' como un objeto StringVar de tkinter.
+        """
+
         self.usuario_seleccionado = tk.StringVar()
 
     def mostrar_ventana(self, frame):
+
+        """
+        Función para mostrar la ventana de la interfaz gráfica.
+
+        :param frame: El frame de tkinter donde se mostrará la interfaz.
+        """
+
         dao = DAO()
 
         global selected_usuarios_listbox
@@ -28,6 +47,11 @@ class ListboxUsuario:
         selected_usuarios_listbox.grid(row=5, column=1, padx=10)
 
         def move_usuario():
+
+            """
+            Función para mover un usuario de la lista de usuarios a la lista de usuarios seleccionados.
+            """
+
             if selected_usuarios_listbox.size() == 1:
                     messagebox.showerror("Error", "Ya hay un usuario seleccionado")
             else:
@@ -40,6 +64,11 @@ class ListboxUsuario:
                 self.usuario_seleccionado.set(usuarioesget)
 
         def move_back_usuario():
+
+            """
+            Función para mover un usuario de la lista de usuarios seleccionados a la lista de usuarios.
+            """
+
             selected_index = selected_usuarios_listbox.curselection()
             if selected_index:
                 selected_categories = selected_usuarios_listbox.get(selected_index[0])
@@ -55,9 +84,23 @@ class ListboxUsuario:
         move_back_button.grid(row=7, column=1, pady=10)
 
     def obtener_usuario_seleccionados(self):
+
+        """
+        Método para obtener los usuarios seleccionados.
+
+        :return: El usuario seleccionado como un objeto StringVar de tkinter.
+        """
+
         return self.usuario_seleccionado
     
     def tamanio_selected(self):
+
+        """
+        Método para obtener el tamaño de la lista de usuarios seleccionados.
+
+        :return: El tamaño de la lista de usuarios seleccionados.
+        """
+
         tamanio = selected_usuarios_listbox.size()
         print(tamanio)
         return tamanio
