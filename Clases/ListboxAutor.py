@@ -2,11 +2,20 @@ import tkinter as tk
 from DAO import DAO
 from tkinter import messagebox
 
+
+'''
+clase para crear el formulario de autor.
+'''
 class ListboxAutor:
     def __init__(self):
         self.tipoproducto_seleccionado = tk.StringVar()
     
     def mostrar_ventana(self, frame):
+        '''
+        La funcion mostrar_vetana(), genera un listbox, que por el lado izquierdo del listbox se muestran
+        los autores que hay en la base de datos, por el lado derecho estara vacio esperando a que se 
+        muevan.
+        '''
         dao = DAO()
         global selected_autores_listbox
 
@@ -27,6 +36,9 @@ class ListboxAutor:
         selected_autores_listbox.grid(row=2, column=1, padx=10)
 
         def move_author():
+            '''
+            Mueve el autor seleccionado de la lista autores a la lista autores seleccionados
+            ''' 
             if selected_autores_listbox.size() == 1:
                 messagebox.showerror("Error", "Ya hay un autor seleccionado")
             else:    
@@ -39,6 +51,9 @@ class ListboxAutor:
                 self.tipoproducto_seleccionado.set(autoresget)
 
         def move_back_author():
+            '''
+            Mueve el autor seleccionado a la lista de autores
+            '''
             selected_index = selected_autores_listbox.curselection()
             if selected_index:
                 selected_autores = selected_autores_listbox.get(selected_index[0])
@@ -54,12 +69,30 @@ class ListboxAutor:
         move_back_button.grid(row=3, column=1, pady=10)
 
     def obtener_tipos_seleccionados(self):
+        '''
+        Obtiene los valores seleccionados
+
+        retorna:
+        el autor seleccionados en forma de cadena.
+        '''
         return self.tipoproducto_seleccionado
     
     def clear_listbox(listbox):
+        '''
+        Limpia el contenido de una lista
+
+        parámetros:
+        listbox: El cuadro de lista a limpiar.
+        '''
         selected_autores_listbox.delete(0, tk.END)
     
     def tamanio_selected(self):
+        '''
+        Obtiene el tamaño de la lista de autor
+
+        retorna:
+        el tamaño de la lista de autor seleccionado.
+        '''
         tamanio = selected_autores_listbox.size()
         print(tamanio)
         return tamanio
