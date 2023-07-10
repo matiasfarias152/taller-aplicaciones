@@ -590,7 +590,7 @@ def asignar_copia(producto,bodega,cantidad,nombrecopia,descripcioncopia):
     entry_productocopia.delete(0,END)
     entry_productocopia.config(state='readonly')
 
-    bodegas_lb.clear_listbox()
+
 
 
 def validarrealizarmov():
