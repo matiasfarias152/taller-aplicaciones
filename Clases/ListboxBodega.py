@@ -7,6 +7,13 @@ class ListboxBodega:
         self.bodega_seleccionada = tk.StringVar()
 
     def mostrar_ventana(self, frame):
+        """
+        Muestra la ventana con la lista de bodegas y la lista de bodegas seleccionadas.
+        
+        Parámetros:
+        - frame: El marco de la ventana donde se mostrarán los elementos.
+        """
+
         dao = DAO()
 
         global selected_bodegas_listbox
@@ -28,6 +35,9 @@ class ListboxBodega:
         selected_bodegas_listbox.grid(row=2, column=1, padx=10)
 
         def move_bodega():
+            """
+            Mueve la bodega seleccionada de la lista de bodegas a la lista de bodegas seleccionadas.
+            """
             if selected_bodegas_listbox.size() == 1:
                 messagebox.showerror("Error", "Ya hay una bodega seleccionada")
             else:
@@ -40,6 +50,9 @@ class ListboxBodega:
                 self.bodega_seleccionada.set(bodegasget)
 
         def move_back_bodega():
+            """
+            Mueve la bodega seleccionada de la lista de bodegas seleccionadas a la lista de bodegas.
+            """
             selected_index = selected_bodegas_listbox.curselection()
             if selected_index:
                 selected_categories = selected_bodegas_listbox.get(selected_index[0])
@@ -55,12 +68,30 @@ class ListboxBodega:
         move_back_button.grid(row=3, column=1, pady=10)
 
     def obtener_bodegas_seleccionadas(self):
+        """
+        Obtiene las bodegas seleccionadas.
+        
+        Retorna:
+        - Las bodegas seleccionadas en forma de cadena.
+        """
         return self.bodega_seleccionada
     
     def clear_listbox(listbox):
+        """
+        Limpia el contenido de un cuadro de lista.
+        
+        Parámetros:
+        - listbox: El cuadro de lista a limpiar.
+        """
         selected_bodegas_listbox.delete(0, tk.END)
 
     def tamanio_selected(self):
+        """
+        Obtiene el tamaño de la lista de bodegas seleccionadas.
+        
+        Retorna:
+        - El tamaño de la lista de bodegas seleccionadas.
+        """
         tamanio = selected_bodegas_listbox.size()
         print(tamanio)
         return tamanio

@@ -7,6 +7,12 @@ class ListboxCopia:
         self.copia_seleccionada = tk.StringVar()
 
     def mostrar_ventana(self, frame):
+        """
+        Muestra la ventana con la lista de copias y la lista de copias seleccionadas.
+        
+        Parámetros:
+        - frame: El marco de la ventana donde se mostrarán los elementos.
+        """
         dao = DAO()
 
         global selected_copias_listbox
@@ -25,6 +31,9 @@ class ListboxCopia:
         selected_copias_listbox.grid(row=2, column=1, padx=10)
 
         def move_copia():
+            """
+            Mueve la copia seleccionada de la lista de copias a la lista de copias seleccionadas.
+            """
             if selected_copias_listbox.size() == 1:
                 messagebox.showerror("Error", "Ya hay una copia seleccionada")
             else:
@@ -37,6 +46,9 @@ class ListboxCopia:
                 self.copia_seleccionada.set(copiasget)
 
         def move_back_copia():
+            """
+            Mueve la copia seleccionada de la lista de copias seleccionadas a la lista de copias.
+            """
             selected_index = selected_copias_listbox.curselection()
             if selected_index:
                 selected_categories = selected_copias_listbox.get(selected_index[0])
@@ -52,10 +64,21 @@ class ListboxCopia:
         move_back_button.grid(row=3, column=1, pady=10)
 
     def obtener_copias_seleccionadas(self):
+        """
+        Obtiene las copias seleccionadas.
+        
+        Retorna:
+        - Las copias seleccionadas en forma de cadena.
+        """
         return self.copia_seleccionada
     
     def mostrar_copias(self,idbodega):
-
+        """
+        Muestra las copias disponibles en una bodega específica.
+        
+        Parámetros:
+        - idbodega: El identificador de la bodega.
+        """
         copias_listbox.delete(0, tk.END)
         selected_copias_listbox.delete(0, tk.END)
         dao = DAO()

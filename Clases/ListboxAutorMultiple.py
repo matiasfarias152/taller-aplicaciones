@@ -7,6 +7,14 @@ class ListboxAutorMultiple:
         self.tipoproducto_seleccionado = tk.StringVar()
     
     def mostrar_ventana(self, frame):
+        
+        """
+        Muestra la ventana con la lista de autores y la lista de autores seleccionados.
+        
+        Parámetros:
+        - frame: El marco de la ventana donde se mostrarán los elementos.
+        """
+
         dao = DAO()
         global selected_autores_listbox
 
@@ -27,7 +35,9 @@ class ListboxAutorMultiple:
         selected_autores_listbox.grid(row=2, column=1, padx=10)
 
         def move_author():
-            
+                """
+                Mueve el autor seleccionado de la lista de autores a la lista de autores seleccionados.
+                """
                 selected_index = autores_listbox.curselection()
                 if selected_index:
                     selected_author = autores_listbox.get(selected_index[0])
@@ -37,6 +47,9 @@ class ListboxAutorMultiple:
                 self.tipoproducto_seleccionado.set(autoresget)
 
         def move_back_author():
+            """
+            Mueve el autor seleccionado de la lista de autores seleccionados a la lista de autores.
+            """
             selected_index = selected_autores_listbox.curselection()
             if selected_index:
                 selected_autores = selected_autores_listbox.get(selected_index[0])
@@ -52,12 +65,30 @@ class ListboxAutorMultiple:
         move_back_button.grid(row=3, column=1, pady=10)
 
     def obtener_tipos_seleccionados(self):
+        """
+        Obtiene los autores seleccionados.
+        
+        Retorna:
+        - Los autores seleccionados en forma de cadena.
+        """
         return self.tipoproducto_seleccionado
     
     def clear_listbox(listbox):
+        """
+        Limpia el contenido de un cuadro de lista.
+        
+        Parámetros:
+        - listbox: El cuadro de lista a limpiar.
+        """
         selected_autores_listbox.delete(0, tk.END)
     
     def tamanio_selected(self):
+        """
+        Obtiene el tamaño de la lista de autores seleccionados.
+        
+        Retorna:
+        - El tamaño de la lista de autores seleccionados.
+        """
         tamanio = selected_autores_listbox.size()
         print(tamanio)
         return tamanio
