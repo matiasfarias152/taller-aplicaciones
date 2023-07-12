@@ -1390,11 +1390,6 @@ def mostrarcopiaslist():
     idbodegasalida = dao.obtener_idbodega(bodegasalida)
     copiaslb.mostrar_copias(idbodegasalida)
 
-
-    
-
-
-
     
 def mostrar_menuadmin():
     """
