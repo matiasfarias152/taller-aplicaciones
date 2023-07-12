@@ -858,6 +858,9 @@ def frame_registrarautor():
 
 
 def frame_registrarcategoria():
+    '''
+    Crea y muestra un marco para registrar una nueva categoria.
+    '''
     global nombre_categoria
     global entrada_categoria
 
