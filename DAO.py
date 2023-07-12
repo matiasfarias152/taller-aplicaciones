@@ -44,14 +44,17 @@ class DAO:
         self.__cursor.execute(sql, values)  
         self.cerrar()
 
+        
+
+             
     def validar_credenciales(self,usuario,contrasena) -> bool:
+
         """
         Función para validar las credenciales del usuario en la base de datos.
 
         :return: True si las credenciales son válidas, False en caso contrario.
         :rtype: bool
-    """
-             
+        """
     #conectar a la base de datos.
         self.conectar()
     # Ejecutar la consulta para validar los datos de credenciales del usuario.
@@ -69,15 +72,17 @@ class DAO:
         # # Si no se encuentran los datos en la base de datos, se devuelve False.
             return False
         
-    """
-    Funcion para validar permisos
-
-    otorgar permisos de acuerdo con la base de datos
-
-    obtener el nombre y consultar el id en la base de datos
-    """
 
     def validar_permisos(self,nombre):
+
+        """
+        Funcion para validar permisos
+
+        otorgar permisos de acuerdo con la base de datos
+
+        obtener el nombre y consultar el id en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT tipousuario_idtipousuario FROM usuario WHERE nombre = %s'
         values = (nombre,)
@@ -89,29 +94,38 @@ class DAO:
 
     
 
-    """
-    Funcion para registrar productos
 
-    registrar un producto en la base de datos
+    def registrarProducto(self,producto:Producto):
 
-    obtener el producto con su id,nombre,tipo,categoria y descripcion para luego insertarlo en la base de datos
-    """
-    def registrarProducto(self,producto:Producto): #Se asignan los 2 parametros self y producto, donde producto es un objeto de tipo Producto
+        """
+        Funcion para registrar productos
+
+        registrar un producto en la base de datos
+
+        obtener el producto con su id,nombre,tipo,categoria y descripcion para luego insertarlo en la base de datos
+        """
+        
+        
+         #Se asignan los 2 parametros self y producto, donde producto es un objeto de tipo Producto
         self.conectar()  #Se conecta a la base de datos
         sql = 'INSERT INTO producto (idproducto, descripcion, categoria_idcategoria, tipoproducto_idtipo) VALUES (%s, %s, %s, %s)' #Sentencia SQL para ingresar items a la base de datos
         values = (producto.get_id(),producto.get_descripcion(),producto.get_categoria(),producto.get_tipoproducto()) #Valores que tendran los items ingresados
         self.__cursor.execute(sql,values) #Ejecución de la sentencia SQL y valores
         self.cerrar() #Se cierra la conexión a la base de datos y guarda
 
-    """
-    Funcion para registrar autores
 
-    registrar un autor en la base de datos
 
-    obtener el idautor y nombre para luego insertarlo en la base de datos
-    """
+    def registrarAutor(self,autor:Autor): 
 
-    def registrarAutor(self,autor:Autor): #Se asignan los 2 parametros self y autor, donde autor es un objeto de tipo Autor
+        """
+        Funcion para registrar autores
+
+        registrar un autor en la base de datos
+
+        obtener el idautor y nombre para luego insertarlo en la base de datos
+        """
+        
+        #Se asignan los 2 parametros self y autor, donde autor es un objeto de tipo Autor
         self.conectar() #Se conecta a la base de datos
         sql = 'INSERT INTO autor (idautor,nombre) VALUES (%s, %s)'#Sentencia SQL para ingresar items a la base de datos
         values = (autor.get_id(),autor.get_nombre())#Valores que tendran los items ingresados
@@ -119,15 +133,19 @@ class DAO:
         self.cerrar()#Se cierra la conexión a la base de datos y guarda
 
 
-    """
-    Funcion para registrar bodegas
 
-    registrar una bodega en la base de datos
+    def registrarBodega(self,bodega:Bodega): 
+        
+        
+        """
+        Funcion para registrar bodegas
 
-    obtener el id, nombre y ubicacion para luego insertarlo en la base de datos
-    """
+        registrar una bodega en la base de datos
 
-    def registrarBodega(self,bodega:Bodega): #Se asignan los 2 parametros self y bodega, donde bodega es un objeto de tipo Bodega
+        obtener el id, nombre y ubicacion para luego insertarlo en la base de datos
+        """
+        
+        #Se asignan los 2 parametros self y bodega, donde bodega es un objeto de tipo Bodega
         self.conectar() #Se conecta a la base de datos
         sql = 'INSERT INTO bodega (idbodega,nombre,ubicacion) VALUES (%s, %s,%s)'#Sentencia SQL para ingresar items a la base de datos
         values = (bodega.get_id(),bodega.get_nombre(),bodega.get_ubicacion())#Valores que tendran los items ingresados
@@ -137,15 +155,17 @@ class DAO:
 
 
 
-    """
-    Funcion para registrar tipos de usuario
 
-    registrar un tipo de usuario en la base de datos
-
-    obtener el tipo de usuario con su id y rol para luego insertarlo en la base de datos
-    """
-    
     def registrarTipousuario(self,tipousuario:Tipousuario):
+        
+        """
+        Funcion para registrar tipos de usuario
+
+        registrar un tipo de usuario en la base de datos
+
+        obtener el tipo de usuario con su id y rol para luego insertarlo en la base de datos
+        """
+    
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO tipousuario (idtipousuario, rol) VALUES (%s, %s)'#Sentencia SQL para ingresar tipo de usuarios a la base de datos
         values = (tipousuario.get_idTipo(), tipousuario.get_tipousuario()) # Se recuperan los valores con las 2 funciones get de la clase Tipousuario
@@ -153,15 +173,19 @@ class DAO:
         self.cerrar()#Se cierra la conexion a la base de datos con un commit
     
 
-    """
-    Funcion para registrar categorias
 
-    registrar una categoria en la base de datos
-
-    obtener la categoria con su id y categoria para luego insertarlo en la base de datos
-    """
 
     def registrarCategoria(self,categoria:Categoria):
+
+
+        """
+        Funcion para registrar categorias
+
+        registrar una categoria en la base de datos
+
+        obtener la categoria con su id y categoria para luego insertarlo en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO categoria (idcategoria, categoria) VALUES (%s, %s)'#Sentencia SQL para ingresar una categoria a la base de datos
         values = (categoria.get_idCategoria(), categoria.get_categoria())#Se recuperan los valores con las 2 funciones get de la clase Categoria
@@ -169,15 +193,19 @@ class DAO:
         self.cerrar()#Se cierra la conexion a la base de datos con un commit
 
         
-    """
-    Funcion para registrar tipos de producto
 
-    registrar un tipo de producto en la base de datos
-
-    obtener el tipo de producto con su id y su tipo para luego insertarlo en la base de datos
-    """
 
     def registrarTipoproducto(self,tipoproducto:Tipo_producto):
+
+
+        """
+        Funcion para registrar tipos de producto
+
+        registrar un tipo de producto en la base de datos
+
+        obtener el tipo de producto con su id y su tipo para luego insertarlo en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO tipoproducto(idtipo,tipo) VALUES (%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
         values = (tipoproducto.get_idtipo(),tipoproducto.get_tipo_producto())#Se recuperan los valores con las 2 funciones get de la clase Tipo_producto
@@ -187,30 +215,37 @@ class DAO:
 
 
 
-    """
-    Funcion para registrar movimientos en bodegas
 
-    registrar un movimiento en la base de datos
-
-    registrar un movimiento vinculado a una bodega en la base de datos
-    """
 
     def registrarBodegamov(self,bodegamov:BodegaMov):
+
+        """
+        Funcion para registrar movimientos en bodegas
+
+        registrar un movimiento en la base de datos
+
+        registrar un movimiento vinculado a una bodega en la base de datos
+        """
+
+
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO bodega_movimiento(idbodegamov,estado,movimiento_idmov,bodega_idbodega) VALUES (%s,%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
         values = (bodegamov.get_id(),bodegamov.get_estado(),bodegamov.get_idmov(), bodegamov.get_idbodega())#Se recuperan los valores con las 4 funciones get de la clase BodegaMov
         self.__cursor.execute(sql,values)#Se ejecuta la sentencia SQL y sus valores
         self.cerrar()#Se cierra la conexion a la base de datos con un commit
 
-    """
-    Funcion para registrar movimientos de copias
 
-    registrar un movimiento de copias en la base de datos
-
-    ingresar un movimiento de copias en la base de datos
-    """
 
     def registrarCopiamovimiento(self,copiamovimiento:CopiaMovimiento):
+
+        """
+        Funcion para registrar movimientos de copias
+
+        registrar un movimiento de copias en la base de datos
+
+        ingresar un movimiento de copias en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'INSERT INTO copia_movimiento(idcopiamov,copia_idcopia,movimiento_idmov) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
         values = (copiamovimiento.get_idcopiamov(),copiamovimiento.get_idcopia(),copiamovimiento.get_idmov())#Se recuperan los valores con las 4 funciones get de la clase BodegaMov
@@ -218,15 +253,18 @@ class DAO:
         self.cerrar()#Se cierra la conexion a la base de datos con un commit
 
 
-    """
-    Funcion para obtener bodegas
 
-    obtener las bodegas disponibles
-
-    obtener las bodegas ingresados en la base de datos
-    """
 
     def obtener_bodegas(self):
+
+        """
+        Funcion para obtener bodegas
+
+        obtener las bodegas disponibles
+
+        obtener las bodegas ingresados en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT nombre FROM bodega'
         self.__cursor.execute(sql)
@@ -239,15 +277,18 @@ class DAO:
 
 
     
-    """
-    Funcion para obtener copias
-
-    obtener las copias disponibles
-
-    obtener las copias ingresadas en la base de datos
-    """
 
     def obtener_copias(self,idbodega):
+
+        """
+        Funcion para obtener copias
+
+        obtener las copias disponibles
+
+        obtener las copias ingresadas en la base de datos
+        """
+
+
         self.conectar()
         sql = 'SELECT CONCAT (idcopia,"-",nombre) FROM copia WHERE bodega_idbodega = %s'
         values = (idbodega,)
@@ -259,15 +300,19 @@ class DAO:
     
 
 
-    """
-    Funcion para obtener el ultimo id de los movimientos
 
-    obtener el id del ultimo movimiento disponible
-
-    obtener id del ultimo movimiento registrado en la base de datos
-    """
 
     def obtener_ultimomov(self):
+
+
+        """
+        Funcion para obtener el ultimo id de los movimientos
+
+        obtener el id del ultimo movimiento disponible
+
+        obtener id del ultimo movimiento registrado en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT MAX(idmov) FROM movimiento'
         self.__cursor.execute(sql)
@@ -275,15 +320,18 @@ class DAO:
         self.cerrar()
         return idmov[0]
 
-    """
-    Funcion para obtener los ids de las bodegas
-
-    obtener los id's de las bodegas disponibles
-
-    obtener los id's de bodegas ingresadas en la base de datos
-    """
 
     def obtener_idbodega(self,nombre):
+
+
+        """
+        Funcion para obtener los ids de las bodegas
+
+        obtener los id's de las bodegas disponibles
+
+        obtener los id's de bodegas ingresadas en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT idbodega FROM bodega WHERE nombre = %s'
         values = (nombre,)
@@ -293,15 +341,18 @@ class DAO:
         
         return idbodega[0]
 
-    """
-    Funcion para obtener los ids de las copias
 
-    obtener los id's de las copias disponibles
-
-    obtener los id's de copias ingresadas en la base de datos
-    """
 
     def obtener_idcopia(self,nombre):
+
+        """
+        Funcion para obtener los ids de las copias
+
+        obtener los id's de las copias disponibles
+
+        obtener los id's de copias ingresadas en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT idcopia FROM copia WHERE nombre = %s LIMIT 1'
         values = (nombre,)
@@ -313,15 +364,18 @@ class DAO:
 
 
     
-    """
-    Funcion para obtener usuarios
 
-    obtener los usuarios disponibles
-
-    obtener los usuarios ingresados en la base de datos
-    """
 
     def obtener_usuarios(self):
+
+        """
+        Funcion para obtener usuarios
+
+        obtener los usuarios disponibles
+
+        obtener los usuarios ingresados en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT nombre FROM usuario'
         self.__cursor.execute(sql)
@@ -330,15 +384,18 @@ class DAO:
         usuarios = [producto[0].strip('{') for producto in usuarios]
         return usuarios
     
-    """
-    Funcion para obtener los ids de los usuarios
 
-    obtener los id's de los usuarios disponibles
-
-    obtener los id's de usuarios ingresados en la base de datos
-    """
 
     def obtener_idusuario(self,nombre):
+
+        """
+        Funcion para obtener los ids de los usuarios
+
+        obtener los id's de los usuarios disponibles
+
+        obtener los id's de usuarios ingresados en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT idusuario FROM usuario WHERE nombre = %s'
         values = (nombre,)
@@ -347,15 +404,18 @@ class DAO:
         self.cerrar()
         return idusuario[0]
 
-    """
-    Funcion para obtener productos
 
-    obtener los productos disponibles
-
-    obtener los productos ingresados en la base de datos
-    """
 
     def obtener_productos(self):
+
+        """
+        Funcion para obtener productos
+
+        obtener los productos disponibles
+
+        obtener los productos ingresados en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT descripcion FROM producto'
         self.__cursor.execute(sql)
@@ -366,6 +426,14 @@ class DAO:
 
 
     def obtener_idproductos(self,producto):
+
+        """
+        Funcion para obtener id de productos
+
+        obtener los id's  de productos disponibles
+
+        obtener los id's de productos ingresados en la base de datos
+        """
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT idproducto FROM producto WHERE descripcion = %s'
         values = (producto,)
@@ -374,15 +442,18 @@ class DAO:
         self.cerrar()
         return idproducto[0]
 
-    """
-    Funcion para obtener autores
 
-    obtener los autores disponibles
-
-    obtener los autores ingresados en la base de datos
-    """
 
     def obtener_autores(self):
+
+        """
+        Funcion para obtener autores
+
+        obtener los autores disponibles
+
+        obtener los autores ingresados en la base de datos
+        """
+
         self.conectar()
         sql = 'SELECT nombre FROM autor'
         self.__cursor.execute(sql)
@@ -395,6 +466,15 @@ class DAO:
 
 
     def obtener_idautor(self,autor):
+
+        """
+        Funcion para obtener id's de autores
+
+        obtener los id's de autores disponibles
+
+        obtener los  id's de autores ingresados en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT idautor FROM autor WHERE nombre = %s'
         values = (autor,)
@@ -404,16 +484,19 @@ class DAO:
         return idautor[0]
 
 
-    """
-    Funcion para asignar autores
 
-    asignar un autor a un producto
-
-    asignar un autor a un producto en la base de datos
-    """
 
 
     def asignarAutor(self,producto_autor:Producto_Autor):
+
+        """
+        Funcion para asignar autores
+
+        asignar un autor a un producto
+
+        asignar un autor a un producto en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos 
         sql = 'INSERT INTO producto_autor(idproductoautor,producto_idproducto,autor_idautor) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
         values = (producto_autor.get_id(),producto_autor.get_idproducto(),producto_autor.get_idautor())#Se recuperan los valores con las 2 funciones get de la clase Tipo_producto
@@ -423,16 +506,20 @@ class DAO:
 
 
 
-    """
-    Funcion para asignar usuarios a bodega
-
-    asignar usuarios a una bodega
-
-    asignar varios usuarios a una bodega en la base de datos
-    """
 
 
     def asignarBodega(self,bodega_usuario:Bodega_usuario):
+
+            
+        """
+        Funcion para asignar usuarios a bodega
+
+        asignar usuarios a una bodega
+
+        asignar varios usuarios a una bodega en la base de datos
+        """
+
+
         self.conectar()#Se conecta a la base de datos 
         sql = 'INSERT INTO bodega_usuario(idbodegausuario,usuario_idusuario,bodega_idbodega) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un tipo de producto a la base de datos
         values = (bodega_usuario.get_idbodegausuario(),bodega_usuario.get_idusuario(),bodega_usuario.get_idbodega())#Se recuperan los valores con las 3 funciones get de la clase Bodega_usuario
@@ -440,16 +527,18 @@ class DAO:
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
-    """
-    Funcion para asignar copias a productos y bodegas
-
-    asignar copias a una bodega y producto
-
-    asignar varias copias a una bodega en la base de datos
-    """
-
 
     def asignarCopia(self,copia:Copia):
+
+
+        """
+        Funcion para asignar copias a productos y bodegas
+
+        asignar copias a una bodega y producto
+
+        asignar varias copias a una bodega en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos 
         sql = 'INSERT INTO copia(idcopia,nombre,descripcion,producto_idproducto,bodega_idbodega) VALUES (%s,%s,%s,%s,%s)'#Sentencia SQL para ingresar una copia a la base de datos
         values = (copia.get_id(),copia.get_nombre(),copia.get_descripcion(),copia.get_idproducto(),copia.get_idbodega())#Se recuperan los valores con las 5 funciones get de la clase Copia
@@ -458,16 +547,18 @@ class DAO:
 
 
     
-    """
-    Funcion para asignar movimientos a usuarios
-
-    asignar movimientos a un usuario
-
-    asignar movimientos de un usuario a la base de datos
-    """
 
 
     def asignarMovimiento(self,movimiento:Movimiento):
+
+        """
+        Funcion para asignar movimientos a usuarios
+
+        asignar movimientos a un usuario
+
+        asignar movimientos de un usuario a la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos 
         sql = 'INSERT INTO movimiento(idmov,fecha,usuario_idusuario) VALUES (%s,%s,%s)'#Sentencia SQL para ingresar un movimiento a la base de datos
         values = (movimiento.get_id(),movimiento.get_fecha(),movimiento.get_idusuario())#Se recuperan los valores con las 3 funciones get de la clase Movimiento
@@ -475,15 +566,17 @@ class DAO:
         self.cerrar()#Se cierra la coenxion a la base de datos con un commit
 
 
-    """
-    Funcion para obtener tipos de usuario
-
-    obtener los tipos de usuario disponible
-
-    obtener los tipos de usuario ingresados en la base de datos
-    """
 
     def obtener_tiposusuario(self):
+
+        """
+        Funcion para obtener tipos de usuario
+
+        obtener los tipos de usuario disponible
+
+        obtener los tipos de usuario ingresados en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT rol FROM tipousuario' #Sentencia SQL para consultar los roles existentes
         self.__cursor.execute(sql)
@@ -493,6 +586,15 @@ class DAO:
         return roles# Retornar todos los roles existentes
     
     def obtener_idtipousuario(self,rol):
+
+        """
+        Funcion para obtener los id's de tipos de usuario
+
+        obtener los id's de tipos de usuario disponibles
+
+        obtener los id's de tipos de usuario ingresados en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT idtipousuario FROM tipousuario WHERE rol = %s'
         values = (rol,)
@@ -501,15 +603,19 @@ class DAO:
         self.cerrar()
         return idtipo[0]
 
-    """
-    Funcion para obtener tipos de producto
 
-    obtener los tipos de productos disponible
-
-    obtener los tipos de productos ingresados en la base de datos
-    """
 
     def obtener_tiposproductos(self):
+
+        """
+        Funcion para obtener tipos de producto
+
+        obtener los tipos de productos disponible
+
+        obtener los tipos de productos ingresados en la base de datos
+        """
+
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT tipo FROM tipoproducto' #Sentencia SQL para consultar los tipos de productos existentes
         self.__cursor.execute(sql)
@@ -518,15 +624,18 @@ class DAO:
         tipos = [tipo[0].strip('{') for tipo in tipos] #Quitarles el caracter "{" a los datos obtenidos
         return tipos# Retornar todos los tipos existentes
     
-    """
-    Funcion para obtener los id's de tipos de productos
 
-    obtener los id's de  tipos de productos disponibles
-
-    obtener los id's de tipos de productos ingresados en la base de datos
-    """
 
     def obtener_idtipoproducto(self,tipo):
+
+        """
+        Funcion para obtener los id's de tipos de productos
+
+        obtener los id's de  tipos de productos disponibles
+
+        obtener los id's de tipos de productos ingresados en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT idtipo FROM tipoproducto WHERE tipo = %s'
         values = (tipo,)
@@ -536,15 +645,18 @@ class DAO:
         print(idtipo)
         return idtipo[0]
 
-    """
-    Funcion para obtener las categorias
 
-    obtener las categorias disponibles
-
-    obtener las categorias ingresadas en la base de datos
-    """
 
     def obtener_categorias(self):
+
+        """
+        Funcion para obtener las categorias
+
+        obtener las categorias disponibles
+
+        obtener las categorias ingresadas en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT categoria FROM categoria' #Sentencia SQL para consultar los tipos de productos existentes
         self.__cursor.execute(sql)
@@ -553,15 +665,18 @@ class DAO:
         categorias = [categoria[0].strip('{') for categoria in categorias] #Quitarles el caracter "{" a los datos obtenidos
         return categorias #Retornar las categorias 
     
-    """
-    Funcion para obtener los id's de las categorias
 
-    obtener los id's de categorias disponibles
-
-    obtener los id's de categorias ingresadas en la base de datos
-    """
 
     def obtener_idcategorias(self,categoria):
+
+        """
+        Funcion para obtener los id's de las categorias
+
+        obtener los id's de categorias disponibles
+
+        obtener los id's de categorias ingresadas en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT idcategoria FROM categoria WHERE categoria = %s'
         values = (categoria,)
@@ -572,15 +687,18 @@ class DAO:
         return idcategoria[0]
 
 
-    """
-    Funcion para obtener productos filtrandolos por bodega y editorial
 
-    obtener los productos filtrados disponibles
-
-    obtener los productos disponibles en la base de datos
-    """
 
     def obtenerproductosfiltro(self,bodega,editorial):
+
+        """
+        Funcion para obtener productos filtrandolos por bodega y editorial
+
+        obtener los productos filtrados disponibles
+
+        obtener los productos disponibles en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT copia.nombre, COUNT(*)AS cantidad, tipoproducto.tipo AS tipo_producto FROM copia JOIN producto ON copia.producto_idproducto = producto.idproducto JOIN producto_autor ON producto.idproducto = producto_autor.producto_idproducto JOIN autor ON producto_autor.autor_idautor = autor.idautor JOIN bodega ON copia.bodega_idbodega = bodega.idbodega JOIN tipoproducto ON producto.tipoproducto_idtipo = tipoproducto.idtipo WHERE bodega.idbodega = %s AND autor.idautor = %s GROUP BY copia.nombre, tipoproducto.tipo'
         values = (bodega,editorial)
@@ -590,6 +708,18 @@ class DAO:
         return resultados
 
     def obtenerstockbodegas(self):
+
+        """
+        Obtiene el stock de las bodegas.
+
+        Conecta a la base de datos, ejecuta una consulta SQL para obtener el nombre, ubicación y la cantidad de copias disponibles
+        en cada bodega. Luego, cierra la conexión a la base de datos y devuelve los resultados.
+
+        Returns:
+            list: Una lista de tuplas que contiene el nombre de la bodega, su ubicación y la cantidad de copias disponibles.
+
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT bodega.nombre, bodega.ubicacion, COUNT(*) AS cantidad FROM bodega JOIN copia ON copia.bodega_idbodega = bodega.idbodega GROUP BY bodega.nombre'
         self.__cursor.execute(sql)
@@ -598,6 +728,19 @@ class DAO:
         return resultados
 
     def obtenermovimientosusuario(self):
+
+
+        """
+        Obtiene los movimientos de usuarios.
+
+        Conecta a la base de datos, ejecuta una consulta SQL para obtener el ID del movimiento, la fecha, el ID del usuario y el nombre
+        del usuario asociado a cada movimiento. Luego, cierra la conexión a la base de datos y devuelve los resultados.
+
+        Returns:
+            list: Una lista de tuplas que contiene el ID del movimiento, la fecha, el ID del usuario y el nombre del usuario asociado
+            a cada movimiento.
+
+        """
         self.conectar()#Se conecta a la base de datos
         sql = 'SELECT movimiento.idmov, movimiento.fecha, movimiento.usuario_idusuario, usuario.nombre FROM movimiento JOIN usuario ON movimiento.usuario_idusuario = usuario.idusuario'
         self.__cursor.execute(sql)
@@ -607,6 +750,18 @@ class DAO:
 
     
     def eliminarBodega(self,idbodega):
+
+        """
+        Elimina una bodega de la base de datos.
+
+        Conecta a la base de datos, ejecuta una consulta SQL para eliminar la bodega con el ID especificado. Luego, cierra la conexión
+        a la base de datos.
+
+        Args:
+            idbodega (int): El ID de la bodega que se desea eliminar.
+
+        """
+
         self.conectar()
         sql = 'DELETE FROM `bodega` WHERE idbodega = %s'
         values = (idbodega,)
@@ -614,6 +769,18 @@ class DAO:
         self.cerrar()
 
     def eliminarAutor(self,idautor):
+
+        """
+        Elimina un autor de la base de datos.
+
+        Conecta a la base de datos, ejecuta una consulta SQL para eliminar el autor con el ID especificado. Luego, cierra la conexión
+        a la base de datos.
+
+        Args:
+            idautor (int): El ID del autor que se desea eliminar.
+
+        """
+        
         self.conectar()
         sql = 'DELETE FROM `autor` WHERE idautor = %s'
         values = (idautor,)
@@ -622,6 +789,19 @@ class DAO:
 
     
     def eliminarProducto(self,idproducto):
+
+        """
+        Elimina un producto de la base de datos.
+
+        Conecta a la base de datos, ejecuta una consulta SQL para eliminar el producto con el ID especificado. Luego, cierra la conexión
+        a la base de datos.
+
+        Args:
+            idproducto (int): El ID del producto que se desea eliminar.
+
+        """
+
+
         self.conectar()
         sql = 'DELETE FROM `producto` WHERE idproducto = %s'
         values = (idproducto,)
@@ -630,15 +810,17 @@ class DAO:
 
     # def obtener
 
-    """
-    Funcion para actualizar los id's de bodega en las copias
-
-    obtener los id's de bodegas de las copias y actualizarlos
-
-    Actualizar los bodega_idbodega de la tabla copia ingresadas en la base de datos
-    """
 
     def actualizar_idbodegacopias(self,idbodega,idcopia):
+
+        """
+        Funcion para actualizar los id's de bodega en las copias
+
+        obtener los id's de bodegas de las copias y actualizarlos
+
+        Actualizar los bodega_idbodega de la tabla copia ingresadas en la base de datos
+        """
+
         self.conectar()#Se conecta a la base de datos
         sql = 'UPDATE copia SET bodega_idbodega = %s WHERE idcopia = %s'
         values = (idbodega,idcopia)
