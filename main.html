@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module main</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">main</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cspeci%5Conedrive%5Cescritorio%5Ctalleraplicaciones%5Cmain.py">c:\users\speci\onedrive\escritorio\talleraplicaciones\main.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="tkcalendar.calendar_.html">tkcalendar.calendar_</a><br>
+<a href="credencial.html">credencial</a><br>
+</td><td class="multicolumn"><a href="tkcalendar.dateentry.html">tkcalendar.dateentry</a><br>
+<a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
+</td><td class="multicolumn"><a href="mysql.html">mysql</a><br>
+<a href="tkinter.html">tkinter</a><br>
+</td><td class="multicolumn"><a href="tkcalendar.tooltip.html">tkcalendar.tooltip</a><br>
+<a href="tkinter.ttk.html">tkinter.ttk</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-asignar_autor"><strong>asignar_autor</strong></a>()</dt><dd><span class="code">Asigna&nbsp;un&nbsp;autor&nbsp;a&nbsp;un&nbsp;producto&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-asignar_bodega"><strong>asignar_bodega</strong></a>()</dt><dd><span class="code">Asigna&nbsp;una&nbsp;bodega&nbsp;a&nbsp;uno&nbsp;o&nbsp;varios&nbsp;usuarios&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-asignar_copia"><strong>asignar_copia</strong></a>(producto, bodega, cantidad, nombrecopia, descripcioncopia)</dt><dd><span class="code">Asigna&nbsp;una&nbsp;copia&nbsp;a&nbsp;un&nbsp;producto&nbsp;en&nbsp;una&nbsp;bodega.</span></dd></dl>
+ <dl><dt><a name="-cerrar_frame"><strong>cerrar_frame</strong></a>()</dt><dd><span class="code">Cierra&nbsp;el&nbsp;marco&nbsp;anterior&nbsp;si&nbsp;existe.</span></dd></dl>
+ <dl><dt><a name="-cerrar_frameinformefiltrado"><strong>cerrar_frameinformefiltrado</strong></a>()</dt><dd><span class="code">Cierra&nbsp;el&nbsp;marco&nbsp;anterior&nbsp;si&nbsp;existe.</span></dd></dl>
+ <dl><dt><a name="-cerrar_ventanainformegestion"><strong>cerrar_ventanainformegestion</strong></a>()</dt><dd><span class="code">Cierra&nbsp;el&nbsp;marco&nbsp;anterior&nbsp;si&nbsp;existe.</span></dd></dl>
+ <dl><dt><a name="-cerrar_ventanainformeusuarios"><strong>cerrar_ventanainformeusuarios</strong></a>()</dt><dd><span class="code">Cierra&nbsp;el&nbsp;marco&nbsp;anterior&nbsp;si&nbsp;existe.</span></dd></dl>
+ <dl><dt><a name="-eliminar_bodega"><strong>eliminar_bodega</strong></a>()</dt><dd><span class="code">Elimina&nbsp;una&nbsp;bodega&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-eliminar_editorial"><strong>eliminar_editorial</strong></a>()</dt><dd><span class="code">Elimina&nbsp;una&nbsp;editorial&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-eliminar_productos"><strong>eliminar_productos</strong></a>()</dt><dd><span class="code">Elimina&nbsp;un&nbsp;producto&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-frame_asignar_copia"><strong>frame_asignar_copia</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;asignar&nbsp;copias&nbsp;de&nbsp;un&nbsp;producto&nbsp;a&nbsp;una&nbsp;bodega.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;solicita&nbsp;al&nbsp;usuario&nbsp;ingresar&nbsp;los&nbsp;datos&nbsp;necesarios&nbsp;para&nbsp;asignar&nbsp;copias&nbsp;de&nbsp;un&nbsp;producto&nbsp;a&nbsp;una&nbsp;bodega.&nbsp;Los&nbsp;datos&nbsp;incluyen&nbsp;el&nbsp;nombre,&nbsp;descripción,&nbsp;cantidad&nbsp;y&nbsp;producto&nbsp;de&nbsp;las&nbsp;copias&nbsp;a&nbsp;asignar,&nbsp;así&nbsp;como&nbsp;la&nbsp;selección&nbsp;de&nbsp;la&nbsp;bodega&nbsp;destino.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Asignar&nbsp;Copias",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`validar_asignarcopia`&nbsp;para&nbsp;validar&nbsp;los&nbsp;datos&nbsp;y&nbsp;realizar&nbsp;la&nbsp;asignación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;las&nbsp;clases&nbsp;`ListboxProductoEmergente`&nbsp;y&nbsp;`ListboxBodega`,&nbsp;y&nbsp;la&nbsp;función&nbsp;`validar_asignarcopia`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_asignarautor"><strong>frame_asignarautor</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;asignar&nbsp;un&nbsp;autor&nbsp;a&nbsp;un&nbsp;producto.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;una&nbsp;lista&nbsp;de&nbsp;productos&nbsp;y&nbsp;autores&nbsp;disponibles&nbsp;y&nbsp;permite&nbsp;seleccionar&nbsp;uno&nbsp;o&nbsp;varios&nbsp;para&nbsp;realizar&nbsp;la&nbsp;asignación.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Asignar&nbsp;Autor",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`asignar_autor`&nbsp;para&nbsp;realizar&nbsp;la&nbsp;asignación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;las&nbsp;clases&nbsp;`ListboxAutorMultiple`&nbsp;y&nbsp;`ListboxProductos`&nbsp;y&nbsp;la&nbsp;función&nbsp;`asignar_autor`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_asignarbodega"><strong>frame_asignarbodega</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;asignar&nbsp;usuarios&nbsp;a&nbsp;una&nbsp;bodega.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;una&nbsp;lista&nbsp;de&nbsp;bodegas&nbsp;y&nbsp;usuarios&nbsp;disponibles&nbsp;y&nbsp;permite&nbsp;seleccionar&nbsp;uno&nbsp;o&nbsp;varios&nbsp;para&nbsp;realizar&nbsp;la&nbsp;asignación.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Asignar&nbsp;Usuarios",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`asignar_bodega`&nbsp;para&nbsp;realizar&nbsp;la&nbsp;asignación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;las&nbsp;clases&nbsp;`ListboxBodega`&nbsp;y&nbsp;`ListboxUsuarioMultiple`&nbsp;y&nbsp;la&nbsp;función&nbsp;`asignar_bodega`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_eliminarbodega"><strong>frame_eliminarbodega</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;eliminar&nbsp;una&nbsp;bodega.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;una&nbsp;lista&nbsp;de&nbsp;bodegas&nbsp;disponibles&nbsp;y&nbsp;permite&nbsp;seleccionar&nbsp;una&nbsp;o&nbsp;varias&nbsp;para&nbsp;eliminar.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Eliminar&nbsp;bodega",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`eliminar_bodega`&nbsp;para&nbsp;realizar&nbsp;la&nbsp;eliminación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxBodega`&nbsp;y&nbsp;la&nbsp;función&nbsp;`eliminar_bodega`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_eliminareditorial"><strong>frame_eliminareditorial</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;eliminar&nbsp;una&nbsp;editorial.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;una&nbsp;lista&nbsp;de&nbsp;editoriales&nbsp;disponibles&nbsp;y&nbsp;permite&nbsp;seleccionar&nbsp;una&nbsp;o&nbsp;varias&nbsp;para&nbsp;eliminar.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Eliminar&nbsp;editorial",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`eliminar_editorial`&nbsp;para&nbsp;realizar&nbsp;la&nbsp;eliminación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxAutor`&nbsp;y&nbsp;la&nbsp;función&nbsp;`eliminar_editorial`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_eliminarproducto"><strong>frame_eliminarproducto</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;eliminar&nbsp;un&nbsp;producto.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;una&nbsp;lista&nbsp;de&nbsp;productos&nbsp;disponibles&nbsp;y&nbsp;permite&nbsp;seleccionar&nbsp;uno&nbsp;o&nbsp;varios&nbsp;para&nbsp;eliminar.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Eliminar&nbsp;producto",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`eliminar_productos`&nbsp;para&nbsp;realizar&nbsp;la&nbsp;eliminación.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxProductos`&nbsp;y&nbsp;la&nbsp;función&nbsp;`eliminar_productos`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_informebodega"><strong>frame_informebodega</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;generar&nbsp;un&nbsp;informe&nbsp;de&nbsp;una&nbsp;bodega.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;administrador&nbsp;donde&nbsp;se&nbsp;solicita&nbsp;al&nbsp;usuario&nbsp;seleccionar&nbsp;una&nbsp;bodega&nbsp;y&nbsp;una&nbsp;o&nbsp;varias&nbsp;editoriales&nbsp;para&nbsp;generar&nbsp;un&nbsp;informe&nbsp;específico&nbsp;de&nbsp;la&nbsp;bodega.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Filtrar&nbsp;informe",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`informefiltrado`&nbsp;para&nbsp;generar&nbsp;el&nbsp;informe.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxAutor`&nbsp;y&nbsp;la&nbsp;función&nbsp;`informefiltrado`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_realizarmov"><strong>frame_realizarmov</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;el&nbsp;marco&nbsp;para&nbsp;realizar&nbsp;un&nbsp;movimiento&nbsp;de&nbsp;copias&nbsp;entre&nbsp;bodegas.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;un&nbsp;marco&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;del&nbsp;bodeguero&nbsp;donde&nbsp;se&nbsp;solicita&nbsp;al&nbsp;usuario&nbsp;ingresar&nbsp;los&nbsp;datos&nbsp;necesarios&nbsp;para&nbsp;realizar&nbsp;un&nbsp;movimiento&nbsp;de&nbsp;copias&nbsp;entre&nbsp;bodegas.&nbsp;Los&nbsp;datos&nbsp;incluyen&nbsp;la&nbsp;fecha&nbsp;del&nbsp;movimiento,&nbsp;la&nbsp;bodega&nbsp;de&nbsp;salida,&nbsp;la&nbsp;bodega&nbsp;de&nbsp;entrada&nbsp;y&nbsp;las&nbsp;copias&nbsp;a&nbsp;mover.&nbsp;Al&nbsp;hacer&nbsp;clic&nbsp;en&nbsp;el&nbsp;botón&nbsp;"Realizar&nbsp;movimiento",&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;`validarrealizarmov`&nbsp;para&nbsp;validar&nbsp;los&nbsp;datos&nbsp;y&nbsp;realizar&nbsp;el&nbsp;movimiento.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxCopia`&nbsp;y&nbsp;las&nbsp;funciones&nbsp;`mostrarcopiaslist`,&nbsp;`validarrealizarmov`&nbsp;y&nbsp;`previsualizarmov`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-frame_registrarautor"><strong>frame_registrarautor</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;frame&nbsp;para&nbsp;registrar&nbsp;un&nbsp;nuevo&nbsp;autor.</span></dd></dl>
+ <dl><dt><a name="-frame_registrarbodega"><strong>frame_registrarbodega</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;frame&nbsp;para&nbsp;registrar&nbsp;una&nbsp;nueva&nbsp;bodega.</span></dd></dl>
+ <dl><dt><a name="-frame_registrarcategoria"><strong>frame_registrarcategoria</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;marco&nbsp;para&nbsp;registrar&nbsp;una&nbsp;nueva&nbsp;categoria.</span></dd></dl>
+ <dl><dt><a name="-frame_registrarproducto"><strong>frame_registrarproducto</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;frame&nbsp;para&nbsp;registrar&nbsp;un&nbsp;nuevo&nbsp;producto.</span></dd></dl>
+ <dl><dt><a name="-frame_registrartipoproducto"><strong>frame_registrartipoproducto</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;frame&nbsp;para&nbsp;registrar&nbsp;un&nbsp;nuevo&nbsp;producto.</span></dd></dl>
+ <dl><dt><a name="-frame_registrarusuario"><strong>frame_registrarusuario</strong></a>()</dt><dd><span class="code">Crea&nbsp;y&nbsp;muestra&nbsp;un&nbsp;marco&nbsp;para&nbsp;registrar&nbsp;un&nbsp;nuevo&nbsp;usuario.</span></dd></dl>
+ <dl><dt><a name="-informefiltrado"><strong>informefiltrado</strong></a>()</dt><dd><span class="code">Crea&nbsp;una&nbsp;ventana&nbsp;de&nbsp;informe&nbsp;filtrado&nbsp;y&nbsp;muestra&nbsp;los&nbsp;datos&nbsp;de&nbsp;productos&nbsp;filtrados&nbsp;en&nbsp;un&nbsp;Treeview.</span></dd></dl>
+ <dl><dt><a name="-informegestion"><strong>informegestion</strong></a>()</dt><dd><span class="code">Crea&nbsp;una&nbsp;ventana&nbsp;de&nbsp;informe&nbsp;de&nbsp;gestión&nbsp;y&nbsp;muestra&nbsp;los&nbsp;datos&nbsp;de&nbsp;stock&nbsp;de&nbsp;las&nbsp;bodegas&nbsp;en&nbsp;un&nbsp;Treeview.</span></dd></dl>
+ <dl><dt><a name="-informeusuarios"><strong>informeusuarios</strong></a>()</dt><dd><span class="code">Crea&nbsp;una&nbsp;ventana&nbsp;de&nbsp;informe&nbsp;de&nbsp;usuarios&nbsp;y&nbsp;muestra&nbsp;los&nbsp;datos&nbsp;de&nbsp;los&nbsp;movimientos&nbsp;de&nbsp;usuarios&nbsp;en&nbsp;un&nbsp;Treeview.</span></dd></dl>
+ <dl><dt><a name="-mostrar_error"><strong>mostrar_error</strong></a>()</dt><dd><span class="code">Muestra&nbsp;un&nbsp;cuadro&nbsp;de&nbsp;diálogo&nbsp;de&nbsp;error&nbsp;con&nbsp;el&nbsp;mensaje&nbsp;"Credenciales&nbsp;inválidas".</span></dd></dl>
+ <dl><dt><a name="-mostrar_menuadmin"><strong>mostrar_menuadmin</strong></a>()</dt><dd><span class="code">Muestra&nbsp;el&nbsp;menú&nbsp;de&nbsp;administrador.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;una&nbsp;nueva&nbsp;ventana&nbsp;con&nbsp;el&nbsp;título&nbsp;"Menú&nbsp;Admin"&nbsp;y&nbsp;muestra&nbsp;un&nbsp;menú&nbsp;con&nbsp;varias&nbsp;opciones&nbsp;para&nbsp;registrar,&nbsp;eliminar,&nbsp;asignar&nbsp;y&nbsp;gestionar&nbsp;diferentes&nbsp;elementos.&nbsp;Las&nbsp;opciones&nbsp;del&nbsp;menú&nbsp;están&nbsp;asociadas&nbsp;a&nbsp;diferentes&nbsp;funciones&nbsp;que&nbsp;abren&nbsp;diferentes&nbsp;marcos&nbsp;de&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;usuario.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;las&nbsp;funciones&nbsp;correspondientes&nbsp;para&nbsp;cada&nbsp;opción&nbsp;del&nbsp;menú&nbsp;y&nbsp;la&nbsp;configuración&nbsp;adecuada&nbsp;de&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;usuario.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-mostrar_menubodeguero"><strong>mostrar_menubodeguero</strong></a>()</dt><dd><span class="code">Muestra&nbsp;el&nbsp;menú&nbsp;del&nbsp;bodeguero.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;crea&nbsp;una&nbsp;nueva&nbsp;ventana&nbsp;con&nbsp;el&nbsp;título&nbsp;"Menú&nbsp;Bodeguero"&nbsp;y&nbsp;muestra&nbsp;un&nbsp;menú&nbsp;con&nbsp;opciones&nbsp;para&nbsp;realizar&nbsp;movimientos&nbsp;y&nbsp;gestionar&nbsp;bodegas.&nbsp;Las&nbsp;opciones&nbsp;del&nbsp;menú&nbsp;están&nbsp;asociadas&nbsp;a&nbsp;diferentes&nbsp;funciones&nbsp;que&nbsp;abren&nbsp;diferentes&nbsp;marcos&nbsp;de&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;usuario.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;las&nbsp;funciones&nbsp;correspondientes&nbsp;para&nbsp;cada&nbsp;opción&nbsp;del&nbsp;menú&nbsp;y&nbsp;la&nbsp;configuración&nbsp;adecuada&nbsp;de&nbsp;la&nbsp;interfaz&nbsp;de&nbsp;usuario.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-mostrarcopiaslist"><strong>mostrarcopiaslist</strong></a>()</dt><dd><span class="code">Muestra&nbsp;la&nbsp;lista&nbsp;de&nbsp;copias&nbsp;disponibles&nbsp;en&nbsp;la&nbsp;bodega&nbsp;de&nbsp;salida&nbsp;seleccionada.<br>
+&nbsp;<br>
+Esta&nbsp;función&nbsp;obtiene&nbsp;la&nbsp;bodega&nbsp;de&nbsp;salida&nbsp;seleccionada&nbsp;y&nbsp;utiliza&nbsp;la&nbsp;clase&nbsp;`ListboxCopia`&nbsp;para&nbsp;mostrar&nbsp;la&nbsp;lista&nbsp;de&nbsp;copias&nbsp;disponibles&nbsp;en&nbsp;dicha&nbsp;bodega.&nbsp;La&nbsp;función&nbsp;utiliza&nbsp;la&nbsp;instancia&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxCopia`&nbsp;y&nbsp;la&nbsp;instancia&nbsp;de&nbsp;la&nbsp;clase&nbsp;`DAO`&nbsp;para&nbsp;obtener&nbsp;el&nbsp;ID&nbsp;de&nbsp;la&nbsp;bodega&nbsp;de&nbsp;salida&nbsp;y&nbsp;mostrar&nbsp;las&nbsp;copias&nbsp;correspondientes.<br>
+&nbsp;<br>
+Requiere&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;clase&nbsp;`ListboxCopia`&nbsp;y&nbsp;la&nbsp;clase&nbsp;`DAO`.<br>
+&nbsp;<br>
+Parámetros:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.<br>
+&nbsp;<br>
+Retorna:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ninguno.</span></dd></dl>
+ <dl><dt><a name="-previsualizarmov"><strong>previsualizarmov</strong></a>()</dt><dd><span class="code">Crea&nbsp;una&nbsp;ventana&nbsp;de&nbsp;previsualización&nbsp;y&nbsp;muestra&nbsp;los&nbsp;datos&nbsp;de&nbsp;un&nbsp;movimiento&nbsp;en&nbsp;un&nbsp;Treeview.</span></dd></dl>
+ <dl><dt><a name="-realizarmovimiento"><strong>realizarmovimiento</strong></a>(bodegasalida, bodegaentrada)</dt><dd><span class="code">Realiza&nbsp;un&nbsp;movimiento&nbsp;de&nbsp;copia&nbsp;entre&nbsp;dos&nbsp;bodegas.</span></dd></dl>
+ <dl><dt><a name="-registro_autor"><strong>registro_autor</strong></a>()</dt><dd><span class="code">Registra&nbsp;un&nbsp;nuevo&nbsp;autor&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-registro_bodega"><strong>registro_bodega</strong></a>()</dt><dd><span class="code">Registra&nbsp;una&nbsp;nueva&nbsp;bodega&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-registro_categoria"><strong>registro_categoria</strong></a>()</dt><dd><span class="code">Registra&nbsp;una&nbsp;nueva&nbsp;categoría&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-registro_productos"><strong>registro_productos</strong></a>()</dt><dd><span class="code">Registra&nbsp;un&nbsp;nuevo&nbsp;producto&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-registro_tipoproducto"><strong>registro_tipoproducto</strong></a>()</dt><dd><span class="code">Registra&nbsp;un&nbsp;nuevo&nbsp;tipo&nbsp;de&nbsp;producto&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-registro_usuario"><strong>registro_usuario</strong></a>(nombre, clave, correo, telefono, rut, rol)</dt><dd><span class="code">Registra&nbsp;los&nbsp;datos&nbsp;de&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></dd></dl>
+ <dl><dt><a name="-validar_asignarcopia"><strong>validar_asignarcopia</strong></a>()</dt><dd><span class="code">Valida&nbsp;los&nbsp;campos&nbsp;ingresados&nbsp;para&nbsp;asignar&nbsp;una&nbsp;copia&nbsp;a&nbsp;un&nbsp;producto&nbsp;en&nbsp;una&nbsp;bodega.</span></dd></dl>
+ <dl><dt><a name="-validarrealizarmov"><strong>validarrealizarmov</strong></a>()</dt><dd><span class="code">Valida&nbsp;los&nbsp;campos&nbsp;de&nbsp;selección&nbsp;de&nbsp;bodegas&nbsp;antes&nbsp;de&nbsp;realizar&nbsp;un&nbsp;movimiento.</span></dd></dl>
+ <dl><dt><a name="-validarregistrar"><strong>validarregistrar</strong></a>()</dt><dd><span class="code">Valida&nbsp;los&nbsp;campos&nbsp;ingresados&nbsp;en&nbsp;el&nbsp;formulario&nbsp;de&nbsp;registro&nbsp;de&nbsp;usuario&nbsp;antes&nbsp;de&nbsp;llamar&nbsp;a&nbsp;la&nbsp;función&nbsp;de&nbsp;registro.</span></dd></dl>
+ <dl><dt><a name="-verifica_login"><strong>verifica_login</strong></a>()</dt><dd><span class="code">Verifica&nbsp;las&nbsp;credenciales&nbsp;de&nbsp;inicio&nbsp;de&nbsp;sesión&nbsp;y&nbsp;muestra&nbsp;diferentes&nbsp;menús&nbsp;dependiendo&nbsp;de&nbsp;los&nbsp;permisos&nbsp;del&nbsp;usuario.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>ACTIVE</strong> = 'active'<br>
+<strong>ALL</strong> = 'all'<br>
+<strong>ANCHOR</strong> = 'anchor'<br>
+<strong>ARC</strong> = 'arc'<br>
+<strong>BASELINE</strong> = 'baseline'<br>
+<strong>BEVEL</strong> = 'bevel'<br>
+<strong>BOTH</strong> = 'both'<br>
+<strong>BOTTOM</strong> = 'bottom'<br>
+<strong>BROWSE</strong> = 'browse'<br>
+<strong>BUTT</strong> = 'butt'<br>
+<strong>CASCADE</strong> = 'cascade'<br>
+<strong>CENTER</strong> = 'center'<br>
+<strong>CHAR</strong> = 'char'<br>
+<strong>CHECKBUTTON</strong> = 'checkbutton'<br>
+<strong>CHORD</strong> = 'chord'<br>
+<strong>COMMAND</strong> = 'command'<br>
+<strong>CURRENT</strong> = 'current'<br>
+<strong>DISABLED</strong> = 'disabled'<br>
+<strong>DOTBOX</strong> = 'dotbox'<br>
+<strong>E</strong> = 'e'<br>
+<strong>END</strong> = 'end'<br>
+<strong>EW</strong> = 'ew'<br>
+<strong>EXCEPTION</strong> = 8<br>
+<strong>EXTENDED</strong> = 'extended'<br>
+<strong>FALSE</strong> = 0<br>
+<strong>FIRST</strong> = 'first'<br>
+<strong>FLAT</strong> = 'flat'<br>
+<strong>GROOVE</strong> = 'groove'<br>
+<strong>HIDDEN</strong> = 'hidden'<br>
+<strong>HORIZONTAL</strong> = 'horizontal'<br>
+<strong>INSERT</strong> = 'insert'<br>
+<strong>INSIDE</strong> = 'inside'<br>
+<strong>LAST</strong> = 'last'<br>
+<strong>LEFT</strong> = 'left'<br>
+<strong>MITER</strong> = 'miter'<br>
+<strong>MOVETO</strong> = 'moveto'<br>
+<strong>MULTIPLE</strong> = 'multiple'<br>
+<strong>N</strong> = 'n'<br>
+<strong>NE</strong> = 'ne'<br>
+<strong>NO</strong> = 0<br>
+<strong>NONE</strong> = 'none'<br>
+<strong>NORMAL</strong> = 'normal'<br>
+<strong>NS</strong> = 'ns'<br>
+<strong>NSEW</strong> = 'nsew'<br>
+<strong>NUMERIC</strong> = 'numeric'<br>
+<strong>NW</strong> = 'nw'<br>
+<strong>OFF</strong> = 0<br>
+<strong>ON</strong> = 1<br>
+<strong>OUTSIDE</strong> = 'outside'<br>
+<strong>PAGES</strong> = 'pages'<br>
+<strong>PIESLICE</strong> = 'pieslice'<br>
+<strong>PROJECTING</strong> = 'projecting'<br>
+<strong>RADIOBUTTON</strong> = 'radiobutton'<br>
+<strong>RAISED</strong> = 'raised'<br>
+<strong>READABLE</strong> = 2<br>
+<strong>RIDGE</strong> = 'ridge'<br>
+<strong>RIGHT</strong> = 'right'<br>
+<strong>ROUND</strong> = 'round'<br>
+<strong>S</strong> = 's'<br>
+<strong>SCROLL</strong> = 'scroll'<br>
+<strong>SE</strong> = 'se'<br>
+<strong>SEL</strong> = 'sel'<br>
+<strong>SEL_FIRST</strong> = 'sel.first'<br>
+<strong>SEL_LAST</strong> = 'sel.last'<br>
+<strong>SEPARATOR</strong> = 'separator'<br>
+<strong>SINGLE</strong> = 'single'<br>
+<strong>SOLID</strong> = 'solid'<br>
+<strong>SUNKEN</strong> = 'sunken'<br>
+<strong>SW</strong> = 'sw'<br>
+<strong>TOP</strong> = 'top'<br>
+<strong>TRUE</strong> = 1<br>
+<strong>TclVersion</strong> = 8.6<br>
+<strong>TkVersion</strong> = 8.6<br>
+<strong>UNDERLINE</strong> = 'underline'<br>
+<strong>UNITS</strong> = 'units'<br>
+<strong>VERTICAL</strong> = 'vertical'<br>
+<strong>W</strong> = 'w'<br>
+<strong>WORD</strong> = 'word'<br>
+<strong>WRITABLE</strong> = 4<br>
+<strong>X</strong> = 'x'<br>
+<strong>Y</strong> = 'y'<br>
+<strong>YES</strong> = 1<br>
+<strong>categorias_seleccionadas</strong> = []<br>
+<strong>entrada_login_clave</strong> = &lt;tkinter.Entry object .!entry2&gt;<br>
+<strong>entrada_login_usuario</strong> = &lt;tkinter.Entry object .!entry&gt;<br>
+<strong>ventana_principal</strong> = &lt;tkinter.Tk object .&gt;<br>
+<strong>verifica_clave</strong> = &lt;tkinter.StringVar object&gt;<br>
+<strong>verifica_usuario</strong> = &lt;tkinter.StringVar object&gt;</td></tr></table>
+</body></html>
