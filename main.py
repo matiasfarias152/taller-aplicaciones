@@ -27,30 +27,45 @@ from Clases.ListboxUsuarioMultiple import *
 categorias_seleccionadas = []
 
 def mostrar_error():
+    """
+    Muestra un cuadro de diálogo de error con el mensaje "Credenciales inválidas".
+    """
     messagebox.showerror("Error", "Credenciales invalidas.")
 
 def cerrar_frame():
-    # Cerrar frame anterior
+    """
+    Cierra el marco anterior si existe.
+    """
     if 'ventana_frame' in globals():
         ventana_frame.destroy()
 
 
 
 def cerrar_frameinformefiltrado():
-    #Cerrar frame anterior
+    """
+    Cierra el marco anterior si existe.
+    """
     if 'ventanainformefiltrado' in globals():
         ventanainformefiltrado.destroy()
 
 def cerrar_ventanainformegestion():
-    #Cerrar frame anterior
+    """
+    Cierra el marco anterior si existe.
+    """
     if 'ventanainformegestion' in globals():
         ventanainformefiltrado.destroy()
 
 def cerrar_ventanainformeusuarios():
-    #Cerrar frame anterior
+    """
+    Cierra el marco anterior si existe.
+    """
     if 'ventanainformeusuarios' in globals():
         ventanainformeusuarios.destroy()
+
 def verifica_login():
+    """
+    Verifica las credenciales de inicio de sesión y muestra diferentes menús dependiendo de los permisos del usuario.
+    """
     global usuario1
     usuario1 = verifica_usuario.get()
     clave1 = verifica_clave.get()
@@ -66,8 +81,11 @@ def verifica_login():
         mostrar_error()
 
 def informegestion():
-    global ventanainformegestion
+    """
+    Crea una ventana de informe de gestión y muestra los datos de stock de las bodegas en un Treeview.
+    """
 
+    global ventanainformegestion
     dao = DAO()
 
 
@@ -119,8 +137,11 @@ def informegestion():
 
 
 def informeusuarios():
-    global ventanainformeusuarios
+    """
+    Crea una ventana de informe de usuarios y muestra los datos de los movimientos de usuarios en un Treeview.
+    """
 
+    global ventanainformeusuarios
     dao = DAO()
 
     #Cerrar ventana anterior 
@@ -179,8 +200,11 @@ def informeusuarios():
 
 
 def informefiltrado():
-    global ventanainformefiltrado
+    """
+    Crea una ventana de informe filtrado y muestra los datos de productos filtrados en un Treeview.
+    """
 
+    global ventanainformefiltrado
     dao = DAO()
 
 
@@ -239,14 +263,11 @@ def informefiltrado():
 
     treeview.pack(pady=20)
  
-
-
-
-
-
-
-
 def previsualizarmov():
+    """
+    Crea una ventana de previsualización y muestra los datos de un movimiento en un Treeview.
+    """
+
     global ventanaprev
 
     #Ventana previsualizacion
@@ -293,7 +314,9 @@ def previsualizarmov():
 
 
 def validarregistrar():
-       # Obtener los contenidos de los Entry y el Combobox
+    """
+    Valida los campos ingresados en el formulario de registro de usuario antes de llamar a la función de registro.
+    """
     usuario_info = nombre_usuario.get()
     clave_info = clave.get()
     correo_info = correo.get()
@@ -321,6 +344,9 @@ def validarregistrar():
         registro_usuario(usuario_info, clave_info, correo_info, telefono_int, rut_info, roles)
     
 def registro_usuario(nombre,clave,correo,telefono,rut,rol):
+    """
+    Registra los datos de un nuevo usuario en la base de datos.
+    """
     dao = DAO()
     idtipo = dao.obtener_idtipousuario(rol)
 
@@ -335,6 +361,9 @@ def registro_usuario(nombre,clave,correo,telefono,rut,rol):
     entrada_rol.set("")
 
 def registro_categoria():
+    """
+    Registra una nueva categoría en la base de datos.
+    """
     dao = DAO()
     nombre = nombre_categoria.get()
     if not nombre:
@@ -345,6 +374,10 @@ def registro_categoria():
         entrada_categoria.delete(0, END)
 
 def registro_autor():
+    """
+    Registra un nuevo autor en la base de datos.
+    """
+
     dao = DAO()
     nombre = entrada_autor.get()
     if not nombre:
@@ -355,6 +388,9 @@ def registro_autor():
         entrada_autor.delete(0,END)
 
 def registro_tipoproducto():
+    """
+    Registra un nuevo tipo de producto en la base de datos.
+    """
     dao = DAO()
     nombre = nombre_tipo.get()
     if not nombre:
@@ -365,6 +401,9 @@ def registro_tipoproducto():
         entrada_tipo.delete(0,END)
 
 def registro_productos():
+    """
+    Registra un nuevo producto en la base de datos.
+    """
     dao = DAO()
     categoria = entry_cat.get()
     tipos = entry_tipo.get()
@@ -390,6 +429,9 @@ def registro_productos():
         entry_tipo.config(state='readonly')
     
 def registro_bodega():
+    """
+    Registra una nueva bodega en la base de datos.
+    """
     dao = DAO()
     nombre = nombrebodega.get()
     ubicacion = ubicacionbodega.get()
@@ -405,6 +447,9 @@ def registro_bodega():
         entrada_nombrebodega.delete(0,END)
 
 def eliminar_bodega():
+    """
+    Elimina una bodega de la base de datos.
+    """
     lb_bodega = ListboxBodega()
     dao = DAO()
     tamanio = lb_bodega.tamanio_selected()
@@ -426,6 +471,9 @@ def eliminar_bodega():
                 messagebox.showerror("Error desconocido", str(error))
 
 def eliminar_editorial():
+    """
+    Elimina una editorial de la base de datos.
+    """
     dao = DAO( )
     lb_editorial = ListboxAutor()
     tamanio = lb_editorial.tamanio_selected()
@@ -448,6 +496,9 @@ def eliminar_editorial():
                 messagebox.showerror("Error desconocido", str(error))
 
 def eliminar_productos():
+    """
+    Elimina un producto de la base de datos.
+    """
     lb_producto = ListboxProductos()
     dao = DAO()
 
@@ -471,6 +522,9 @@ def eliminar_productos():
                 messagebox.showerror("Error desconocido", str(error))
 
 def asignar_autor():
+    """
+    Asigna un autor a un producto en la base de datos.
+    """
     dao = DAO()
     lb_autores = ListboxAutorMultiple()
     lb_producto = ListboxProductos()
@@ -504,6 +558,9 @@ def asignar_autor():
 
 
 def asignar_bodega():
+    """
+    Asigna una bodega a uno o varios usuarios en la base de datos.
+    """
     dao = DAO()
     lb_bodega = ListboxBodega()
     lb_usuario = ListboxUsuarioMultiple()
@@ -534,6 +591,9 @@ def asignar_bodega():
             dao.asignarBodega(bodega_usuario)
 
 def validar_asignarcopia():
+    """
+    Valida los campos ingresados para asignar una copia a un producto en una bodega.
+    """
     cantidad = cantidad_copia.get()
     nombrecopia = nombre_copia.get()
     descripcioncopia = descripcion_copia.get()
@@ -563,6 +623,9 @@ def validar_asignarcopia():
         asignar_copia(producto,bodega,cantidad_int,nombrecopia,descripcioncopia)
 
 def asignar_copia(producto,bodega,cantidad,nombrecopia,descripcioncopia):
+    """
+    Asigna una copia a un producto en una bodega.
+    """
     dao = DAO()
 
     bodegas_lb = ListboxBodega()
@@ -572,9 +635,6 @@ def asignar_copia(producto,bodega,cantidad,nombrecopia,descripcioncopia):
     print(productotupla[0],bodegatupla[0])
     idproducto = dao.obtener_idproductos(productotupla[0])
     idbodega = dao.obtener_idbodega(bodegatupla[0])
-
-
-  
 
     limite = 0
     while(cantidad-1 >= limite):
@@ -594,6 +654,9 @@ def asignar_copia(producto,bodega,cantidad,nombrecopia,descripcioncopia):
 
 
 def validarrealizarmov():
+    """
+    Valida los campos de selección de bodegas antes de realizar un movimiento.
+    """
     bodegasalida = salida_bodega.get()
     bodegaentrada = entrada_bodega.get()
     if not bodegasalida or not bodegaentrada:
@@ -604,8 +667,9 @@ def validarrealizarmov():
         realizarmovimiento(bodegasalida,bodegaentrada)
 
 def realizarmovimiento(bodegasalida,bodegaentrada):
-
-
+    """
+    Realiza un movimiento de copia entre dos bodegas.
+    """
     #Tabla Movimiento
 
     dao = DAO()
@@ -613,22 +677,13 @@ def realizarmovimiento(bodegasalida,bodegaentrada):
     
     fecha_movimiento = cal.get_date()
     print(fecha_movimiento)
-
     print('USUARIO SELECCIONADO')
     print(usuario1)
-
-
     idusuario = dao.obtener_idusuario(usuario1)
-
     movimiento = Movimiento("",fecha_movimiento,idusuario)
-
     dao.asignarMovimiento(movimiento)
-
-
     #Tabla bodegamov
     
-
-
     print(f'BODEGA SALIDA {bodegasalida}')
     print(f'BODEGA ENTRADA {bodegaentrada}')
 
@@ -636,23 +691,18 @@ def realizarmovimiento(bodegasalida,bodegaentrada):
     idbodegaentrada = dao.obtener_idbodega(bodegaentrada)
     idmovimiento = dao.obtener_ultimomov()
 
-
     print(f'ID BODEGA  SALIDA {idbodegasalida}')
     print(f'ID BODEGA  ENTRADA {idbodegaentrada}')
     print(f'ID MOVIMIENTO {idmovimiento}')
     #Ingresar movimiento de bodega de salida
 
     bodegamovsalida = BodegaMov("",0,idmovimiento,idbodegasalida)
-
     dao.registrarBodegamov(bodegamovsalida)
-
 
     #Ingresar movimiento de bodega de entrada
 
     bodegamoventrada = BodegaMov("",1,idmovimiento,idbodegaentrada)
-
     dao.registrarBodegamov(bodegamoventrada)
-
 
     #Ingresar copia_movimiento 
 
@@ -666,19 +716,10 @@ def realizarmovimiento(bodegasalida,bodegaentrada):
             break  
     
     print(f'CODIGO : {codigo}')
-
     codigocopia = int(codigo)
-
     print(f'CODIGO ENTERO TIPO: {type(codigocopia)}  y codigo: {codigocopia}')
-    
-
-
-
     copia_movimiento = CopiaMovimiento("",codigocopia,idmovimiento)
-
     dao.registrarCopiamovimiento(copia_movimiento)
-
-
     #Updatear tabla copia
 
     dao.actualizar_idbodegacopias(idbodegaentrada,codigocopia)
@@ -686,11 +727,13 @@ def realizarmovimiento(bodegasalida,bodegaentrada):
 
 
 def frame_registrarbodega():
+    """
+    Crea y muestra un frame para registrar una nueva bodega.
+    """
     global nombrebodega
     global ubicacionbodega
     global entrada_nombrebodega
     global entrada_ubicacionbodega
-
     global ventana_frame
     nombrebodega = StringVar()
     ubicacionbodega = StringVar()
@@ -720,7 +763,9 @@ def frame_registrarbodega():
     ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrarproducto():
-
+    """
+    Crea y muestra un frame para registrar un nuevo producto.
+    """
     global entrada_descripcion
     global info_descripcion
     global entry_tipo
@@ -731,60 +776,38 @@ def frame_registrarproducto():
     # Cerrar frame anterior 
     cerrar_frame()
     tipoproducto_lb = TipoproductoListBox()
-
     categorias_lb = CategoriasListBox()
-
     ventana_frame = Frame(ventana_admin, width=400, height=400)
-
-
     Label(ventana_frame, text="Introduzca los datos del producto", bg="LightGreen").pack()
     Label(ventana_frame, text="").pack()
-
     etiqueta_descripcion = Label(ventana_frame,text='Descripcion *')
     etiqueta_descripcion.pack()
     entrada_descripcion = Entry(ventana_frame, textvariable=info_descripcion)
     entrada_descripcion.pack()
-
     Label(ventana_frame, text="").pack()
-
     etiqueta_categoria = Label(ventana_frame,text='Categoria *')
     etiqueta_categoria.pack()
-
     categorias_s = categorias_lb.obtener_categorias_seleccionadas()
-    
-    
     entry_cat = Entry(ventana_frame,textvariable=categorias_s,state='readonly')
     entry_cat.pack()
-
-
     Button(ventana_frame, text='Categorias', width=20,height=1,bg='LightGreen', command=categorias_lb.mostrar_ventana).pack()
-
     Label(ventana_frame, text="").pack()
-
     tipos_seleccionados = tipoproducto_lb.obtener_tipos_seleccionados()
-
-
     etiqueta_tipoproducto = Label(ventana_frame,text='Tipo de producto *')
-    etiqueta_tipoproducto.pack()
-
-    
-    
+    etiqueta_tipoproducto.pack() 
     entry_tipo = Entry(ventana_frame,textvariable=tipos_seleccionados,state='readonly')
     entry_tipo.pack()
-
     Button(ventana_frame,text='Tipos de producto', width=20,height=1,bg='LightGreen', command=tipoproducto_lb.mostrar_ventana).pack()
-
-
     Label(ventana_frame, text="").pack()
-    
     btnregistrar = Button(ventana_frame, text="Registrar producto", width=20, height=1, bg="LightGreen", command=registro_productos)
     btnregistrar.pack()
-
     ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrartipoproducto():
+    """
+    Crea y muestra un frame para registrar un nuevo producto.
+    """
     global nombre_tipo
-
     nombre_tipo = StringVar()
     global ventana_frame
     global entrada_tipo
@@ -807,6 +830,9 @@ def frame_registrartipoproducto():
     ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrarautor():
+    """
+    Crea y muestra un frame para registrar un nuevo autor.
+    """
     global autor
     global entrada_autor
  
@@ -832,6 +858,9 @@ def frame_registrarautor():
 
 
 def frame_registrarcategoria():
+    '''
+    Crea y muestra un marco para registrar una nueva categoria.
+    '''
     global nombre_categoria
     global entrada_categoria
 
@@ -856,6 +885,9 @@ def frame_registrarcategoria():
     ventana_frame.pack(fill='both', expand=1)
 
 def frame_registrarusuario():
+    """
+    Crea y muestra un marco para registrar un nuevo usuario.
+    """
     global ventana_frame
     global nombre_usuario
     global clave
@@ -922,6 +954,19 @@ def frame_registrarusuario():
     ventana_frame.pack(fill='both', expand=1)
 
 def frame_eliminarbodega():
+    """
+    Crea y muestra el marco para eliminar una bodega.
+
+    Esta función crea un marco en la interfaz de administrador donde se muestra una lista de bodegas disponibles y permite seleccionar una o varias para eliminar. Al hacer clic en el botón "Eliminar bodega", se llama a la función `eliminar_bodega` para realizar la eliminación.
+
+    Requiere la implementación de la clase `ListboxBodega` y la función `eliminar_bodega`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global bodegaseliminar
 
@@ -946,6 +991,19 @@ def frame_eliminarbodega():
 
 
 def frame_eliminareditorial():
+    """
+    Crea y muestra el marco para eliminar una editorial.
+
+    Esta función crea un marco en la interfaz de administrador donde se muestra una lista de editoriales disponibles y permite seleccionar una o varias para eliminar. Al hacer clic en el botón "Eliminar editorial", se llama a la función `eliminar_editorial` para realizar la eliminación.
+
+    Requiere la implementación de la clase `ListboxAutor` y la función `eliminar_editorial`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global editorialeliminar
 
@@ -969,6 +1027,19 @@ def frame_eliminareditorial():
     ventana_frame.pack()
 
 def frame_eliminarproducto():
+    """
+    Crea y muestra el marco para eliminar un producto.
+
+    Esta función crea un marco en la interfaz de administrador donde se muestra una lista de productos disponibles y permite seleccionar uno o varios para eliminar. Al hacer clic en el botón "Eliminar producto", se llama a la función `eliminar_productos` para realizar la eliminación.
+
+    Requiere la implementación de la clase `ListboxProductos` y la función `eliminar_productos`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global productoeliminar
     
@@ -992,6 +1063,19 @@ def frame_eliminarproducto():
     ventana_frame.pack()
 
 def frame_asignarautor():
+    """
+    Crea y muestra el marco para asignar un autor a un producto.
+
+    Esta función crea un marco en la interfaz de administrador donde se muestra una lista de productos y autores disponibles y permite seleccionar uno o varios para realizar la asignación. Al hacer clic en el botón "Asignar Autor", se llama a la función `asignar_autor` para realizar la asignación.
+
+    Requiere la implementación de las clases `ListboxAutorMultiple` y `ListboxProductos` y la función `asignar_autor`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global productosasignarautor
     global autoresasignarproducto
     global ventana_frame
@@ -1028,6 +1112,19 @@ def frame_asignarautor():
 
 
 def frame_asignarbodega():
+    """
+    Crea y muestra el marco para asignar usuarios a una bodega.
+
+    Esta función crea un marco en la interfaz de administrador donde se muestra una lista de bodegas y usuarios disponibles y permite seleccionar uno o varios para realizar la asignación. Al hacer clic en el botón "Asignar Usuarios", se llama a la función `asignar_bodega` para realizar la asignación.
+
+    Requiere la implementación de las clases `ListboxBodega` y `ListboxUsuarioMultiple` y la función `asignar_bodega`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global bodegas
     global usuarios
@@ -1056,6 +1153,19 @@ def frame_asignarbodega():
     ventana_frame.pack()
 
 def frame_informebodega():
+    """
+    Crea y muestra el marco para generar un informe de una bodega.
+
+    Esta función crea un marco en la interfaz de administrador donde se solicita al usuario seleccionar una bodega y una o varias editoriales para generar un informe específico de la bodega. Al hacer clic en el botón "Filtrar informe", se llama a la función `informefiltrado` para generar el informe.
+
+    Requiere la implementación de la clase `ListboxAutor` y la función `informefiltrado`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global bodegainforme
     global editorialesinforme
@@ -1092,6 +1202,19 @@ def frame_informebodega():
 
 
 def frame_asignar_copia():
+    """
+    Crea y muestra el marco para asignar copias de un producto a una bodega.
+
+    Esta función crea un marco en la interfaz de administrador donde se solicita al usuario ingresar los datos necesarios para asignar copias de un producto a una bodega. Los datos incluyen el nombre, descripción, cantidad y producto de las copias a asignar, así como la selección de la bodega destino. Al hacer clic en el botón "Asignar Copias", se llama a la función `validar_asignarcopia` para validar los datos y realizar la asignación.
+
+    Requiere la implementación de las clases `ListboxProductoEmergente` y `ListboxBodega`, y la función `validar_asignarcopia`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     global ventana_frame
     global bodegascopia
     global productoscopia
@@ -1152,6 +1275,19 @@ def frame_asignar_copia():
     ventana_frame.pack()
 
 def frame_realizarmov():
+    """
+    Crea y muestra el marco para realizar un movimiento de copias entre bodegas.
+
+    Esta función crea un marco en la interfaz del bodeguero donde se solicita al usuario ingresar los datos necesarios para realizar un movimiento de copias entre bodegas. Los datos incluyen la fecha del movimiento, la bodega de salida, la bodega de entrada y las copias a mover. Al hacer clic en el botón "Realizar movimiento", se llama a la función `validarrealizarmov` para validar los datos y realizar el movimiento.
+
+    Requiere la implementación de la clase `ListboxCopia` y las funciones `mostrarcopiaslist`, `validarrealizarmov` y `previsualizarmov`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     dao = DAO()
     #verifica usuario se saca el usuario
 
@@ -1236,7 +1372,19 @@ def frame_realizarmov():
     ventana_frame.pack()
 
 def mostrarcopiaslist():
+    """
+    Muestra la lista de copias disponibles en la bodega de salida seleccionada.
 
+    Esta función obtiene la bodega de salida seleccionada y utiliza la clase `ListboxCopia` para mostrar la lista de copias disponibles en dicha bodega. La función utiliza la instancia de la clase `ListboxCopia` y la instancia de la clase `DAO` para obtener el ID de la bodega de salida y mostrar las copias correspondientes.
+
+    Requiere la implementación de la clase `ListboxCopia` y la clase `DAO`.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     bodegaselec = salida_bodega.get()
     print(f'BODEGA SELECCIONADA: {bodegaselec}')
     copiaslb = ListboxCopia()
@@ -1245,13 +1393,21 @@ def mostrarcopiaslist():
     idbodegasalida = dao.obtener_idbodega(bodegasalida)
     copiaslb.mostrar_copias(idbodegasalida)
 
-
-    
-
-
-
     
 def mostrar_menuadmin():
+    """
+    Muestra el menú de administrador.
+
+    Esta función crea una nueva ventana con el título "Menú Admin" y muestra un menú con varias opciones para registrar, eliminar, asignar y gestionar diferentes elementos. Las opciones del menú están asociadas a diferentes funciones que abren diferentes marcos de la interfaz de usuario.
+
+    Requiere la implementación de las funciones correspondientes para cada opción del menú y la configuración adecuada de la interfaz de usuario.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     ventana_principal.destroy()
     global ventana_admin
     ventana_admin = Tk()
@@ -1290,6 +1446,19 @@ def mostrar_menuadmin():
     ventana_admin.mainloop()
 
 def mostrar_menubodeguero():
+    """
+    Muestra el menú del bodeguero.
+
+    Esta función crea una nueva ventana con el título "Menú Bodeguero" y muestra un menú con opciones para realizar movimientos y gestionar bodegas. Las opciones del menú están asociadas a diferentes funciones que abren diferentes marcos de la interfaz de usuario.
+
+    Requiere la implementación de las funciones correspondientes para cada opción del menú y la configuración adecuada de la interfaz de usuario.
+
+    Parámetros:
+        Ninguno.
+
+    Retorna:
+        Ninguno.
+    """
     ventana_principal.destroy()
     global ventana_bodeguero
     ventana_bodeguero = Tk()
